@@ -1,0 +1,22 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+nav{
+    width: 100%;
+    background-color: yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    color: lightblue;
+    font-family:"Segoe MDL2 Assets";
+}
+a{
+    padding-right: 20px;
+}
+img{
+    width: 50px;
+    height: 50px;
+    background-color: yellow;
+}
