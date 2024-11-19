@@ -13,4 +13,22 @@ public class LeagueController {
 
         return mvc;
     }
+
+    @GetMapping("/rankings")
+    public ModelAndView showRankingList(){
+        ModelAndView mvc = new ModelAndView("rankings");
+        return mvc;
+    }
+
+    @GetMapping("/gallery")
+    public ModelAndView showGallery(){
+        ModelAndView mvc = new ModelAndView("gallery");
+        return mvc;
+    }
+
+    @GetMapping("/rules")
+    public ModelAndView showRules(){
+        ModelAndView mvc = new ModelAndView("rules");
+        return mvc;
+    }
 }
