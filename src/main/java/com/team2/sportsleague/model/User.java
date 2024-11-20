@@ -10,7 +10,6 @@ public class User {
     private String role;
     private List<String> games;
 
-    // Constructors
     public User(String name, String email, String employeeId, String department, String role, List<String> games) {
         this.name = name;
         this.email = email;
