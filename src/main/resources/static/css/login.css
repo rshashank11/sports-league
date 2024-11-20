@@ -1,0 +1,84 @@
+:root {
+    --primary-colour: rgba(238, 46, 36, 1);
+    --primary-colour-hovered: rgba(218, 26, 16);
+    --tertiary-colour: #8d8d8d;
+    --border-colour-one: #ced4da;
+    --border-colour-two: #80bdff;
+    --error-colour: #facc15;
+}
+
+body {
+    font-family: 'Varela Round', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .13);
+    padding: 30px 40px;
+}
+
+.loginLabel {
+    color: var(--tertiary-colour);
+}
+
+#loginBtn {
+    font-family: inherit;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: var(--primary-colour);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+#loginBtn:hover {
+    background-color: var(--primary-colour-hovered);
+}
+
+.loginInput {
+    margin: 5px 0 10px 0;
+    padding: 7px 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-colour-one);
+    outline: none;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.loginInput:focus {
+    border: 1px solid var(--border-colour-two);
+    box-shadow: 0 0 2px 2px  var(--border-colour-two);
+}
+.loginInput.valid {
+    border: 1px solid green;
+    box-shadow: 0 0 2px 2px green;
+}
+
+.visible {
+    display : block;
+}
+
+.submitError {
+    border: 1px solid var(--primary-colour);
+    box-shadow: 0 0 2px 2px var(--primary-colour);
+}
+
+#usernameError {
+    display: none;
+}
+#passwordError {
+    display: none;
+}
+
+#usernameError, #passwordError {
+    color: var(--error-colour);
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+}
