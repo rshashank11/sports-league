@@ -4,65 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Bracket</title>
-    <style>
-        main{
-            display:flex;
-            flex-direction:row;
-        }
-        .round{
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            width:200px;
-            list-style:none;
-            padding:0;
-        }
-        .round .spacer{ flex-grow:1; }
-        .round .spacer:first-child,
-        .round .spacer:last-child{ flex-grow:.5; }
+    <!-- Include font links -->
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
 
-        .round .game-spacer{
-            flex-grow:1;
-        }
+    <!-- Include stylesheet links -->
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link rel="stylesheet" th:href="@{/css/match.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
 
-        /*
-         *  General Styles
-        */
-        body{
-            font-family:sans-serif;
-            font-size:small;
-            padding:10px;
-            line-height:1.4em;
-        }
-
-        li.game{
-            padding-left:20px;
-        }
-
-        li.game.winner{
-            font-weight:bold;
-        }
-        li.game span{
-            float:right;
-            margin-right:5px;
-        }
-
-        li.game-top{ border-bottom:1px solid #aaa; }
-
-        li.game-spacer{
-            border-right:1px solid #aaa;
-            min-height:40px;
-        }
-
-        li.game-bottom{
-            border-top:1px solid #aaa;
-        }
-
-
-    </style>
 </head>
 <body>
-
+<nav th:replace="fragments/header :: header"></nav>
 
 <h1>2013 NCAA Tournament - Midwest Bracket</h1>
 <main id="tournament">

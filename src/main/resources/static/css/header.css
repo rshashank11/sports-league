@@ -2,21 +2,34 @@
     margin: 0%;
     padding: 0%;
 }
+header {
+    background-color: #c0392b;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 5px solid #e74c3c;
+}
 nav{
-    width: 100%;
-    background-color: yellow;
     display: flex;
-    align-items: center;
     justify-content: center;
     justify-items: center;
-    color: lightblue;
-    font-family:"Segoe MDL2 Assets";
+    align-content: center;
+    align-items: center;
+    font-size: xx-large;
 }
 a{
+    font-family:  'New Amsterdam', sans-serif;
     padding-right: 20px;
+    color:white;
+    text-decoration: none;
 }
 img{
     width: 50px;
     height: 50px;
-    background-color: yellow;
+    background-color: #c0392b;
+}
+.profile{
+    display: flex;
+    align-items: flex-end;
 }
