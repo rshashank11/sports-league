@@ -6,12 +6,10 @@
     <meta name="description" content="User Profile Page">
     <title>User Profile</title>
 
-    <!-- Include font links from the reference -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=New+Amsterdam&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
-    <!-- Include stylesheet links -->
     <th:block th:replace="fragments/fonts :: font-links"></th:block>
     <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
@@ -34,7 +32,6 @@
         <p><span>Role:</span> <span th:text="${user.role}">Software Engineer</span></p>
         <div class="toggle-container">
             <h2>Select Interested Games</h2>
-            <!-- Uncomment and set the form action if required -->
             <!-- <form th:action="@{/api/user-details/{userId}/games(userId=${user.id})}" method="post"> -->
             <div class="toggle">
                 <input type="checkbox" id="dart" name="games" value="Dart"
