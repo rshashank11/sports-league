@@ -1,7 +1,6 @@
 package com.team2.sportsleague.service;
 
-import com.team2.sportsleague.Model.Login;
-import jakarta.validation.constraints.NotBlank;
+import com.team2.sportsleague.model.Login;
 
 public class LoginService {
 

@@ -1,4 +1,4 @@
-package com.team2.sportsleague.Model;
+package com.team2.sportsleague.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
