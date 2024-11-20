@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="User Profile Page">
     <title>User Profile</title>
+    <!-- Include font links -->
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+
+    <!-- Include stylesheet links -->
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -106,11 +112,12 @@
 </head>
 <body>
 <header>
+    <nav th:replace="fragments/header :: header"></nav>
     <h1>User Profile</h1>
 </header>
 <div class="profile-container">
     <div class="photo-box">
-        <img th:src="@{/images/{photo}(photo=${user.photo})}" alt="User Photo">
+<!--        <img th:src="@{/images/{photo}(photo=${user.photo})}" alt="User Photo">-->
     </div>
     <div class="details-box">
         <h2>Personal Details</h2>
@@ -121,7 +128,7 @@
         <p><span>Role:</span> <span th:text="${user.role}">Software Engineer</span></p>
         <div class="toggle-container">
             <h2>Select Interested Games</h2>
-            <form th:action="@{/api/user-details/{userId}/games(userId=${user.id})}" method="post">
+<!--            <form th:action="@{/api/user-details/{userId}/games(userId=${user.id})}" method="post">-->
                 <div class="toggle">
                     <input type="checkbox" id="dart" name="games" value="Dart"
                            th:checked="${user.games.contains('Dart')}">
@@ -138,7 +145,7 @@
                     <label for="pool">Pool</label>
                 </div>
                 <button type="submit">Save Preferences</button>
-            </form>
+<!--            </form>-->
         </div>
     </div>
 </div>
