@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>League List</title>
+    <!-- Include font links -->
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+
+    <!-- Include stylesheet links -->
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+</head>
+<body>
+    <header th:fragment="header">
+        <nav>
+            <a href="/">
+                Leagues
+            </a>
+            <a href="/rankings">
+                Rankings
+            </a>
+            <a href="/gallery">
+                Gallery
+            </a>
+            <a href="/rules">
+                Rules
+            </a>
+            <a href="/profile" class="profile">
+                <img th:src="@{/image.png}">
+            </a>
+        </nav>
+    </header>
+
+</body>
+</html>
