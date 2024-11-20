@@ -31,4 +31,11 @@ public class LeagueController {
         ModelAndView mvc = new ModelAndView("rules");
         return mvc;
     }
+
+    @GetMapping("/match")
+    public ModelAndView showMatch(){
+        ModelAndView mvc = new ModelAndView("match");
+
+        return mvc;
+    }
 }
