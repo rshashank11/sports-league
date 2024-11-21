@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+<header th:include="fragments/header :: header">
+</header>
+<form id="loginForm" method="post">
+    <label class="loginLabel" for="username">Email or Username</label>
+    <input class="loginInput" type="text" id="username" name="username" placeholder="Enter an email or username">
+    <p id="usernameError"></p>
+
+    <label class="loginLabel" for="password">Password</label>
+    <input class="loginInput" type="password" id="password" name="password" placeholder="Enter a password">
+    <p id="passwordError"></p>
+    <button type="submit" id="loginBtn">Login</button>
+</form>
+</body>
+<script>
+    let loginForm = document.getElementById('loginForm');
+    let username = document.getElementById('username');
+    let usernameError = document.getElementById('usernameError');
+    let password = document.getElementById('password');
+    let passwordError = document.getElementById('passwordError');
+    let isFormValid = true;
+
+    username.addEventListener('input', function() {
+        let usernameValue = username.value.trim();
+        usernameError.style.display = 'none';
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@(creditsafe\.(com|be|co\.uk|co\.in|co\.jp|dk|fi|fr|hu|ie|it|lu|nl|no|se)|creditsafede\.com|creditsafemail\.com|creditsafenl\.com|creditsafeuk\.com|creditsafeusa\.com|graydoncreditsafe\.(be|com|lu|nl)|safeinformationgroup\.com)$/;
+
+        const usernameRegex = /^[a-zA-Z0-9_]{6,10}$/;
+        if (!emailRegex.test(usernameValue) && !usernameRegex.test(usernameValue)) {
+            username.classList.remove('valid');
+            usernameError.style.display = 'block';
+            usernameError.innerHTML = 'Enter a valid creditsafe email or username.';
+            isFormValid = false;
+        } else {
+            username.classList.add('valid');
+            isFormValid = true;
+        }
+    })
+
+    password.addEventListener('input', function () {
+        const passwordValue = password.value;
+        let errors = [];
+
+        if (!/(?=.*[a-z])/.test(passwordValue)) {
+            errors.push('Password must contain at least one lowercase letter.');
+        }
+
+        if (!/(?=.*[A-Z])/.test(passwordValue)) {
+            errors.push('Password must contain at least one uppercase letter.');
+        }
+
+        if (!/(?=.*\d)/.test(passwordValue)) {
+            errors.push('Password must contain at least one number.');
+        }
+
+        if (!/(?=.*[@$!%*?&])/.test(passwordValue)) {
+            errors.push('Password must contain at least one special character (@, $, !, %, *, ?, &).');
+        }
+
+        if (!/.{8,}/.test(passwordValue)) {
+            errors.push('Password must be at least 8 characters long.');
+        }
+
+        if (errors.length > 0) {
+            passwordError.style.display = 'block';
+            passwordError.innerHTML = errors.join(', ');
+            password.classList.remove('valid');
+            isFormValid = false;
+        } else {
+            password.classList.add('valid');
+            passwordError.style.display = 'none';
+            isFormValid = true;
+        }
+    })
+
+    loginForm.addEventListener('submit', function(event) {
+        let usernameValue = username.value
+        let passwordValue = password.value
+        event.preventDefault()
+        if(usernameValue.length == 0) {
+            usernameError.style.display = 'block'
+            username.classList.add('submitError')
+            usernameError.innerHTML = 'Please enter a username or email.';
+            isFormValid = false;
+        }
+
+        if(passwordValue.length == 0) {
+            passwordError.style.display = 'block'
+            password.classList.add('submitError')
+            passwordError.innerHTML = 'Please enter a password.';
+            isFormValid = false;
+        }
+
+        if(isFormValid) {
+            loginForm.submit();
+        }
+
+    })
+
+
+</script>
+</html>
