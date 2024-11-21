@@ -18,13 +18,11 @@
             font-family: helvetica, arial, sans-serif;
         }
 
-
-
         .bracket {
             display: flex;
             gap: 30px;
-            flex-direction: column;
-            align-items: center;
+            padding: 20px;
+
         }
 
         .round {
@@ -43,20 +41,68 @@
 
         .player {
             color: #fff;
-            padding: 10px 8px;
+            padding: 5px;
             background-color: #74b9ff;
             display: flex;
+            width: 80%;
             align-items: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+        /* Style for each span containing image or text */
+        .player span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Style the image so it stays aligned to the left */
+        .player span img {
+            margin-right: 10px; /* Add some space between the image and the text */
+            flex-shrink: 0; /* Prevent the image from shrinking if there's too much text */
+        }
+
+        /* Style the text part of the .player */
+        .player span:nth-child(2), /* Player name */
+        .player span:nth-child(3) { /* Score */
+            margin-left: 10px; /* Space between the image and text */
+            text-align: center; /* Ensure the text is centered */
+            flex-grow: 1; /* Allow the text to take up available space and be centered */
+        }
+
+        /* Optional: If you want to make the player names or score more flexible */
+        .player span:nth-child(2) {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .player span:nth-child(3) {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* Target the image and apply a smooth transition */
+        .player img {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            transition: transform 0.3s ease-in-out;  /* Use ease-in-out for smoother effect */
+            transform: scale(1);  /* Set initial state (not scaled) */
+            padding: 10px;
+        }
+
+        /* On hover, scale the image up */
+        .player img:hover {
+            transform: scale(1.1); /* Scale the image up by 10% */
+        }
+
+        .player span:first-child {
+            justify-content: flex-start; /* Aligns the first span (with the img) to the left */
         }
 
         .player:nth-child(odd) {
             border-bottom: 1px solid #8fc7ff;
-        }
-
-        .class img{
-            width: 25px;
-            height: 25px;
-            background-color: transparent;
         }
 
         .player .score {
@@ -76,20 +122,16 @@
 <body>
     <nav th:replace="fragments/header :: header"></nav>
 
-
-    <h1>Tournament Bracket</h1>
-
     <div class="bracket">
         <div class="round" th:each="round : ${rounds}">
-            <h2>Round [[${round.roundNumber}]]</h2>
             <div class="match" th:each="match : ${round.matches}">
                 <div class="player" th:classappend="${match.player1Score > match.player2Score} ? 'winner' : ''">
-                    <img th:src="@{/image.png}" alt="Player Image">
+                    <span><img th:src="@{/image.png}" alt="Player Image"></span>
                     <span th:text="${match.playerName1}">Player 1</span>
                     <span class="score" th:text="${match.player1Score}">0</span>
                 </div>
                 <div class="player" th:classappend="${match.player2Score > match.player1Score} ? 'winner' : ''">
-                    <img th:src="@{/image.png}" alt="Player Image">
+                    <span><img th:src="@{/image.png}" alt="Player Image"></span>
                     <span th:text="${match.playerName2}">Player 2</span>
                     <span class="score" th:text="${match.player2Score}">0</span>
                 </div>
