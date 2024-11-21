@@ -40,10 +40,18 @@
             color: #fff;
             padding: 10px 8px;
             background-color: #74b9ff;
+            display: flex;
+            align-items: center;
         }
 
         .team:nth-child(odd) {
             border-bottom: 1px solid #8fc7ff;
+        }
+
+        .class img{
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
         }
     </style>
 </head>
@@ -56,8 +64,14 @@
     <div class="bracket">
         <div class="round" th:each="round : ${rounds}">
             <div class="match" th:each="match : ${round}">
-                <div class="team" th:text="${match['team1']}">Team Red</div>
-                <div class="team" th:text="${match['team2']}">Team Blue</div>
+                <div class="team">
+                    <img th:src="@{/image.png}" alt="Team Image">
+                    <span th:text="${match['team1']}">Team Red</span>
+                </div>
+                <div class="team">
+                    <img th:src="@{/image.png}" alt="Team Image">
+                    <span th:text="${match['team2']}">Team Red</span>
+                </div>
             </div>
         </div>
     </div>
