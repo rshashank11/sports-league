@@ -31,6 +31,9 @@ public class LoginController {
                             Model model) {
         loginService.validateLogin(login, bindingResult);
         if(bindingResult.hasErrors()) {
+            System.out.println(
+                    "error"
+            );
             return "login";
         }
 
@@ -40,6 +43,7 @@ public class LoginController {
             return "redirect:/";
         } else {
             model.addAttribute("error", "Enter a valid username or password.");
+            System.out.println("error");
             return "login";
         }
 

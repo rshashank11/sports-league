@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="/css/login.css"/>
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
 </head>
 <body>
+<header th:include="fragments/header :: header">
+</header>
 <form id="loginForm" method="post">
     <label class="loginLabel" for="username">Email or Username</label>
     <input class="loginInput" type="text" id="username" name="username" placeholder="Enter an email or username">

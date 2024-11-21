@@ -3,7 +3,9 @@ package com.team2.sportsleague.model;
 import com.team2.sportsleague.validation.ValidUsernameOrEmail;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 public class Login {
 
     @NotBlank(message = "Please enter a username or email.")
