@@ -18,8 +18,13 @@
             font-family: helvetica, arial, sans-serif;
         }
 
+
+
         .bracket {
             display: flex;
+            gap: 30px;
+            flex-direction: column;
+            align-items: center;
         }
 
         .round {
@@ -36,7 +41,7 @@
             border-radius: 5px;
         }
 
-        .team {
+        .player {
             color: #fff;
             padding: 10px 8px;
             background-color: #74b9ff;
@@ -44,7 +49,7 @@
             align-items: center;
         }
 
-        .team:nth-child(odd) {
+        .player:nth-child(odd) {
             border-bottom: 1px solid #8fc7ff;
         }
 
@@ -52,6 +57,19 @@
             width: 25px;
             height: 25px;
             background-color: transparent;
+        }
+
+        .player .score {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: 10px;
+        }
+
+        .player.winner {
+            background-color: #d4edda; /* Light green for winners */
+            border-radius: 5px;
+            padding: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -63,14 +81,17 @@
 
     <div class="bracket">
         <div class="round" th:each="round : ${rounds}">
-            <div class="match" th:each="match : ${round}">
-                <div class="team">
-                    <img th:src="@{/image.png}" alt="Team Image">
-                    <span th:text="${match['team1']}">Team Red</span>
+            <h2>Round [[${round.roundNumber}]]</h2>
+            <div class="match" th:each="match : ${round.matches}">
+                <div class="player" th:classappend="${match.player1Score > match.player2Score} ? 'winner' : ''">
+                    <img th:src="@{/image.png}" alt="Player Image">
+                    <span th:text="${match.playerName1}">Player 1</span>
+                    <span class="score" th:text="${match.player1Score}">0</span>
                 </div>
-                <div class="team">
-                    <img th:src="@{/image.png}" alt="Team Image">
-                    <span th:text="${match['team2']}">Team Red</span>
+                <div class="player" th:classappend="${match.player2Score > match.player1Score} ? 'winner' : ''">
+                    <img th:src="@{/image.png}" alt="Player Image">
+                    <span th:text="${match.playerName2}">Player 2</span>
+                    <span class="score" th:text="${match.player2Score}">0</span>
                 </div>
             </div>
         </div>

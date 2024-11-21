@@ -1,6 +1,8 @@
 package com.team2.sportsleague.controller;
 
 
+import com.team2.sportsleague.model.Match;
+import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.service.LeagueService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,58 +51,30 @@ public class LeagueController {
     }
 
     @GetMapping("/match")
-    public ModelAndView showMatch(){
+    public ModelAndView showMatch() {
         ModelAndView mvc = new ModelAndView("match");
 
-        // List to hold round data
-        List<List<Map<String, String>>> rounds = new ArrayList<>();
+        // List to hold all rounds
+        List<Round> rounds = new ArrayList<>();
 
         // Round 1
-        List<Map<String, String>> round1 = new ArrayList<>();
-        Map<String, String> match1 = new HashMap<>();
-        match1.put("team1", "Team Red");
-        match1.put("team2", "Team Blue");
-        round1.add(match1);
-
-        Map<String, String> match2 = new HashMap<>();
-        match2.put("team1", "Team Yellow");
-        match2.put("team2", "Team Black");
-        round1.add(match2);
-
-        Map<String, String> match3 = new HashMap<>();
-        match3.put("team1", "Team White");
-        match3.put("team2", "Team Pink");
-        round1.add(match3);
-
-        Map<String, String> match4 = new HashMap<>();
-        match4.put("team1", "Team Green");
-        match4.put("team2", "Team Indigo");
-        round1.add(match4);
-
-        rounds.add(round1);
+        List<Match> round1Matches = new ArrayList<>();
+        round1Matches.add(new Match(101, 102, "John", "Sarah", 3, 5));
+        round1Matches.add(new Match(103, 104, "Alice", "Bob", 7, 2));
+        round1Matches.add(new Match(105, 106, "Eve", "Charlie", 7, 6));
+        round1Matches.add(new Match(107, 108, "Grace", "David", 4, 8));
+        rounds.add(new Round(1, round1Matches));
 
         // Round 2
-        List<Map<String, String>> round2 = new ArrayList<>();
-        Map<String, String> match5 = new HashMap<>();
-        match5.put("team1", "Team Red");
-        match5.put("team2", "Team Black");
-        round2.add(match5);
-
-        Map<String, String> match6 = new HashMap<>();
-        match6.put("team1", "Team White");
-        match6.put("team2", "Team Indigo");
-        round2.add(match6);
-
-        rounds.add(round2);
+        List<Match> round2Matches = new ArrayList<>();
+        round2Matches.add(new Match(101, 104, "John", "Bob", 9, 3));
+        round2Matches.add(new Match(105, 108, "Eve", "David", 4, 7));
+        rounds.add(new Round(2, round2Matches));
 
         // Round 3
-        List<Map<String, String>> round3 = new ArrayList<>();
-        Map<String, String> match7 = new HashMap<>();
-        match7.put("team1", "Team Red");
-        match7.put("team2", "Team Indigo");
-        round3.add(match7);
-
-        rounds.add(round3);
+        List<Match> round3Matches = new ArrayList<>();
+        round3Matches.add(new Match(101, 108, "John", "David", 10, 7));
+        rounds.add(new Round(3, round3Matches));
 
         // Pass data to the view
         mvc.addObject("rounds", rounds);

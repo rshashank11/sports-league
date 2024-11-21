@@ -11,6 +11,6 @@ public class Match {
     int playerId2;
     String playerName1;
     String playerName2;
-    int playerScore1;
-    int playerScore2;
+    int player1Score;
+    int player2Score;
 }
