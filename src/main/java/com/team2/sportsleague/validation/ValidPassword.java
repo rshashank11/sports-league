@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface ValidPassword {
 
-    String message() default "Password does not meet the required criteria.";
+    String message() default "Enter a valid password.";
 
     Class<?>[] groups() default {};
 

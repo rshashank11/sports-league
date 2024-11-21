@@ -23,6 +23,7 @@
     let usernameError = document.getElementById('usernameError');
     let password = document.getElementById('password');
     let passwordError = document.getElementById('passwordError');
+    let isFormValid = true;
 
     username.addEventListener('input', function() {
         let usernameValue = username.value.trim();
@@ -35,8 +36,10 @@
             username.classList.remove('valid');
             usernameError.style.display = 'block';
             usernameError.innerHTML = 'Enter a valid creditsafe email or username.';
+            isFormValid = false;
         } else {
             username.classList.add('valid');
+            isFormValid = true;
         }
     })
 
@@ -68,14 +71,15 @@
             passwordError.style.display = 'block';
             passwordError.innerHTML = errors.join(', ');
             password.classList.remove('valid');
+            isFormValid = false;
         } else {
             password.classList.add('valid');
             passwordError.style.display = 'none';
+            isFormValid = true;
         }
     })
 
     loginForm.addEventListener('submit', function(event) {
-        let isFormValid = true;
         let usernameValue = username.value
         let passwordValue = password.value
         event.preventDefault()

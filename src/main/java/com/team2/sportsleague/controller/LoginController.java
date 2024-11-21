@@ -1,7 +1,8 @@
-package com.team2.sportsleague.Controller;
+package com.team2.sportsleague.controller;
 
 import com.team2.sportsleague.model.Login;
 import com.team2.sportsleague.service.LoginService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
+    private final LoginService loginService;
     @Autowired
-    private LoginService loginService;
-
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
     @GetMapping("/login")
     public ModelAndView getLogin() {
         ModelAndView mav = new ModelAndView("login");
@@ -23,17 +26,20 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String postLogin(Login login,
+    public String postLogin(@Valid Login login,
                             BindingResult bindingResult,
                             Model model) {
-//        loginService.validateLogin(login, bindingResult);
+        loginService.validateLogin(login, bindingResult);
         if(bindingResult.hasErrors()) {
             return "login";
         }
 
-        try {
-            return "index";
-        } catch(Exception e) {
+        boolean authenticated = loginService.authenticateUser(login);
+
+        if (authenticated) {
+            return "redirect:/";
+        } else {
+            model.addAttribute("error", "Enter a valid username or password.");
             return "login";
         }
 
