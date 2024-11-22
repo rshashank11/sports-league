@@ -79,13 +79,6 @@ body {
     box-shadow: 0 0 2px 2px var(--primary-colour);
 }
 
-#usernameError {
-    display: none;
-}
-#passwordError {
-    display: none;
-}
-
 #usernameError, #passwordError {
     color: var(--error-colour);
     margin-top: 0.25rem;

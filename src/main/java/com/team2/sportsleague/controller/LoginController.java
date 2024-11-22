@@ -4,6 +4,7 @@ import com.team2.sportsleague.model.Login;
 import com.team2.sportsleague.service.LoginService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,9 +21,12 @@ public class LoginController {
         this.loginService = loginService;
     }
     @GetMapping("/login")
-    public ModelAndView getLogin() {
-        ModelAndView mav = new ModelAndView("login");
-        return mav;
+    public String getLogin(Model model, Authentication authentication) {
+        model.addAttribute("getLogin", new Login());
+        if(authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
+        return "login";
     }
 
     @PostMapping("/login")

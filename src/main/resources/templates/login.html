@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <th:block th:replace="fragments/fonts :: font-links"></th:block>
-    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link th:replace="fragments/fonts :: font-links" />
+    <link th:replace="fragments/styles :: style-links" />
     <link rel="stylesheet" th:href="@{/css/login.css}">
-    <link rel="stylesheet" th:href="@{/css/header.css}">
+<!--    <link rel="stylesheet" th:href="@{/css/header.css}">-->
 </head>
 <body>
-<header th:include="fragments/header :: header">
+<!--<header th:include="fragments/header :: header">-->
 </header>
-<form id="loginForm" method="post">
+<form th:action="@{/login}" th:object="${getLogin}" id="loginForm" method="post">
     <label class="loginLabel" for="username">Email or Username</label>
-    <input class="loginInput" type="text" id="username" name="username" placeholder="Enter an email or username">
+    <input th:field="*{username}" class="loginInput" type="text" id="username" placeholder="Enter an email or username">
     <p id="usernameError"></p>
 
     <label class="loginLabel" for="password">Password</label>
-    <input class="loginInput" type="password" id="password" name="password" placeholder="Enter a password">
+    <input th:field="*{password}" class="loginInput" type="password" id="password" placeholder="Enter a password">
     <p id="passwordError"></p>
+
+    <p th:text="${error}" class="error"></p>
     <button type="submit" id="loginBtn">Login</button>
 </form>
 </body>
@@ -30,13 +32,16 @@
     let passwordError = document.getElementById('passwordError');
     let isFormValid = true;
 
+    usernameError.style.display = 'none';
+    passwordError.style.display = 'none';
+
     username.addEventListener('input', function() {
         let usernameValue = username.value.trim();
         usernameError.style.display = 'none';
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@(creditsafe\.(com|be|co\.uk|co\.in|co\.jp|dk|fi|fr|hu|ie|it|lu|nl|no|se)|creditsafede\.com|creditsafemail\.com|creditsafenl\.com|creditsafeuk\.com|creditsafeusa\.com|graydoncreditsafe\.(be|com|lu|nl)|safeinformationgroup\.com)$/;
 
-        const usernameRegex = /^[a-zA-Z0-9_]{6,10}$/;
+        const usernameRegex = /^[0-9]{6,10}$/;
         if (!emailRegex.test(usernameValue) && !usernameRegex.test(usernameValue)) {
             username.classList.remove('valid');
             usernameError.style.display = 'block';
@@ -74,7 +79,7 @@
 
         if (errors.length > 0) {
             passwordError.style.display = 'block';
-            passwordError.innerHTML = errors.join(', ');
+            passwordError.innerHTML = errors.join(',\n');
             password.classList.remove('valid');
             isFormValid = false;
         } else {

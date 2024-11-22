@@ -3,9 +3,11 @@ package com.team2.sportsleague.model;
 import com.team2.sportsleague.validation.ValidUsernameOrEmail;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Login {
 
     @NotBlank(message = "Please enter a username or email.")
@@ -31,5 +33,8 @@ public class Login {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Login() {
     }
 }
