@@ -1,4 +1,5 @@
 -- Inserting users into the users table
+-- passwords to enter: 1. shashankR@11, prateekK@1, ankitS@2, tahaA@34
 INSERT INTO users (username, password, enabled) VALUES
                                                     ('rshashank@creditsafe.com', '$2a$10$Kesh6uBdTvkCaB2nELaVY.AxS9a35BXN./26HnfNTCe4xAqLnDNJ2', true),
                                                     ('kprateek@creditsafe.it', '$2a$10$x1Gg/P2LDEE3C.voMep3guPZX8X45LWPAEYUfDSBjUuQXG69IQ5Nq', true),
