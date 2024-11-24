@@ -50,6 +50,7 @@
         }
 
         .league-item {
+            margin: 15px;
             background: #fff;
             padding: 20px;
             border-radius: 10px;
@@ -119,8 +120,8 @@
         }
 
         #search-bar {
-            width: 80%;
-            max-width: 300px;
+            width: 150%;
+            max-width: 500px;
             padding: 12px 20px;
             margin: 20px auto;
             font-size: 1.2rem;
@@ -145,6 +146,19 @@
             font-style: italic;
             color: #aaa;
         }
+        .filter {
+            float: right;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 25px;
+            border-color: #e74c3c;
+            margin-right: 25px;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 1rem;
+            font-style: italic;
+            border-width: 2px;
+        }
     </style>
 </head>
 <body>
@@ -155,9 +169,15 @@
     <div style="text-align: center">
         <h1>Welcome to the Sports Leagues</h1>
         <h2>Upcoming and Recent Leagues</h2>
-        <input type="text" id="search-bar" placeholder="Search...">
+        <input type="text" id="search-bar" placeholder="Every league has a legend. Start your search!">
     </div>
 
+    <div>
+        <select id="sport-filter" class="filter">
+        <option value="">Filter by Sport</option>
+        <option th:each="sport : ${sports}" th:value="${sport.name}" th:text="${sport.name}"></option>
+    </select>
+    </div>
 <div class="container">
     <section>
         <h2>Upcoming Leagues</h2>
@@ -208,6 +228,31 @@
                 item.style.display = name.includes(filter) ? "block" : "none";
             });
         });
+
+
+
+        // Add filtering functionality for sports
+        const sportFilter = document.getElementById("sport-filter");
+        const searchBar = document.getElementById("search-bar");
+
+        const filterLeagues = () => {
+            const searchFilter = searchBar.value.toLowerCase();
+            const selectedSport = sportFilter.value.toLowerCase();
+
+            document.querySelectorAll(".league-item").forEach((item) => {
+                const name = item.querySelector("h3").textContent.toLowerCase();
+                const sport = item.getAttribute("data-sport").toLowerCase();
+
+                const matchesSearch = name.includes(searchFilter);
+                const matchesSport = selectedSport === "" || sport.includes(selectedSport);
+
+                item.style.display = matchesSearch && matchesSport ? "block" : "none";
+            });
+        };
+
+        sportFilter.addEventListener("change", filterLeagues);
+        searchBar.addEventListener("input", filterLeagues);
+
     </script>
 
 </body>
