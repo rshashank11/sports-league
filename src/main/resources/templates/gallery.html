@@ -95,7 +95,29 @@
             cursor: pointer;
         }
 
-        .close {
+        /* Enlarged Image Modal */
+        .enlarged-modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Darker background */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .enlarged-modal img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            margin: auto;
+        }
+
+        .enlarged-close {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -138,9 +160,15 @@
     </div>
 </div>
 
+<!-- Enlarged Image Modal -->
+<div id="enlargedModal" class="enlarged-modal">
+    <span class="enlarged-close" onclick="closeEnlargedModal()">&times;</span>
+    <img id="enlargedImage" src="" alt="Enlarged Image">
+</div>
+
 <script>
     const gamePhotos = {
-        dart: ["/DART/Background.jpg", "/images/dart2.jpg", "/images/dart3.jpg"],
+        dart: ["/DART/Background.jpg", "/DART/dart.jpg", "/DART/pool.jpg"],
         "table-tennis": ["/images/tt1.jpg", "/images/tt2.jpg", "/images/tt3.jpg"],
         pool: ["/images/pool1.jpg", "/images/pool2.jpg", "/images/pool3.jpg"],
     };
@@ -161,6 +189,7 @@
             const img = document.createElement("img");
             img.src = src;
             img.alt = `${game} image`;
+            img.onclick = () => enlargeImage(src); // Add click event for enlargement
             imageGrid.appendChild(img);
         });
 
@@ -173,10 +202,27 @@
         modal.style.display = "none";
     }
 
+    function enlargeImage(src) {
+        const enlargedModal = document.getElementById("enlargedModal");
+        const enlargedImage = document.getElementById("enlargedImage");
+
+        enlargedImage.src = src;
+        enlargedModal.style.display = "flex";
+    }
+
+    function closeEnlargedModal() {
+        const enlargedModal = document.getElementById("enlargedModal");
+        enlargedModal.style.display = "none";
+    }
+
     window.onclick = function (event) {
         const modal = document.getElementById("myModal");
+        const enlargedModal = document.getElementById("enlargedModal");
+
         if (event.target == modal) {
             closeModal();
+        } else if (event.target == enlargedModal) {
+            closeEnlargedModal();
         }
     };
 </script>
