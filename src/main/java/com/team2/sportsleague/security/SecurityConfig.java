@@ -71,15 +71,4 @@ public class SecurityConfig {
         // Builds and returns the configured security settings
         return httpSecurity.build();
     }
-
-//    @Bean
-//    public CommandLineRunner encodePasswordRunner() {
-//        return args -> {
-//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//            String rawPassword = "tahaA@34"; // Replace with plain actual password
-//            String encodedPassword = encoder.encode(rawPassword);
-//            System.out.println("Encoded Password: " + encodedPassword);
-//            // Save the encoded password on the database
-//        };
-//    }
 }

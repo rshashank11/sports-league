@@ -17,21 +17,29 @@
 }
 
 body {
-    font-family: 'New Amsterdam', sans-serif;;
+    font-family: var(--font-family);
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4; /* Soft background color */
 }
 
 #loginForm {
     display: flex;
     flex-direction: column;
     width: 300px;
-    margin: 40px auto 0 auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .13);
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px 40px;
+    background-color: white; /* White background for the form */
+    border-radius: 8px; /* Slight rounding for the form */
 }
 
 .loginLabel {
     color: var(--tertiary-colour);
+    margin-bottom: 5px; /* Space between label and input */
+    font-size: 14px;
 }
 
 #loginBtn {
@@ -43,6 +51,7 @@ body {
     border: none;
     border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
 }
 #loginBtn:hover {
     background-color: var(--primary-colour-hovered);
@@ -50,12 +59,13 @@ body {
 
 .loginInput {
     margin: 5px 0 10px 0;
-    padding: 7px 5px;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--border-colour-one);
     outline: none;
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
+
 .loginInput::placeholder {
     font-family: var(--font-family);
     color: var(--tertiary-colour);
@@ -63,15 +73,16 @@ body {
 
 .loginInput:focus {
     border: 1px solid var(--border-colour-two);
-    box-shadow: 0 0 2px 2px  var(--border-colour-two);
+    box-shadow: 0 0 2px 2px var(--border-colour-two);
 }
+
 .loginInput.valid {
     border: 1px solid green;
     box-shadow: 0 0 2px 2px green;
 }
 
 .visible {
-    display : block;
+    display: block;
 }
 
 .submitError {
@@ -79,9 +90,37 @@ body {
     box-shadow: 0 0 2px 2px var(--primary-colour);
 }
 
-#usernameError, #passwordError {
+#errorMessages {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+#errorMessages p {
     color: var(--error-colour);
-    margin-top: 0.25rem;
     font-size: 0.75rem;
     font-weight: 300;
+    margin-bottom: 5px; /* Adding space between error messages */
+}
+
+#errorMessages p:first-child {
+    margin-top: 0;
+}
+
+#usernameError, #passwordError {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--error-colour);
+    margin-top: 5px;
+}
+
+.error-messages {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }
