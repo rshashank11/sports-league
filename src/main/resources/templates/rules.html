@@ -77,15 +77,44 @@
 </body>
 <script>
     document.getElementById("darts-btn").addEventListener("click", () => {
-        updateRules("Darts", "Here are the rules for darts. Add your darts rules here.");
+        updateRules("Darts", "Objective: The aim is to reduce your score from 301 to exactly zero. \n" +
+            "Throwing: Each player throws three darts per turn. Players determine who goes first by throwing a single dart – closest to bull wins. \n" +
+            "Scoring: Points are scored by hitting various sections of the dartboard. The outer ring doubles the score of that section, and the inner ring triples it. Hitting the bullseye scores 50 points, and the outer bull scores 25. \n" +
+            "Finishing: To win, you must reach exactly zero by ending with a double (a dart that lands in the outer ring of a number) or a bullseye. If you score more than needed or fail to end on a double, your score for that turn is voided, and you try again on your next turn. \n" +
+            "Turns: Players alternate turns, throwing three darts each time until one player reaches exactly zero. ");
     });
 
     document.getElementById("table-tennis-btn").addEventListener("click", () => {
-        updateRules("Table Tennis", "Here are the rules for table tennis. Add your table tennis rules here.");
+        updateRules("Table Tennis", "Basic Rules:\n" +
+            "1.\tCoin toss: Whoever wins the coin toss decides whether to serve first or choose a side of the table.\n" +
+            "2.\tService: A coin toss will determine who serves first. The game then starts with a serve. The server must toss the ball and strike it so it bounces once on their side and once on the opponent's side. If the ball touches the net but still lands on the opponent’s side, the serve is replayed without penalty (this is called a \"let\").\n" +
+            "3.\tScoring: A point is scored after each ball is put into play. Points can be scored by the receiver if the server fails to make a correct service or return. Conversely, the server scores if the receiver fails to return the ball correctly. The rally continues until one player fails to return the ball according to the rules.\n" +
+            "4.\tGame Play: The standard game in competitive table tennis is played to 11 points. However, a player must win by at least a 2-point margin. If the score ties at 10-10, play continues until one player gains a 2-point lead.\n" +
+            "a.\tIn a 10-10 situation, the next point will be an advantage point which is then lost if levelled i.e. the score goes back to 10-10. When 2 consecutive points are scored, the final score becomes 12-10.\n" +
+            "\n" +
+            "Match Format:\n" +
+            "•\tIndividual Matches: A match is best of 3 games. This means the first player to win 2 games wins the match. The players should swap sides after every game played.\n" +
+            "\n" +
+            "Service Alternation:\n" +
+            "•\tPlayers alternate serving every two points. In the event of a 10-10 tie, service alternates after every point.\n");
     });
 
     document.getElementById("pool-btn").addEventListener("click", () => {
-        updateRules("Pool", "Here are the rules for pool. Add your pool rules here.");
+        updateRules("Pool", "Rules:\n" +
+            "1.\tRACK UP: Get your table ready and set up your pack by following the pattern of red and yellow balls from the diagram.\n" +
+            "2.\tMAKE A BREAK: The first player places the white ball behind the line and aims at the pack. A minimum of four balls must hit a cushion otherwise it’s a foul!\n\n" +
+            "3.\tREDS OR YELLOWS: The first player to hit any colour, legally, in to one of the pockets, takes that colour for the game. The other player, well, takes the other colour obviously.\n" +
+            "4.\tPOT TO WIN: Pot a ball and you get another go. Miss and its your opponent’s turn. Clear all your colours and it’s then just a matter of potting the black eight-ball to claim victory.\n" +
+            "FOUL PLAY:" +
+            "Should a foul occur, the opposing player receives two shots, and these shots can be carried on (i.e. if a ball is potted on their first shot, the player still has two shots). When a player gets two shots, they can pick up the white ball and place it anywhere behind the line to gain some advantage over their opponent."+
+            "The following shots are classed as fouls:\n" +
+            "• Hitting your opponent’s ball first\n" +
+            "• Completely missing all balls\n" +
+            "• Any ball jumps off the table\n" +
+            "• Potting the white ball\n" +
+            "• If you pot the eight-ball before all your other colours (means you’ve lost the whole game too!)\n" +
+            "• If you pot the eight ball – at the right time – but the white ball then goes in a pocket (yes, you’ve lost that game too!)"
+        );
     });
 
     function updateRules(title, content) {
