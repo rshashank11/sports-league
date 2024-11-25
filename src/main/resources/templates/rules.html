@@ -9,8 +9,88 @@
     <!-- Include stylesheet links -->
     <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .button-container {
+            margin-bottom: 20px;
+        }
+
+        .rule-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .rule-button:hover {
+            background-color: #0056b3;
+        }
+
+        .rules-section {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: left;
+        }
+
+        .rules-section h2 {
+            margin-top: 0;
+        }
+
+        .rules-section p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
     <nav th:replace="fragments/header :: header"></nav>
+
+    <div class="container">
+        <div class="button-container">
+            <button class="rule-button" id="darts-btn">Darts</button>
+            <button class="rule-button" id="table-tennis-btn">Table Tennis</button>
+            <button class="rule-button" id="pool-btn">Pool</button>
+        </div>
+        <div class="rules-section">
+            <h2>Rules</h2>
+            <p id="rules-content">Click on a sport to view its rules.</p>
+        </div>
+    </div>
 </body>
+<script>
+    document.getElementById("darts-btn").addEventListener("click", () => {
+        updateRules("Darts", "Here are the rules for darts. Add your darts rules here.");
+    });
+
+    document.getElementById("table-tennis-btn").addEventListener("click", () => {
+        updateRules("Table Tennis", "Here are the rules for table tennis. Add your table tennis rules here.");
+    });
+
+    document.getElementById("pool-btn").addEventListener("click", () => {
+        updateRules("Pool", "Here are the rules for pool. Add your pool rules here.");
+    });
+
+    function updateRules(title, content) {
+        document.querySelector(".rules-section h2").textContent = title + " Rules";
+        document.getElementById("rules-content").textContent = content;
+    }
+</script>
 </html>
