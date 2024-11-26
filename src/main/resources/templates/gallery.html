@@ -104,24 +104,30 @@
             top: 0;
             width: 100%;
             height: 100%;
-            min-width: 600px; /* Minimum width */
-            min-height: 400px; /* Minimum height */
             background-color: rgba(0, 0, 0, 0.9); /* Darker background */
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            text-align: center;
+            flex-direction: row; /* Arrange image and metadata side by side */
+            text-align: left;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .enlarged-metadata {
+            color: white;
+            font-size: 1.2rem;
+            max-width: 30%; /* Allocate 30% of the modal width */
+            text-align: left;
+            word-wrap: break-word;
         }
 
         .enlarged-modal img {
             width: auto; /* Allow the width to adjust */
             height: auto; /* Allow the height to adjust */
-            max-width: 80%; /* Ensure it doesn't exceed modal width */
-            max-height: 80%; /* Ensure it doesn't exceed modal height */
+            max-width: 70%; /* Ensure it doesn't exceed 70% of modal width */
+            max-height: 90%; /* Ensure it doesn't exceed modal height */
             object-fit: contain; /* Maintain aspect ratio */
             border-radius: 10px;
-            margin: auto;
-            display: block;
         }
 
         .enlarged-close {
@@ -132,12 +138,6 @@
             font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
-        }
-
-        .enlarged-metadata {
-            color: white;
-            margin-top: 20px;
-            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -166,7 +166,7 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal">
-    <span class="close" onclick="closeModal()">x;</span>
+    <span class="close" onclick="closeModal()">x</span>
     <div class="modal-content">
         <h2 id="modalTitle"></h2>
         <div id="imageGrid" class="image-grid"></div>
@@ -175,9 +175,9 @@
 
 <!-- Enlarged Image Modal -->
 <div id="enlargedModal" class="enlarged-modal">
-    <span class="enlarged-close" onclick="closeEnlargedModal()">x;</span>
     <img id="enlargedImage" src="" alt="Enlarged Image">
     <div id="enlargedMetadata" class="enlarged-metadata"></div>
+    <span class="enlarged-close" onclick="closeEnlargedModal()">x</span>
 </div>
 
 <script>
@@ -235,7 +235,7 @@
         const enlargedMetadata = document.getElementById("enlargedMetadata");
 
         enlargedImage.src = src;
-        enlargedMetadata.textContent = metadata;
+        enlargedMetadata.textContent = metadata; // Set metadata content
 
         enlargedModal.style.display = "flex"; // Show the modal
     }
