@@ -1,5 +1,6 @@
 package com.team2.sportsleague.controller;
 
+import com.team2.sportsleague.entity.LeagueEntity;
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.service.LeagueService;
 import org.springframework.stereotype.Controller;
@@ -7,50 +8,55 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class LeagueController {
+    private final LeagueService leagueService;
 
+    // Constructor-based injection
+    public LeagueController(LeagueService leagueService) {
+        this.leagueService = leagueService;
+    }
+
+    // Display leagues (upcoming and recent)
     @GetMapping("/")
     public String getLeagues(Model model) {
-        List<LeagueService> upcomingLeagues = new ArrayList<>();
-        upcomingLeagues.add(new LeagueService("Winter Pool League", LocalDateTime.now().plusDays(10), LocalDateTime.now().plusDays(5), "Sports Club A"));
-        upcomingLeagues.add(new LeagueService("Spring Darts League", LocalDateTime.now().plusDays(20), LocalDateTime.now().plusDays(15), null));
+        // Fetch data from the LeagueService layer
+        List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
+        List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
 
-        List<LeagueService> recentLeagues = new ArrayList<>();
-        recentLeagues.add(new LeagueService("Autumn Table Tennis League", LocalDateTime.now().minusDays(10), LocalDateTime.now().minusDays(15), "Community Center"));
-
+        // Add data to the model for rendering in the template
         model.addAttribute("upcomingLeagues", upcomingLeagues);
         model.addAttribute("recentLeagues", recentLeagues);
 
-        return "index";
+        // Return the view template name
+        return "index"; // Corresponds to src/main/resources/templates/index.html
     }
 
+    // Display the rankings page
     @GetMapping("/rankings")
     public ModelAndView showRankingList() {
-        ModelAndView mvc = new ModelAndView("rankings");
-        return mvc;
+        return new ModelAndView("rankings"); // Corresponds to src/main/resources/templates/rankings.html
     }
 
+    // Display the gallery page
     @GetMapping("/gallery")
     public ModelAndView showGallery() {
-        ModelAndView mvc = new ModelAndView("gallery");
-        return mvc;
+        return new ModelAndView("gallery"); // Corresponds to src/main/resources/templates/gallery.html
     }
 
+    // Display the rules page
     @GetMapping("/rules")
     public ModelAndView showRules() {
-        ModelAndView mvc = new ModelAndView("rules");
-        return mvc;
+        return new ModelAndView("rules"); // Corresponds to src/main/resources/templates/rules.html
     }
 
+    // Display the user profile page
     @GetMapping("/profile")
     public String showUserProfile(Model model) {
-        // Create and populate the user object
+        // Create and populate the User object
         User user = new User(
                 "John Doe",
                 "john.doe@example.com",
@@ -63,6 +69,7 @@ public class LeagueController {
         // Add the user to the model
         model.addAttribute("user", user);
 
-        return "UserProfile"; // Return the view name for the profile
+        // Return the view template name for the user profile
+        return "UserProfile"; // Corresponds to src/main/resources/templates/UserProfile.html
     }
 }

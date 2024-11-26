@@ -1,52 +1,36 @@
 package com.team2.sportsleague.service;
+import com.team2.sportsleague.entity.LeagueEntity;
+import com.team2.sportsleague.repository.LeagueRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
+@Service
 public class LeagueService {
-    private String name;
-    private LocalDateTime schedule;
-    private LocalDateTime lastRegistrationDate;
-    private String venue;
+    @Autowired
+    private final LeagueRepository leagueRepository;
 
-    // Constructor
-    public LeagueService(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue) {
-        this.name = name;
-        this.schedule = schedule;
-        this.lastRegistrationDate = lastRegistrationDate;
-        this.venue = venue;
+    // Constructor-based injection
+    public LeagueService(LeagueRepository leagueRepository) {
+        this.leagueRepository = leagueRepository;
     }
 
-    // Getters
-    public String getName() {
-        return name;
+  /*  public List<LeagueEntity> getAllLeagues() {
+        return leagueRepository.findAll();
+    }*/
+
+    public List<LeagueEntity> getUpcomingLeagues() {
+        return leagueRepository.getUpcomingLeagues()
+                .stream()
+                .filter(league -> league.getSchedule() != null && league.getSchedule().isAfter(java.time.LocalDateTime.now()))
+                .toList();
     }
 
-    public LocalDateTime getSchedule() {
-        return schedule;
-    }
-
-    public LocalDateTime getLastRegistrationDate() {
-        return lastRegistrationDate;
-    }
-
-    public String getVenue() {
-        return venue;
-    }
-
-    // Setters
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSchedule(LocalDateTime schedule) {
-        this.schedule = schedule;
-    }
-
-    public void setLastRegistrationDate(LocalDateTime lastRegistrationDate) {
-        this.lastRegistrationDate = lastRegistrationDate;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
+    public List<LeagueEntity> getRecentLeagues() {
+        return leagueRepository.getRecentLeagues()
+                .stream()
+                .filter(league -> league.getSchedule() != null && league.getSchedule().isBefore(java.time.LocalDateTime.now()))
+                .toList();
     }
 }
