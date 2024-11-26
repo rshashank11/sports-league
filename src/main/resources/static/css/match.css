@@ -1,0 +1,107 @@
+*{
+    padding:0px;
+    margin:0px;
+}
+body {
+    color: #fff;
+    background-color: white;
+    font-family: helvetica, arial, sans-serif;
+}
+
+.bracket {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+
+}
+
+.round {
+    flex: 1;
+    display: flex;
+    margin-right: 30px;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.match {
+    margin: 15px 0;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.player {
+    color: #fff;
+    padding: 5px;
+    background-color: #74b9ff;
+    display: flex;
+    width: 80%;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.player span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.player span img {
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+
+.player span:nth-child(2),
+.player span:nth-child(3) {
+    margin-left: 10px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+
+.player span:nth-child(2) {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.player span:nth-child(3) {
+    text-align: center;
+    flex-grow: 1;
+}
+
+
+.player img {
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1);
+    padding: 10px;
+}
+
+
+.player img:hover {
+    transform: scale(1.1);
+}
+
+.player span:first-child {
+    justify-content: flex-start;
+}
+
+.player:nth-child(odd) {
+    border-bottom: 1px solid #8fc7ff;
+}
+
+.player .score {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+
+.player.winner {
+    background-color: #d4edda; /* Light green for winners */
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: bold;
+}
