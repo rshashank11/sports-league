@@ -36,7 +36,7 @@ public class MatchRepositoryJDBC implements MatchRepository {
     @Override
     public List<Round> getAllRounds(){
 
-        String sql = "SELECT * FROM matches ORDER BY round_number, id";
+        String sql = "SELECT * FROM matches ORDER BY round_number, match_id";
 
         List<Match> matches = jdbc.query(sql, matchMapper);
 
