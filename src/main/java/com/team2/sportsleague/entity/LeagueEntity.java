@@ -1,18 +1,22 @@
 package com.team2.sportsleague.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class LeagueEntity {
     private String name;
     private LocalDateTime schedule;
     private LocalDateTime lastRegistrationDate;
     private String venue;
+    private List<String> sports; // Add sports field
 
-    public LeagueEntity(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue) {
+    // Constructor
+    public LeagueEntity(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, List<String> sports) {
         this.name = name;
         this.schedule = schedule;
         this.lastRegistrationDate = lastRegistrationDate;
         this.venue = venue;
+        this.sports = sports;
     }
 
     // Getters and setters
@@ -46,5 +50,13 @@ public class LeagueEntity {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    public List<String> getSports() {
+        return sports;
+    }
+
+    public void setSports(List<String> sports) {
+        this.sports = sports;
     }
 }

@@ -104,7 +104,6 @@
             position: relative;
             bottom: 0;
             width: 100%;
-
         }
 
         .venue {
@@ -112,7 +111,8 @@
             color: #e74c3c;
             font-size: 1.2rem;
         }
-        .header{
+
+        .header {
             display: flex;
             align-items: center;
             justify-items: center;
@@ -146,6 +146,7 @@
             font-style: italic;
             color: #aaa;
         }
+
         .filter {
             float: right;
             margin-top: 20px;
@@ -163,54 +164,56 @@
 </head>
 <body>
 
-    <header th:include="fragments/header :: header">
-    </header>
+<header th:include="fragments/header :: header">
+</header>
 
-    <div style="text-align: center">
-        <h1>Welcome to the Sports Leagues</h1>
-        <h2>Upcoming and Recent Leagues</h2>
-        <input type="text" id="search-bar" placeholder="Every league has a legend. Start your search!">
-    </div>
-
-    <div>
-        <select id="sport-filter" class="filter">
-        <option value="">Filter by Sport</option>
-        <option th:each="sport : ${sports}" th:value="${sport.name}" th:text="${sport.name}"></option>
+<div style="text-align: center">
+    <h1>Welcome to the Sports Leagues</h1>
+    <h2>Upcoming and Recent Leagues</h2>
+    <input type="text" id="search-bar" placeholder="Every league has a legend. Start your search!">
+<br>
+        <select id="sportFilter" class="filter">
+            <option value="">All</option>
+            <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
+      <!--  <option value="Table Tennis">Table Tennis</option>
+        <option value="Darts">Darts</option>
+        <option value="Pool">Pool</option>-->
     </select>
-    </div>
+</div>
+
 <div class="container">
     <section>
         <h2>Upcoming Leagues</h2>
-        <div th:if="${upcomingLeagues}">
-            <ul class="league-list">
-                <li th:each="league : ${upcomingLeagues}" class="league-item">
-                    <h3 th:text="${league.name}"></h3>
-                    <p><strong>Start Date:</strong>
-                        <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Last Registration Date:</strong>
-                        <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Venue:</strong>
-                        <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-                </li>
-            </ul>
-        </div>
+        <ul class="league-list">
+            <li th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}">
+                <h3 th:text="${league.name}"></h3>
+                <p><strong>Sport:</strong> <span th:text="${league.sports}"></span></p>
+                <p><strong>Start Date:</strong>
+                    <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Last Registration Date:</strong>
+                    <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
+            </li>
+        </ul>
     </section>
 
     <section>
         <h2>Recent Leagues</h2>
-        <div th:if="${recentLeagues}">
-            <ul class="league-list">
-                <li th:each="league : ${recentLeagues}" class="league-item">
-                    <h3 th:text="${league.name}"></h3>
-                    <p><strong>Start Date:</strong>
-                        <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Last Registration Date:</strong>
-                        <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Venue:</strong>
-                        <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-                </li>
-            </ul>
-        </div>
+        <ul class="league-list">
+            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}">
+                <h3 th:text="${league.name}"></h3>
+                <p><strong>Sport:</strong> <span th:text="${league.sports}"></span></p>
+                <p><strong>Start Date:</strong>
+                    <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Last Registration Date:</strong>
+                    <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
+            </li>
+        </ul>
     </section>
 
     <a href="#" class="button">Join a League</a>
@@ -220,20 +223,10 @@
     <p>&copy; 2024 Sports Leagues</p>
 </footer>
 
-    <script>
-        document.getElementById("search-bar").addEventListener("input", function () {
-            const filter = this.value.toLowerCase();
-            document.querySelectorAll(".league-item").forEach((item) => {
-                const name = item.querySelector("h3").textContent.toLowerCase();
-                item.style.display = name.includes(filter) ? "block" : "none";
-            });
-        });
-
-
-
-        // Add filtering functionality for sports
-        const sportFilter = document.getElementById("sport-filter");
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
         const searchBar = document.getElementById("search-bar");
+        const sportFilter = document.getElementById("sportFilter");
 
         const filterLeagues = () => {
             const searchFilter = searchBar.value.toLowerCase();
@@ -250,10 +243,10 @@
             });
         };
 
-        sportFilter.addEventListener("change", filterLeagues);
         searchBar.addEventListener("input", filterLeagues);
-
-    </script>
+        sportFilter.addEventListener("change", filterLeagues);
+    });
+</script>
 
 </body>
 </html>

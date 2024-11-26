@@ -16,9 +16,9 @@ public class LeagueService {
         this.leagueRepository = leagueRepository;
     }
 
-  /*  public List<LeagueEntity> getAllLeagues() {
-        return leagueRepository.findAll();
-    }*/
+    public List<LeagueEntity> getAllLeagues() {
+        return leagueRepository.findAll(); // Assuming `findAll` is implemented in the repository
+    }
 
     public List<LeagueEntity> getUpcomingLeagues() {
         return leagueRepository.getUpcomingLeagues()
@@ -33,4 +33,11 @@ public class LeagueService {
                 .filter(league -> league.getSchedule() != null && league.getSchedule().isBefore(java.time.LocalDateTime.now()))
                 .toList();
     }
+
+    public List<LeagueEntity> getLeaguesBySport(String sport) {
+        return leagueRepository.getLeaguesBySport(sport);
+    }
+
 }
+
+
