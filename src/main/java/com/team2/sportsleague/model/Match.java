@@ -13,4 +13,6 @@ public class Match {
     String playerName2;
     int player1Score;
     int player2Score;
+    int winner_id;
+    int roundNumber;
 }
