@@ -114,11 +114,15 @@
         }
 
         .enlarged-metadata {
-            color: white;
+            background-color: white; /* Set background to white */
+            color: black; /* Set text color to black */
             font-size: 1.2rem;
             max-width: 30%; /* Allocate 30% of the modal width */
             text-align: left;
             word-wrap: break-word;
+            padding: 15px; /* Add padding for better readability */
+            border-radius: 5px; /* Optional: add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: subtle shadow for better visibility */
         }
 
         .enlarged-modal img {
@@ -147,7 +151,6 @@
 <div class="gallery-container">
     <h1>Game Photos Gallery</h1>
     <div class="gallery">
-        <!-- Example of game photo with hover effect -->
         <div class="gallery-item" onclick="openModal('dart')">
             <img src="/dart.jpg" alt="Dart Game">
             <div class="game-name">Dart</div>
@@ -160,7 +163,6 @@
             <img src="/pool.jpg" alt="Pool Game">
             <div class="game-name">Pool</div>
         </div>
-        <!-- Add more games as needed -->
     </div>
 </div>
 
@@ -205,28 +207,22 @@
         const imageGrid = document.getElementById("imageGrid");
         const modalTitle = document.getElementById("modalTitle");
 
-        // Set the modal title
         modalTitle.textContent = game.replace("-", " ").toUpperCase();
-
-        // Clear any previous content in the grid
         imageGrid.innerHTML = "";
 
-        // Populate the grid with all images for the selected game
         gamePhotos[game].forEach(({ src, metadata }) => {
             const img = document.createElement("img");
             img.src = src;
             img.alt = metadata;
-            img.onclick = () => enlargeImage(src, metadata); // Add click event for enlargement
+            img.onclick = () => enlargeImage(src, metadata);
             imageGrid.appendChild(img);
         });
 
-        // Show the modal
         modal.style.display = "flex";
     }
 
     function closeModal() {
-        const modal = document.getElementById("myModal");
-        modal.style.display = "none";
+        document.getElementById("myModal").style.display = "none";
     }
 
     function enlargeImage(src, metadata) {
@@ -235,14 +231,12 @@
         const enlargedMetadata = document.getElementById("enlargedMetadata");
 
         enlargedImage.src = src;
-        enlargedMetadata.textContent = metadata; // Set metadata content
-
-        enlargedModal.style.display = "flex"; // Show the modal
+        enlargedMetadata.textContent = metadata;
+        enlargedModal.style.display = "flex";
     }
 
     function closeEnlargedModal() {
-        const enlargedModal = document.getElementById("enlargedModal");
-        enlargedModal.style.display = "none";
+        document.getElementById("enlargedModal").style.display = "none";
     }
 
     window.onclick = function (event) {
