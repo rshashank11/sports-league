@@ -104,17 +104,24 @@
             top: 0;
             width: 100%;
             height: 100%;
+            min-width: 600px; /* Minimum width */
+            min-height: 400px; /* Minimum height */
             background-color: rgba(0, 0, 0, 0.9); /* Darker background */
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+            text-align: center;
         }
 
         .enlarged-modal img {
-            max-width: 1000%;
-            max-height: 1000%;
-            object-fit: contain;
+            width: auto; /* Allow the width to adjust */
+            height: auto; /* Allow the height to adjust */
+            max-width: 80%; /* Ensure it doesn't exceed modal width */
+            max-height: 80%; /* Ensure it doesn't exceed modal height */
+            object-fit: contain; /* Maintain aspect ratio */
             border-radius: 10px;
             margin: auto;
+            display: block;
         }
 
         .enlarged-close {
@@ -125,6 +132,12 @@
             font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
+        }
+
+        .enlarged-metadata {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -153,7 +166,7 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
+    <span class="close" onclick="closeModal()">x;</span>
     <div class="modal-content">
         <h2 id="modalTitle"></h2>
         <div id="imageGrid" class="image-grid"></div>
@@ -162,15 +175,29 @@
 
 <!-- Enlarged Image Modal -->
 <div id="enlargedModal" class="enlarged-modal">
-    <span class="enlarged-close" onclick="closeEnlargedModal()">&times;</span>
+    <span class="enlarged-close" onclick="closeEnlargedModal()">x;</span>
     <img id="enlargedImage" src="" alt="Enlarged Image">
+    <div id="enlargedMetadata" class="enlarged-metadata"></div>
 </div>
 
 <script>
     const gamePhotos = {
-        dart: ["/DART/Background.jpg", "/DART/dart.jpg", "/DART/pool.jpg"],
-        "table-tennis": ["/images/tt1.jpg", "/images/tt2.jpg", "/images/tt3.jpg"],
-        pool: ["/images/pool1.jpg", "/images/pool2.jpg", "/images/pool3.jpg"],
+        dart: [
+            { src: "/DART/demo.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/Background.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/dart.jpg", metadata: "Dart Target Close-Up" },
+            { src: "/DART/pool.jpg", metadata: "Pool Table in Dart Area" }
+        ],
+        "table-tennis": [
+            { src: "/images/tt1.jpg", metadata: "Table Tennis Match in Progress" },
+            { src: "/images/tt2.jpg", metadata: "Close-Up of Table Tennis Paddle" },
+            { src: "/images/tt3.jpg", metadata: "Players Celebrating Win" }
+        ],
+        pool: [
+            { src: "/images/pool1.jpg", metadata: "Professional Pool Match" },
+            { src: "/images/pool2.jpg", metadata: "Pool Cue in Action" },
+            { src: "/images/pool3.jpg", metadata: "Pool Table with Balls Set" }
+        ]
     };
 
     function openModal(game) {
@@ -185,11 +212,11 @@
         imageGrid.innerHTML = "";
 
         // Populate the grid with all images for the selected game
-        gamePhotos[game].forEach((src) => {
+        gamePhotos[game].forEach(({ src, metadata }) => {
             const img = document.createElement("img");
             img.src = src;
-            img.alt = `${game} image`;
-            img.onclick = () => enlargeImage(src); // Add click event for enlargement
+            img.alt = metadata;
+            img.onclick = () => enlargeImage(src, metadata); // Add click event for enlargement
             imageGrid.appendChild(img);
         });
 
@@ -202,12 +229,15 @@
         modal.style.display = "none";
     }
 
-    function enlargeImage(src) {
+    function enlargeImage(src, metadata) {
         const enlargedModal = document.getElementById("enlargedModal");
         const enlargedImage = document.getElementById("enlargedImage");
+        const enlargedMetadata = document.getElementById("enlargedMetadata");
 
         enlargedImage.src = src;
-        enlargedModal.style.display = "flex";
+        enlargedMetadata.textContent = metadata;
+
+        enlargedModal.style.display = "flex"; // Show the modal
     }
 
     function closeEnlargedModal() {
