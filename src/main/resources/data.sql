@@ -1,15 +1,18 @@
--- Inserting users into the users table
--- passwords to enter: 1. shashankR@11, prateekK@1, ankitS@2, tahaA@34
+-- Inserting users into the users table with hashed passwords
 INSERT INTO users (username, password, enabled) VALUES
-                                                    ('rshashank@creditsafe.com', '$2a$10$Kesh6uBdTvkCaB2nELaVY.AxS9a35BXN./26HnfNTCe4xAqLnDNJ2', true),
-                                                    ('kprateek@creditsafe.it', '$2a$10$x1Gg/P2LDEE3C.voMep3guPZX8X45LWPAEYUfDSBjUuQXG69IQ5Nq', true),
-                                                    ('ankits@creditsafeuk.com', '$2a$10$burcuJ54mW83VQe/9TqdduP/4zTFn40G6sjcjnYMA1bXBvN5V.CH.', true),
-                                                    ('ataha@creditsafe.co.in', '$2a$10$U/Cfh6ATHrCY/9HazJ0rYedUGmzKPx/1araJnWm2BSF7Qwz8mdcGi', true);
-insert into roles(role_id, role_name)
-values(1, 'user'),(2,'admin');
+                                                    ('shashankr1@creditsafe.com', '$2a$10$SiZBkjrJhn19Bpn5EomAAevx0HprUAJKPps4wJbT8FO3kE5Ar1Nme', true), #shashankR@1
+                                                    ('prateekk2@creditsafe.it', '$2a$10$/mifxplYOJ726OyJ9JVT5OnX9W3WWPf32nVrJelTLO/EcRCjrYt4.', true), #prateekK@2
+                                                    ('ankits34@creditsafeuk.com', '$2a$10$Nqk3UHGNuQj4oqXiCwhQ.umIgbGTuv8PBZlmN2HuFXx3IeG4YdOaC', true), #ankitS@34
+                                                    ('tahaa4@creditsafe.co.in', '$2a$10$tAN4gGkjiE69gq6D.wbr4ubznQoPOuwOLiUZfFGGqcOmBVFpT2jR.', true); #tahaA@4
 
+-- Inserting roles (user and admin)
+INSERT INTO roles(role_id, role_name)
+VALUES (1, 'user'), (2, 'admin');
+
+-- Assigning roles to users
+-- Assigning 'user' role to all users, and 'admin' role to a specific user
 INSERT INTO users_roles (username, role_id) VALUES
-                                                ('rshashank@creditsafe.com', 1),
-                                                ('kprateek@creditsafe.it', 1),
-                                                ('ankits@creditsafeuk.com', 1),
-                                                ('ataha@creditsafe.co.in', 1);
+                                                ('shashankr1@creditsafe.com', 1),  -- User role for Shashank
+                                                ('prateekk2@creditsafe.it', 1),    -- User role for Prateek
+                                                ('ankits34@creditsafeuk.com', 1),   -- User role for Ankit
+                                                ('tahaa4@creditsafe.co.in', 2);    -- Admin role for Taha

@@ -8,7 +8,7 @@
 
 :root {
     --primary-colour: rgba(238, 46, 36, 1);
-    --primary-colour-hovered: rgba(218, 26, 16);
+    --primary-colour-hovered: rgba(198, 16, 6, 1);
     --tertiary-colour: #8d8d8d;
     --border-colour-one: #ced4da;
     --border-colour-two: #80bdff;
@@ -22,7 +22,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4; /* Soft background color */
+    background-color: #f4f4f4;
 }
 
 #loginForm {
@@ -32,13 +32,13 @@ body {
     margin: 0 auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px 40px;
-    background-color: white; /* White background for the form */
-    border-radius: 8px; /* Slight rounding for the form */
+    background-color: white;
+    border-radius: 8px;
 }
 
 .loginLabel {
     color: var(--tertiary-colour);
-    margin-bottom: 5px; /* Space between label and input */
+    margin-bottom: 5px;
     font-size: 14px;
 }
 
@@ -52,9 +52,14 @@ body {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 #loginBtn:hover {
     background-color: var(--primary-colour-hovered);
+}
+#loginBtn:focus {
+    outline: 2px solid var(--border-colour-two);
+    box-shadow: 0 0 4px var(--border-colour-two);
 }
 
 .loginInput {
@@ -65,53 +70,14 @@ body {
     outline: none;
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-
 .loginInput::placeholder {
     font-family: var(--font-family);
-    color: var(--tertiary-colour);
+    color: #a9a9a9;
+    opacity: 1;
 }
-
 .loginInput:focus {
     border: 1px solid var(--border-colour-two);
     box-shadow: 0 0 2px 2px var(--border-colour-two);
-}
-
-.loginInput.valid {
-    border: 1px solid green;
-    box-shadow: 0 0 2px 2px green;
-}
-
-.visible {
-    display: block;
-}
-
-.submitError {
-    border: 1px solid var(--primary-colour);
-    box-shadow: 0 0 2px 2px var(--primary-colour);
-}
-
-#errorMessages {
-    display: flex;
-    flex-direction: column;
-    margin-top: 5px;
-}
-
-#errorMessages p {
-    color: var(--error-colour);
-    font-size: 0.75rem;
-    font-weight: 300;
-    margin-bottom: 5px; /* Adding space between error messages */
-}
-
-#errorMessages p:first-child {
-    margin-top: 0;
-}
-
-#usernameError, #passwordError {
-    font-size: 0.75rem;
-    font-weight: 300;
-    color: var(--error-colour);
-    margin-top: 5px;
 }
 
 .error-messages {
@@ -119,8 +85,20 @@ body {
     font-size: 0.9rem;
     margin-top: 5px;
 }
+.error-messages::before {
+    margin-right: 5px;
+}
 
-.error {
-    color: red;
-    font-weight: bold;
+.errorMessages {
+    color: var(--error-colour);
+    font-size: 0.75rem;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 480px) {
+    #loginForm {
+        width: 90%;
+        padding: 20px;
+    }
 }

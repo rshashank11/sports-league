@@ -1,4 +1,4 @@
-package com.team2.sportsleague.model;
+package com.team2.sportsleague.dtos;
 
 import com.team2.sportsleague.validation.ValidUsernameOrEmail;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Login {
+public class LoginDTO {
 
     @NotBlank(message = "Please enter a username or email.")
     @Size(min=6, max=50, message="Enter a valid Creditsafe email or username.")
@@ -35,6 +35,6 @@ public class Login {
         this.password = password;
     }
 
-    public Login() {
+    public LoginDTO() {
     }
 }
