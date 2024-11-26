@@ -114,23 +114,23 @@
         }
 
         .enlarged-metadata {
-            background-color: white; /* Set background to white */
-            color: black; /* Set text color to black */
+            background-color: white;
+            color: black;
             font-size: 1.2rem;
-            max-width: 30%; /* Allocate 30% of the modal width */
+            max-width: 30%;
             text-align: left;
             word-wrap: break-word;
-            padding: 15px; /* Add padding for better readability */
-            border-radius: 5px; /* Optional: add rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: subtle shadow for better visibility */
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .enlarged-modal img {
-            width: auto; /* Allow the width to adjust */
-            height: auto; /* Allow the height to adjust */
-            max-width: 70%; /* Ensure it doesn't exceed 70% of modal width */
-            max-height: 90%; /* Ensure it doesn't exceed modal height */
-            object-fit: contain; /* Maintain aspect ratio */
+            width: auto;
+            height: auto;
+            max-width: 70%;
+            max-height: 90%;
+            object-fit: contain;
             border-radius: 10px;
         }
 
@@ -142,6 +142,34 @@
             font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
+        }
+
+        /* Next and Previous Button Styles */
+        .enlarged-prev,
+        .enlarged-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 10px 20px;
+            z-index: 3;
+        }
+
+        .enlarged-prev {
+            left: 20px;
+        }
+
+        .enlarged-next {
+            right: 20px;
+        }
+
+        .enlarged-prev:hover,
+        .enlarged-next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
@@ -177,30 +205,16 @@
 
 <!-- Enlarged Image Modal -->
 <div id="enlargedModal" class="enlarged-modal">
+    <button id="prevButton" class="enlarged-prev" onclick="navigateImage(-1)">&#8249;</button>
     <img id="enlargedImage" src="" alt="Enlarged Image">
     <div id="enlargedMetadata" class="enlarged-metadata"></div>
+    <button id="nextButton" class="enlarged-next" onclick="navigateImage(1)">&#8250;</button>
     <span class="enlarged-close" onclick="closeEnlargedModal()">x</span>
 </div>
 
 <script>
-    const gamePhotos = {
-        dart: [
-            { src: "/DART/demo.jpg", metadata: "Background of Dart Game" },
-            { src: "/DART/Background.jpg", metadata: "Background of Dart Game" },
-            { src: "/DART/dart.jpg", metadata: "Dart Target Close-Up" },
-            { src: "/DART/pool.jpg", metadata: "Pool Table in Dart Area" }
-        ],
-        "table-tennis": [
-            { src: "/images/tt1.jpg", metadata: "Table Tennis Match in Progress" },
-            { src: "/images/tt2.jpg", metadata: "Close-Up of Table Tennis Paddle" },
-            { src: "/images/tt3.jpg", metadata: "Players Celebrating Win" }
-        ],
-        pool: [
-            { src: "/images/pool1.jpg", metadata: "Professional Pool Match" },
-            { src: "/images/pool2.jpg", metadata: "Pool Cue in Action" },
-            { src: "/images/pool3.jpg", metadata: "Pool Table with Balls Set" }
-        ]
-    };
+    let currentImageIndex = 0;
+    let currentGameImages = [];
 
     function openModal(game) {
         const modal = document.getElementById("myModal");
@@ -210,11 +224,12 @@
         modalTitle.textContent = game.replace("-", " ").toUpperCase();
         imageGrid.innerHTML = "";
 
-        gamePhotos[game].forEach(({ src, metadata }) => {
+        currentGameImages = gamePhotos[game];
+        currentGameImages.forEach(({ src, metadata }, index) => {
             const img = document.createElement("img");
             img.src = src;
             img.alt = metadata;
-            img.onclick = () => enlargeImage(src, metadata);
+            img.onclick = () => enlargeImage(index);
             imageGrid.appendChild(img);
         });
 
@@ -225,7 +240,10 @@
         document.getElementById("myModal").style.display = "none";
     }
 
-    function enlargeImage(src, metadata) {
+    function enlargeImage(index) {
+        currentImageIndex = index;
+        const { src, metadata } = currentGameImages[index];
+
         const enlargedModal = document.getElementById("enlargedModal");
         const enlargedImage = document.getElementById("enlargedImage");
         const enlargedMetadata = document.getElementById("enlargedMetadata");
@@ -233,6 +251,16 @@
         enlargedImage.src = src;
         enlargedMetadata.textContent = metadata;
         enlargedModal.style.display = "flex";
+
+        document.getElementById("prevButton").style.display = index === 0 ? "none" : "block";
+        document.getElementById("nextButton").style.display = index === currentGameImages.length - 1 ? "none" : "block";
+    }
+
+    function navigateImage(direction) {
+        const newIndex = currentImageIndex + direction;
+        if (newIndex >= 0 && newIndex < currentGameImages.length) {
+            enlargeImage(newIndex);
+        }
     }
 
     function closeEnlargedModal() {
@@ -248,6 +276,24 @@
         } else if (event.target == enlargedModal) {
             closeEnlargedModal();
         }
+    };
+
+    const gamePhotos = {
+        dart: [
+            { src: "/DART/Background.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/dart.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/demo.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/pool.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/Profile.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/demo.jpg", metadata: "Background of Dart Game" },
+            { src: "/DART/tabletennis.jpg", metadata: "Player showing dartboard" }
+        ],
+        "table-tennis": [
+            { src: "/TT/sport.jpg", metadata: "Kids' Team" }
+        ],
+        pool: [
+            { src: "/POOL/game.png", metadata: "World Cup details" }
+        ]
     };
 </script>
 
