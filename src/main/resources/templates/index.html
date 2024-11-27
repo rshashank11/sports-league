@@ -40,6 +40,7 @@
             width: 80%;
             margin: 40px auto;
             padding: 20px;
+            letter-spacing: 0.25px;
         }
 
         .league-list {
@@ -50,6 +51,7 @@
         }
 
         .league-item {
+            margin: 15px;
             background: #fff;
             padding: 20px;
             border-radius: 10px;
@@ -110,57 +112,109 @@
             color: #e74c3c;
             font-size: 1.2rem;
         }
-        .header{
+
+        .header {
             display: flex;
             align-items: center;
             justify-items: center;
             align-content: center;
         }
+
+        #search-bar {
+            width: 150%;
+            max-width: 500px;
+            padding: 12px 20px;
+            margin: 20px auto;
+            font-size: 1.2rem;
+            font-family: 'Ubuntu', sans-serif;
+            border: 2px solid #e74c3c;
+            border-radius: 25px;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 3px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            background: linear-gradient(to right, #fff, #f9f9f9);
+            color: #333;
+            text-align: center;
+        }
+
+        #search-bar:focus {
+            border-color: #c0392b;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2), inset 0 1px 5px rgba(255, 255, 255, 0.7);
+            background: linear-gradient(to right, #fff, #eee);
+        }
+
+        #search-bar::placeholder {
+            font-style: italic;
+            color: #aaa;
+        }
+
+        .filter {
+            float: right;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 25px;
+            border-color: #e74c3c;
+            margin-right: 25px;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 1rem;
+            font-style: italic;
+            border-width: 2px;
+        }
     </style>
 </head>
 <body>
 
-    <header th:include="fragments/header :: header">
-    </header>
+<header th:include="fragments/header :: header">
+</header>
 
-    <div style="text-align: center">
-        <h1>Welcome to the Sports Leagues</h1>
-        <h2>Upcoming and Recent Leagues</h2>
-    </div>
+<div style="text-align: center">
+    <h1>Welcome to the Sports Leagues</h1>
+    <h2>Upcoming and Recent Leagues</h2>
+    <input type="text" id="search-bar" placeholder="Every league has a legend. Start your search!">
+<br>
+        <select id="sportFilter" class="filter">
+            <option value="">All</option>
+            <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
+      <!--  <option value="Table Tennis">Table Tennis</option>
+        <option value="Darts">Darts</option>
+        <option value="Pool">Pool</option>-->
+    </select>
+</div>
 
 <div class="container">
     <section>
         <h2>Upcoming Leagues</h2>
-        <div th:if="${upcomingLeagues}">
-            <ul class="league-list">
-                <li th:each="league : ${upcomingLeagues}" class="league-item">
-                    <h3 th:text="${league.name}"></h3>
-                    <p><strong>Start Date:</strong>
-                        <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Last Registration Date:</strong>
-                        <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Venue:</strong>
-                        <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-                </li>
-            </ul>
-        </div>
+        <ul class="league-list">
+            <li th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}">
+                <h3 th:text="${league.name}"></h3>
+                <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
+                <p><strong>Start Date :</strong>
+                    <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Last Registration Date :</strong>
+                    <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
+            </li>
+        </ul>
     </section>
 
     <section>
         <h2>Recent Leagues</h2>
-        <div th:if="${recentLeagues}">
-            <ul class="league-list">
-                <li th:each="league : ${recentLeagues}" class="league-item">
-                    <h3 th:text="${league.name}"></h3>
-                    <p><strong>Start Date:</strong>
-                        <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Last Registration Date:</strong>
-                        <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span></p>
-                    <p><strong>Venue:</strong>
-                        <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-                </li>
-            </ul>
-        </div>
+        <ul class="league-list">
+            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}">
+                <h3 th:text="${league.name}"></h3>
+                <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
+                <p><strong>Start Date :</strong>
+                    <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Last Registration Date :</strong>
+                    <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+                <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
+            </li>
+        </ul>
     </section>
 
     <a href="#" class="button">Join a League</a>
@@ -169,6 +223,31 @@
 <footer class="footer">
     <p>&copy; 2024 Sports Leagues</p>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchBar = document.getElementById("search-bar");
+        const sportFilter = document.getElementById("sportFilter");
+
+        const filterLeagues = () => {
+            const searchFilter = searchBar.value.toLowerCase();
+            const selectedSport = sportFilter.value.toLowerCase();
+
+            document.querySelectorAll(".league-item").forEach((item) => {
+                const name = item.querySelector("h3").textContent.toLowerCase();
+                const sport = item.getAttribute("data-sport").toLowerCase();
+
+                const matchesSearch = name.includes(searchFilter);
+                const matchesSport = selectedSport === "" || sport.includes(selectedSport);
+
+                item.style.display = matchesSearch && matchesSport ? "block" : "none";
+            });
+        };
+
+        searchBar.addEventListener("input", filterLeagues);
+        sportFilter.addEventListener("change", filterLeagues);
+    });
+</script>
 
 </body>
 </html>

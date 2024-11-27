@@ -46,7 +46,5 @@ public class LoginController {
             System.out.println("error");
             return "login";
         }
-
-
     }
 }
