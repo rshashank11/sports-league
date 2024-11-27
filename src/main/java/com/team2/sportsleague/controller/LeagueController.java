@@ -1,4 +1,5 @@
 package com.team2.sportsleague.controller;
+
 import com.team2.sportsleague.entity.LeagueEntity;
 import com.team2.sportsleague.model.Match;
 import com.team2.sportsleague.model.Round;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +47,6 @@ public class LeagueController {
 
         return "index";
 
-
     }
 
 
@@ -65,6 +67,7 @@ public class LeagueController {
     public ModelAndView showRules() {
         return new ModelAndView("rules"); // Thymeleaf template for rules
     }
+
 
     @GetMapping("/match")
     public ModelAndView showMatch() {
