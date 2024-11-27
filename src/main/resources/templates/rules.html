@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rules</title>
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/rules.css}">
+</head>
+<body>
+    <nav th:replace="fragments/header :: header"></nav>
+
+    <div class="container">
+        <div class="button-container">
+            <button class="rule-button" id="darts-btn">Darts</button>
+            <button class="rule-button" id="table-tennis-btn">Table Tennis</button>
+            <button class="rule-button" id="pool-btn">Pool</button>
+        </div>
+        <div class="rules-section">
+            <h2>Rules</h2>
+            <p id="rules-content">Click on a sport to view its rules.</p>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById("darts-btn").addEventListener("click", () => {
+        updateRules("Darts", `
+    <strong>Objective:</strong> The aim is to reduce your score from 301 to exactly zero.<br>
+    <strong>Throwing:</strong> Each player throws three darts per turn. Players determine who goes first by throwing a single dart – closest to bull wins.<br>
+    <strong>Scoring:</strong>
+    <ul>
+        <li>Points are scored by hitting various sections of the dartboard.</li>
+        <li>The outer ring doubles the score of that section, and the inner ring triples it.</li>
+        <li>Hitting the bullseye scores <span class="highlight">50 points</span>, and the outer bull scores <span class="highlight">25 points</span>.</li>
+    </ul>
+    <strong>Finishing:</strong>
+    <ul>
+        <li>To win, you must reach exactly zero by ending with a double (a dart that lands in the outer ring of a number) or a bullseye.</li>
+        <li>If you score more than needed or fail to end on a double, your score for that turn is voided, and you try again on your next turn.</li>
+    </ul>
+    <strong>Turns:</strong> Players alternate turns, throwing three darts each time until one player reaches exactly zero.
+`);
+    });
+
+    document.getElementById("table-tennis-btn").addEventListener("click", () => {
+        updateRules("Table Tennis", `
+    <strong>Basic Rules:</strong>
+    <ol>
+        <li><strong>Coin Toss:</strong> Whoever wins the coin toss decides whether to serve first or choose a side of the table.</li>
+        <li><strong>Service:</strong> The server must toss the ball and strike it so it bounces once on their side and once on the opponent's side.
+            <ul>
+                <li>If the ball touches the net but still lands on the opponent’s side, the serve is replayed (a "let").</li>
+            </ul>
+        </li>
+        <li><strong>Scoring:</strong>
+            <ul>
+                <li>A point is scored after each ball is put into play.</li>
+                <li>Points are awarded when the opponent fails to return the ball correctly.</li>
+            </ul>
+        </li>
+    </ol>
+    <strong>Game Play:</strong>
+    <p>The standard game in competitive table tennis is played to <strong>11 points</strong>. However, a player must win by at least a <strong>2-point margin</strong>.
+    If the score ties at 10-10, play continues until one player gains a 2-point lead.</p>
+    <strong>Match Format:</strong> A match is best of 3 games. Players should swap sides after every game played.
+    <strong>Service Alternation:</strong> Players alternate serving every two points. In the event of a 10-10 tie, service alternates after every point.
+`);
+    });
+
+    document.getElementById("pool-btn").addEventListener("click", () => {
+        updateRules("Pool", `
+    <strong>Rules:</strong>
+    <ol>
+        <li><strong>Rack Up:</strong> Get your table ready and set up your pack by following the pattern of red and yellow balls from the diagram.</li>
+        <li><strong>Make a Break:</strong> The first player places the white ball behind the line and aims at the pack. A minimum of four balls must hit a cushion, otherwise, it’s a foul.</li>
+        <li><strong>Reds or Yellows:</strong> The first player to hit any color legally into one of the pockets takes that color for the game. The other player takes the remaining color.</li>
+        <li><strong>Pot to Win:</strong>
+            <ul>
+                <li>Pot a ball to get another go. Miss, and it's your opponent’s turn.</li>
+                <li>Clear all your colors, and then pot the black eight-ball to claim victory.</li>
+            </ul>
+        </li>
+    </ol>
+    <strong>Foul Play:</strong>
+    <p>Should a foul occur, the opposing player receives <strong>two shots</strong>, which can be carried over (if a ball is potted on the first shot, the player still has two shots).
+    When a player gets two shots, they can pick up the white ball and place it anywhere behind the line to gain some advantage over their opponent.</p>
+    <strong>Fouls Include:</strong>
+    <ul>
+        <li>Hitting your opponent’s ball first.</li>
+        <li>Completely missing all balls.</li>
+        <li>Any ball jumps off the table.</li>
+        <li>Potting the white ball.</li>
+        <li>If you pot the eight-ball before all your other colors (you’ve lost the whole game).</li>
+        <li>If you pot the eight-ball – at the right time – but the white ball then goes into a pocket (you’ve lost that game too).</li>
+    </ul>
+`);
+    });
+
+    function updateRules(title, content) {
+        document.querySelector(".rules-section h2").textContent = title + " Rules";
+        document.getElementById("rules-content").innerHTML = content;
+    }
+
+    window.onload = () => {
+        document.getElementById("darts-btn").click();
+    };
+</script>
+</html>
