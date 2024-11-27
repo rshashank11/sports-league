@@ -96,7 +96,7 @@ public class LeagueRepository {
                 resultSet.getTimestamp("schedule").toLocalDateTime(),
                 resultSet.getTimestamp("last_registration_date").toLocalDateTime(),
                 resultSet.getString("venue"),
-                parseSports(resultSet.getString("sports"))
+                resultSet.getString("sports")
         );
     }
 

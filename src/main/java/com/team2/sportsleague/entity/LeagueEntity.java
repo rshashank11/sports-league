@@ -8,10 +8,10 @@ public class LeagueEntity {
     private LocalDateTime schedule;
     private LocalDateTime lastRegistrationDate;
     private String venue;
-    private List<String> sports; // Add sports field
+    private String sports; // Add sports field
 
     // Constructor
-    public LeagueEntity(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, List<String> sports) {
+    public LeagueEntity(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, String sports) {
         this.name = name;
         this.schedule = schedule;
         this.lastRegistrationDate = lastRegistrationDate;
@@ -52,11 +52,11 @@ public class LeagueEntity {
         this.venue = venue;
     }
 
-    public List<String> getSports() {
+    public String getSports() {
         return sports;
     }
 
-    public void setSports(List<String> sports) {
+    public void setSports(String sports) {
         this.sports = sports;
     }
 }

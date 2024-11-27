@@ -40,6 +40,7 @@
             width: 80%;
             margin: 40px auto;
             padding: 20px;
+            letter-spacing: 0.25px;
         }
 
         .league-list {
@@ -187,11 +188,11 @@
         <ul class="league-list">
             <li th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}">
                 <h3 th:text="${league.name}"></h3>
-                <p><strong>Sport:</strong> <span th:text="${league.sports}"></span></p>
-                <p><strong>Start Date:</strong>
+                <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
+                <p><strong>Start Date :</strong>
                     <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
-                <p><strong>Last Registration Date:</strong>
+                <p><strong>Last Registration Date :</strong>
                     <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
                 <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
@@ -204,11 +205,11 @@
         <ul class="league-list">
             <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}">
                 <h3 th:text="${league.name}"></h3>
-                <p><strong>Sport:</strong> <span th:text="${league.sports}"></span></p>
-                <p><strong>Start Date:</strong>
+                <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
+                <p><strong>Start Date :</strong>
                     <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
-                <p><strong>Last Registration Date:</strong>
+                <p><strong>Last Registration Date :</strong>
                     <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
                 <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
