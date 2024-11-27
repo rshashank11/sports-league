@@ -1,30 +1,35 @@
-drop table rankings;
-drop table sports;
-drop table users;
+-- Drop the users_roles table if it exists
+DROP TABLE IF EXISTS users_roles;
 
-CREATE TABLE `rankings` (
-                            `ranking_id` INT(11) NOT NULL AUTO_INCREMENT,
-                            `sport_id` INT(11) NULL DEFAULT NULL,
-                            `user_id` INT(11) NULL DEFAULT NULL,
-                            `wins` INT(11) NULL DEFAULT '0',
-                            `losses` INT(11) NULL DEFAULT '0',
-                            `points` INT(11) NULL DEFAULT '0',
-                            `rank` INT(11) NULL DEFAULT '0',
-                            PRIMARY KEY (`ranking_id`),
-                            INDEX `sport_id` (`sport_id`),
-                            INDEX `user_id` (`user_id`)
-);
+-- Drop the users table if it exists
+DROP TABLE IF EXISTS users;
+
+-- Drop the roles table if it exists
+DROP TABLE IF EXISTS roles;
+
+-- Create the users table
+CREATE TABLE users (
+                       user_id INT(11) NOT NULL AUTO_INCREMENT,
+                       username VARCHAR(255) NOT NULL UNIQUE,
+                       name VARCHAR(255) NOT NULL,
+                       password VARCHAR(255) NOT NULL,
+                       enabled BOOLEAN DEFAULT true,
+                       PRIMARY KEY (user_id)
+) ENGINE=InnoDB;
+
+-- Create the roles table
+CREATE TABLE roles (
+                       role_id INT(11) NOT NULL AUTO_INCREMENT,
+                       role_name VARCHAR(50) NOT NULL UNIQUE,
+                       PRIMARY KEY (role_id)
+) ENGINE=InnoDB;
+
+-- Create the users_roles table for mapping users to roles
+CREATE TABLE users_roles (
+                             username VARCHAR(255) NOT NULL,
+                             role_id INT(11) NOT NULL,
+                             FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE ON UPDATE CASCADE,
+                             FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
 
 
-CREATE TABLE `sports` (
-                          `sport_id` INT(11) NOT NULL AUTO_INCREMENT,
-                          `sport_name` VARCHAR(255) NOT NULL,
-                          PRIMARY KEY (`sport_id`)
-);
-
-CREATE TABLE `users` (
-                         `user_id` INT(11) NOT NULL AUTO_INCREMENT,
-                         `username` VARCHAR(255) NOT NULL,
-                         `email` VARCHAR(255) NOT NULL,
-                         PRIMARY KEY (`user_id`)
-);

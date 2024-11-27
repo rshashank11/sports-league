@@ -2,6 +2,7 @@ package com.team2.sportsleague.repository;
 
 import com.team2.sportsleague.model.Ranking;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,21 +16,34 @@ public class RankingRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Query to get all rankings with user and sport details
-    public List<Ranking> getAllRankings() {
-        String sql = "SELECT u.username, r.wins, r.losses, r.points, r.rank, s.sport_name " +
-                "FROM rankings r " +
-                "JOIN users u ON r.user_id = u.user_id " +
-                "JOIN sports s ON r.sport_id = s.sport_id " +
-                "ORDER BY r.rank ASC";
+    private final RowMapper<Ranking> rankingRowMapper = (rs, rowNum) -> new Ranking(
+            rs.getString("name"),   // User's name
+            rs.getInt("wins"),      // Number of wins
+            rs.getInt("losses"),    // Number of losses
+            rs.getInt("rank"),      // Rank
+            rs.getInt("points")     // Points
+    );
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Ranking(
-                rs.getString("username"),
-                rs.getInt("wins"),
-                rs.getInt("losses"),
-                rs.getInt("points"),
-                rs.getInt("rank"),
-                rs.getString("sport_name")
-        ));
+    public List<Ranking> getAllRankings() {
+        String sql = """
+        SELECT 
+            u.name, 
+            r.wins, 
+            r.losses, 
+            r.rank, 
+            r.points
+        FROM rankings r
+        JOIN users u ON r.user_id = u.user_id
+        ORDER BY r.rank ASC
+    """;
+
+        try {
+            return jdbcTemplate.query(sql, rankingRowMapper);
+        } catch (Exception e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            throw e;
+        }
     }
+
+
 }

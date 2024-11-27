@@ -1,19 +1,19 @@
-INSERT INTO `sports` (`sport_name`) VALUES
-                                        ('Soccer'),
-                                        ('Basketball'),
-                                        ('Tennis');
+-- Insert users into the users table
+INSERT INTO users (username, name, password, enabled) VALUES
+                                                          ('shashankr1@creditsafe.com', 'Shashank Ramesha', '$2a$10$SiZBkjrJhn19Bpn5EomAAevx0HprUAJKPps4wJbT8FO3kE5Ar1Nme', true), -- Password: shashankR@1
+                                                          ('prateekk2@creditsafe.it', 'Prateek Kesarwani', '$2a$10$/mifxplYOJ726OyJ9JVT5OnX9W3WWPf32nVrJelTLO/EcRCjrYt4.', true),   -- Password: prateekK@2
+                                                          ('ankits34@creditsafeuk.com', 'Ankit Srivastava', '$2a$10$Nqk3UHGNuQj4oqXiCwhQ.umIgbGTuv8PBZlmN2HuFXx3IeG4YdOaC', true), -- Password: ankitS@34
+                                                          ('tahaa4@creditsafe.co.in', 'Taha Ali', '$2a$10$tAN4gGkjiE69gq6D.wbr4ubznQoPOuwOLiUZfFGGqcOmBVFpT2jR.', true);           -- Password: tahaA@4
 
-INSERT INTO `users` (`username`, `email`) VALUES
-                                              ('john_doe', 'john@example.com'),
-                                              ('jane_doe', 'jane@example.com'),
-                                              ('alex_smith', 'alex@example.com'),
-                                              ('mary_jones', 'mary@example.com'),
-                                              ('bob_brown', 'bob@example.com');
+-- Insert roles into the roles table
+INSERT INTO roles (role_id, role_name)
+VALUES
+    (1, 'user'),
+    (2, 'admin');
 
--- Insert predefined data into rankings table (using sport_id and user_id from sports and users)
-INSERT INTO `rankings` (`sport_id`, `user_id`, `wins`, `losses`, `points`, `rank`) VALUES
-                                                                                       (1, 1, 10, 5, 50, 1),  -- John Doe, Soccer
-                                                                                       (2, 2, 8, 7, 45, 2),   -- Jane Doe, Basketball
-                                                                                       (1, 3, 12, 3, 60, 3),  -- Alex Smith, Soccer
-                                                                                       (3, 4, 5, 10, 30, 4),  -- Mary Jones, Tennis
-                                                                                       (2, 5, 7, 8, 40, 5);   -- Bob Brown, Basketball
+-- Assign roles to users in the users_roles table
+INSERT INTO users_roles (username, role_id) VALUES
+                                                ('shashankr1@creditsafe.com', 1),  -- User role for Shashank
+                                                ('prateekk2@creditsafe.it', 1),    -- User role for Prateek
+                                                ('ankits34@creditsafeuk.com', 1), -- User role for Ankit
+                                                ('tahaa4@creditsafe.co.in', 2);   -- Admin role for Taha
