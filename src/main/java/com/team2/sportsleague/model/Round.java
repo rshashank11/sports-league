@@ -7,6 +7,5 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Round {
-    private int roundNumber;
     private List<Match> matches;
 }
