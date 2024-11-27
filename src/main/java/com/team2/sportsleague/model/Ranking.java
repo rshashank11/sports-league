@@ -4,15 +4,14 @@ public class Ranking {
     private String name;      // User's name
     private int wins;         // Number of wins
     private int losses;       // Number of losses
-    private int rank;         // Rank
+    private int rank;         // Dynamically assigned rank
     private int points;       // Points
 
-    // Constructor, getters, setters
-    public Ranking(String name, int wins, int losses, int rank, int points) {
+    // Constructor without rank
+    public Ranking(String name, int wins, int losses, int points) {
         this.name = name;
         this.wins = wins;
         this.losses = losses;
-        this.rank = rank;
         this.points = points;
     }
 
@@ -52,8 +51,5 @@ public class Ranking {
     public int getPoints() {
         return points;
     }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
 }
+

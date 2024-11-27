@@ -36,7 +36,6 @@ CREATE TABLE rankings (
                           wins INT(11) DEFAULT 0,
                           losses INT(11) DEFAULT 0,
                           points INT(11) DEFAULT 0,
-                          rank INT(11) DEFAULT 0,
                           PRIMARY KEY (ranking_id) USING BTREE,
                           FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB;

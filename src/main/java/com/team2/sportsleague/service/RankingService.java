@@ -18,8 +18,15 @@ public class RankingService {
     private RankingRepository rankingRepository;
 
     public List<Ranking> getAllRankings() {
-        return rankingRepository.getAllRankings();
+        List<Ranking> rankings = rankingRepository.getAllRankings();
+
+        for (int i = 0; i < rankings.size(); i++) {
+            rankings.get(i).setRank(i + 1);
+        }
+
+        return rankings;
     }
 }
+
 
 
