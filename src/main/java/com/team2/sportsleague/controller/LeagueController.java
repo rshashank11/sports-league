@@ -4,13 +4,14 @@ import com.team2.sportsleague.model.Match;
 import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.service.LeagueService;
+import com.team2.sportsleague.service.RankingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,10 @@ import java.util.List;
 
 @Controller
 public class LeagueController {
+
+    @Autowired
+    private RankingService rankingService;
+
 
     @GetMapping("/")
     public String getLeagues(Model model) {
@@ -36,9 +41,9 @@ public class LeagueController {
     }
 
     @GetMapping("/rankings")
-    public ModelAndView showRankingList() {
-        ModelAndView mvc = new ModelAndView("rankings");
-        return mvc;
+    public String showRankingList(Model model) {
+        model.addAttribute("rankings", rankingService.getAllRankings());
+        return "rankings";
     }
 
     @GetMapping("/gallery")
