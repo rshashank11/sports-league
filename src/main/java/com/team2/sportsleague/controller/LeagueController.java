@@ -4,6 +4,7 @@ import com.team2.sportsleague.entity.LeagueEntity;
 import com.team2.sportsleague.model.Match;
 import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.model.User;
+import com.team2.sportsleague.repository.MatchRepository;
 import com.team2.sportsleague.service.LeagueService;
 import com.team2.sportsleague.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,12 @@ public class LeagueController {
 
     @Autowired
     private RankingService rankingService;
+    private MatchRepository matchRepository;
     private final LeagueService leagueService;
-
     @Autowired
-    public LeagueController(LeagueService leagueService) {
+    public LeagueController(LeagueService leagueService, MatchRepository matchRepository) {
         this.leagueService = leagueService;
+        this.matchRepository = matchRepository;
     }
 
     // Display leagues (upcoming and recent)
@@ -75,27 +77,7 @@ public class LeagueController {
     public ModelAndView showMatch() {
         ModelAndView mvc = new ModelAndView("match");
 
-        // List to hold all rounds
-        List<Round> rounds = new ArrayList<>();
-
-        // Round 1
-        List<Match> round1Matches = new ArrayList<>();
-        round1Matches.add(new Match(101, 102, "John", "Sarah", 3, 5));
-        round1Matches.add(new Match(103, 104, "Alice", "Bob", 7, 2));
-        round1Matches.add(new Match(105, 106, "Eve", "Charlie", 7, 6));
-        round1Matches.add(new Match(107, 108, "Grace", "David", 4, 8));
-        rounds.add(new Round(1, round1Matches));
-
-        // Round 2
-        List<Match> round2Matches = new ArrayList<>();
-        round2Matches.add(new Match(101, 104, "John", "Bob", 9, 3));
-        round2Matches.add(new Match(105, 108, "Eve", "David", 4, 7));
-        rounds.add(new Round(2, round2Matches));
-
-        // Round 3
-        List<Match> round3Matches = new ArrayList<>();
-        round3Matches.add(new Match(101, 108, "John", "David", 10, 7));
-        rounds.add(new Round(3, round3Matches));
+        List<Round> rounds = matchRepository.getAllRounds();
 
         // Pass data to the view
         mvc.addObject("rounds", rounds);
