@@ -11,7 +11,9 @@
 </head>
 <body>
     <nav th:replace="fragments/header :: header"></nav>
-
+    <h1 style="text-align: center;color: #c0392b;">
+        League 1
+    </h1>
     <div class="bracket">
         <div class="round" th:each="round : ${rounds}">
             <div class="match" th:each="match : ${round.matches}">

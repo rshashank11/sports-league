@@ -11,8 +11,8 @@ public class Match {
     int playerId2;
     String playerName1;
     String playerName2;
-    int player1Score;
-    int player2Score;
-    int winner_id;
+    Integer player1Score;
+    Integer player2Score;
+    Integer winner_id;
     int roundNumber;
 }

@@ -18,9 +18,9 @@ CREATE TABLE matches (
                          player2_id INT NOT NULL,
                          player1_name VARCHAR(128) NOT NULL,
                          player2_name VARCHAR(128) NOT NULL,
-                         score_player1 INT NOT NULL,
-                         score_player2 INT NOT NULL,
-                         winner_id INT NOT NULL,
+                         score_player1 INT NULL,
+                         score_player2 INT NULL,
+                         winner_id INT NULL,
                          round_number INT NOT NULL,
                          FOREIGN KEY (league_id) REFERENCES leagues(league_id)
 )engine=InnoDB;
