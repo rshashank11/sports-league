@@ -86,28 +86,35 @@
 
 <div class="container">
     <section>
-        <table th:if="${rankings}">
-            <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Wins</th>
-                <th>Losses</th>
-                <th>Points</th>
-                <th>Sport ID</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="ranking : ${rankings}">
-                <td th:text="${ranking.rank}"></td>
-                <td th:text="${ranking.name}"></td>
-                <td th:text="${ranking.wins}"></td>
-                <td th:text="${ranking.losses}"></td>
-                <td th:text="${ranking.points}"></td>
-                <td th:text="${ranking.sportId}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Only show the table if rankings are available -->
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterate over the rankings and display each player's details -->
+                <tr th:each="ranking : ${rankings}">
+                    <td th:text="${ranking.rank}"></td>
+                    <td th:text="${ranking.name}"></td>
+                    <td th:text="${ranking.wins}"></td>
+                    <td th:text="${ranking.losses}"></td>
+                    <td th:text="${ranking.points}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Fallback message when no rankings are available -->
+        <div th:if="${rankings == null || rankings.isEmpty()}">
+            <p>No rankings available at the moment.</p>
+        </div>
     </section>
 </div>
 

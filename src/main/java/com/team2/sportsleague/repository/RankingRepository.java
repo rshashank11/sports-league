@@ -17,24 +17,25 @@ public class RankingRepository {
     }
 
     private final RowMapper<Ranking> rankingRowMapper = (rs, rowNum) -> new Ranking(
-            rs.getString("name"),   // User's name
-            rs.getInt("wins"),      // Number of wins
-            rs.getInt("losses"),    // Number of losses
-            rs.getInt("rank"),      // Rank
+            rs.getString("name"),      // User's name
+            rs.getInt("wins"),         // Number of wins
+            rs.getInt("losses"),       // Number of losses
+            rs.getInt("rank"),         // Rank
             rs.getInt("points")     // Points
     );
 
+
     public List<Ranking> getAllRankings() {
         String sql = """
-        SELECT 
-            u.name, 
-            r.wins, 
-            r.losses, 
-            r.rank, 
-            r.points
-        FROM rankings r
-        JOIN users u ON r.user_id = u.user_id
-        ORDER BY r.rank ASC
+    SELECT 
+        u.name, 
+        r.wins, 
+        r.losses, 
+        r.rank, 
+        r.points
+    FROM rankings r
+    JOIN users u ON r.user_id = u.user_id
+    ORDER BY r.rank ASC
     """;
 
         try {

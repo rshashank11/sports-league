@@ -17,3 +17,11 @@ INSERT INTO users_roles (username, role_id) VALUES
                                                 ('prateekk2@creditsafe.it', 1),    -- User role for Prateek
                                                 ('ankits34@creditsafeuk.com', 1), -- User role for Ankit
                                                 ('tahaa4@creditsafe.co.in', 2);   -- Admin role for Taha
+
+-- Insert data into rankings table (with example values for wins, losses, points, rank, no longer associated with any sport)
+-- Now, users' rankings are tracked across all sports
+INSERT INTO rankings (user_id, wins, losses, points, rank) VALUES
+                                                               ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100, 3),  -- Shashank Ramesha
+                                                               ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 8, 4, 80, 4),     -- Prateek Kesarwani
+                                                               ((SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'), 12, 1, 120, 2),  -- Ankit Srivastava
+                                                               ((SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 15, 0, 150, 1);   -- Taha Ali
