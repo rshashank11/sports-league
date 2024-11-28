@@ -11,7 +11,7 @@ public class LeagueService {
     @Autowired
     private final LeagueRepository leagueRepository;
 
-    // Constructor-based injection
+
     public LeagueService(LeagueRepository leagueRepository) {
         this.leagueRepository = leagueRepository;
     }

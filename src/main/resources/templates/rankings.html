@@ -1,16 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rankings</title>
-    <!-- Include font links -->
-    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=New+Amsterdam&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
-    <!-- Include stylesheet links -->
-    <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{css/rankings.css}">
 </head>
 <body>
-<nav th:replace="fragments/header :: header"></nav>
+
+<header th:include="fragments/header :: header">
+</header>
+
+<div style="text-align: center">
+    <h1>Rankings</h1>
+    <h2>Current Player Rankings</h2>
+
+</div>
+
+<div class="container">
+    <section>
+        <!-- Only show the table if rankings are available -->
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterate over the rankings and display each player's details -->
+                <tr th:each="ranking : ${rankings}">
+                    <td>
+                        <img th:if="${ranking.rank == 1}" th:src="@{/images/trophy.png}" class="trophy" alt="Trophy">
+                        <span th:if="${ranking.rank != 1}" th:text="${ranking.rank}"></span>
+                    </td>
+                    <td th:text="${ranking.name}"></td>
+                    <td th:text="${ranking.wins}"></td>
+                    <td th:text="${ranking.losses}"></td>
+                    <td th:text="${ranking.points}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Fallback message when no rankings are available -->
+        <div th:if="${rankings == null || rankings.isEmpty()}">
+            <p>No rankings available at the moment.</p>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2024 Sports Leagues</p>
+</footer>
+
 </body>
 </html>
