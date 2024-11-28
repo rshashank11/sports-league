@@ -61,5 +61,7 @@ CREATE TABLE matches (
                          score_player2 INT,
                          winner_id INT,
                          round_number INT NOT NULL,
-                         FOREIGN KEY (league_id) REFERENCES leagues(league_id)
+                         FOREIGN KEY (league_id) REFERENCES leagues(league_id),
+                         FOREIGN KEY (player1_id) REFERENCES users(user_id),
+                         FOREIGN KEY (player2_id) REFERENCES users(user_id)
 ) ENGINE=InnoDB;

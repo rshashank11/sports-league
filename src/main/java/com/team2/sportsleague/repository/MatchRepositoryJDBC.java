@@ -58,8 +58,8 @@ public class MatchRepositoryJDBC implements MatchRepository {
     }
 
     private boolean canGenerateNextRound(List<Round> rounds) {
-        List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches();
-        return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null);
+        List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches();  //get the last round
+        return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null); // check if all matches have a winners
     }
 
     private List<Match> generateNextRoundMatches(List<Match> previousRoundMatches) {
@@ -85,10 +85,10 @@ public class MatchRepositoryJDBC implements MatchRepository {
                         match2.getWinner_id(),  // playerId2 from match2 winner
                         winnerName1,            // Player 1 Name
                         winnerName2,            // Player 2 Name
-                        null,                   // player1Score
-                        null,                   // player2Score
+                        15,                   // player1Score
+                        10,                   // player2Score
                         null,                   // winner_id
-                        match1.getRoundNumber() + 1 // Increment round number
+                        match1.getRoundNumber() // Increment round number
                 );
 
                 nextRoundMatches.add(nextMatch);

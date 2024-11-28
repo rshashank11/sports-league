@@ -4,7 +4,7 @@ VALUES
     ('user'),
     ('admin');
 
--- Step 2: Insert users into the users table
+-- Insert users into the users table
 INSERT INTO users (username, name, password, enabled)
 VALUES
     ('shashankr1@creditsafe.com', 'Shashank Ramesha', '$2a$10$SiZBkjrJhn19Bpn5EomAAevx0HprUAJKPps4wJbT8FO3kE5Ar1Nme', true),
@@ -37,27 +37,29 @@ VALUES
     ('tahaa4@creditsafe.co.in', 2);
 
 -- Step 4: Insert rankings
-INSERT INTO rankings (user_id, wins, losses, points) VALUES
-                                                         ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100),  -- Shashank Ramesha
-                                                         ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 8, 4, 80),     -- Prateek Kesarwani
-                                                         ((SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'), 12, 1, 120),  -- Ankit Srivastava
-                                                         ((SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 15, 0, 150),
-                                                         ((SELECT user_id FROM users WHERE username = 'john.doe@creditsafe.com'), 9, 3, 90),  -- John Doe
-                                                         ((SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'), 7, 5, 70),  -- Jane Smith
-                                                         ((SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'), 11, 2, 110),  -- Alex Brown
-                                                         ((SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 12, 1, 120),  -- Emily Davis
-                                                         ((SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp'), 15, 0, 150),  -- Hiroshi Tanaka
-                                                         ((SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk'), 8, 4, 80),  -- Mads Olsen
-                                                         ((SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi'), 10, 2, 100),  -- Liisa Virtanen
-                                                         ((SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr'), 13, 1, 130),  -- Julien Martin
-                                                         ((SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu'), 9, 3, 90),  -- Geza Kovacs
-                                                         ((SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie'), 6, 6, 60),  -- Liam O'Connor
-                                                         ((SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it'), 14, 1, 140),  -- Marco Rossi
-                                                         ((SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu'), 7, 5, 70),  -- Anna Schmitz
-                                                         ((SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl'), 11, 2, 110),  -- Daan Janssen
-                                                         ((SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'), 8, 4, 80),  -- Olav Hansen
-                                                         ((SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'), 10, 2, 100),  -- Eva Karlsson
-                                                         ((SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'), 9, 3, 90);  -- Thomas Schmidt
+INSERT INTO rankings (user_id, wins, losses, points)
+VALUES
+    ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100), -- Shashank Ramesha
+    ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 8, 4, 80),     -- Prateek Kesarwani
+    ((SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'), 12, 1, 120), -- Ankit Srivastava
+    ((SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 15, 0, 150),   -- Taha Ali
+    ((SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), 9, 3, 90),     -- John Doe
+    ((SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'), 7, 5, 70), -- Jane Smith
+    ((SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'), 11, 2, 110),  -- Alex Brown
+    ((SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 12, 1, 120), -- Emily Davis
+    ((SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp'), 15, 0, 150), -- Hiroshi Tanaka
+    ((SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk'), 8, 4, 80),    -- Mads Olsen
+    ((SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi'), 10, 2, 100), -- Liisa Virtanen
+    ((SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr'), 13, 1, 130), -- Julien Martin
+    ((SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu'), 9, 3, 90),    -- Geza Kovacs
+    ((SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie'), 6, 6, 60),   -- Liam O'Connor
+    ((SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it'), 14, 1, 140),  -- Marco Rossi
+    ((SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu'), 7, 5, 70),   -- Anna Schmitz
+    ((SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl'), 11, 2, 110), -- Daan Janssen
+    ((SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'), 8, 4, 80),    -- Olav Hansen
+    ((SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'), 10, 2, 100), -- Eva Karlsson
+    ((SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'), 9, 3, 90); -- Thomas Schmidt
+
 -- Step 5: Insert leagues
 INSERT INTO leagues (league_name, number_of_players, start_date, end_date, status)
 VALUES
@@ -66,19 +68,23 @@ VALUES
 -- Step 6: Insert matches
 INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
-    (1, (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
+    (1,
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
      'Shashank Ramesha', 'Prateek Kesarwani', 21, 18,
      (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1),
-    (1, (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
+    (1,
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
      'Ankit Srivastava', 'Taha Ali', 15, 21,
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1),
-    (1, (SELECT user_id FROM users WHERE username = 'john.doe@creditsafe.com'),
+    (1,
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), -- Corrected username
      (SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'),
      'John Doe', 'Jane Smith', 22, 20,
-     (SELECT user_id FROM users WHERE username = 'john.doe@creditsafe.com'), 1),
-    (1, (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), 1),
+    (1,
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
      'Alex Brown', 'Emily Davis', 19, 21,
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
