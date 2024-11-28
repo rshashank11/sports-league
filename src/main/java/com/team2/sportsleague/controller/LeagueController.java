@@ -6,16 +6,14 @@ import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.repository.MatchRepository;
 import com.team2.sportsleague.service.LeagueService;
+import com.team2.sportsleague.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.*;
 
 import java.util.ArrayList;
 
@@ -24,6 +22,10 @@ import java.util.List;
 
 @Controller
 public class LeagueController {
+
+
+    @Autowired
+    private RankingService rankingService;
     private MatchRepository matchRepository;
     private final LeagueService leagueService;
     @Autowired
@@ -53,8 +55,9 @@ public class LeagueController {
 
     // Show rankings page
     @GetMapping("/rankings")
-    public ModelAndView showRankingList() {
-        return new ModelAndView("rankings"); // Thymeleaf template for rankings
+    public String showRankingList(Model model) {
+        model.addAttribute("rankings", rankingService.getAllRankings());
+        return "rankings";
     }
 
     // Show gallery page
