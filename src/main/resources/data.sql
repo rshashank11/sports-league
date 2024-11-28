@@ -1,8 +1,8 @@
 -- Step 1: Insert roles
-INSERT INTO roles (role_id, role_name)
+INSERT INTO roles (role_name)
 VALUES
-    (1, 'user'),
-    (2, 'admin');
+    ('user'),
+    ('admin');
 
 -- Step 2: Insert users into the users table
 INSERT INTO users (username, name, password, enabled)
@@ -11,7 +11,7 @@ VALUES
     ('prateekk2@creditsafe.it', 'Prateek Kesarwani', '$2a$10$/mifxplYOJ726OyJ9JVT5OnX9W3WWPf32nVrJelTLO/EcRCjrYt4.', true),
     ('ankits34@creditsafeuk.com', 'Ankit Srivastava', '$2a$10$Nqk3UHGNuQj4oqXiCwhQ.umIgbGTuv8PBZlmN2HuFXx3IeG4YdOaC', true),
     ('tahaa4@creditsafe.co.in', 'Taha Ali', '$2a$10$tAN4gGkjiE69gq6D.wbr4ubznQoPOuwOLiUZfFGGqcOmBVFpT2jR.', true),
-    ('john.doe@creditsafe.com', 'John Doe', '$2a$10$HLOoYt2jqKxs.V7w1VtyKNO7fyaNNBRFjkaCEYhG9h4I4.K9hI0y2', true),
+    ('johndoe5@creditsafe.com', 'John Doe', '$2a$10$5RIjywVx5G2uV0PSPHV9Iemw1NBTWiw0/gG2F7kzBE/yTSOk79Ku2', true),
     ('jane.smith@companycheck.co.uk', 'Jane Smith', '$2a$10$8vMoxJvzkTKREoHGG79r6Yyjc63L9r6XMfEx3iLF67L5MZSA4tdKe', true),
     ('alex.brown@creditsafe.be', 'Alex Brown', '$2a$10$XaywUs9ACRMb1QFkgzPb.Erl6h0.t3I1JxbO9v/r0Z41WAWO.bVKa', true),
     ('emily.davis@creditsafe.co.in', 'Emily Davis', '$2a$10$5jjz.rDnaG6Q.g0sfn9jz64pkxZfPyWo4JXew63fU6B03xeYN.kq2', true),

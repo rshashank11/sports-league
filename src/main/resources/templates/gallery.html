@@ -9,8 +9,49 @@
     <!-- Include stylesheet links -->
     <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/gallery.css}">
+
+    <!-- Include external JavaScript file -->
+    <script src="/js/gallery.js" defer></script>
 </head>
 <body>
 <nav th:replace="fragments/header :: header"></nav>
+
+<div class="gallery-container">
+    <h1>Game Photos Gallery</h1>
+    <div class="gallery">
+        <div class="gallery-item" onclick="openModal('dart')">
+            <img src="/dart.jpg" alt="Dart Game">
+            <div class="game-name">Dart</div>
+        </div>
+        <div class="gallery-item" onclick="openModal('table-tennis')">
+            <img src="/tabletennis.jpg" alt="Table Tennis">
+            <div class="game-name">Table Tennis</div>
+        </div>
+        <div class="gallery-item" onclick="openModal('pool')">
+            <img src="/pool.jpg" alt="Pool Game">
+            <div class="game-name">Pool</div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">x</span>
+    <div class="modal-content">
+        <h2 id="modalTitle"></h2>
+        <div id="imageGrid" class="image-grid"></div>
+    </div>
+</div>
+
+<!-- Enlarged Image Modal -->
+<div id="enlargedModal" class="enlarged-modal">
+    <button id="prevButton" class="enlarged-prev" onclick="navigateImage(-1)">&#8249;</button>
+    <img id="enlargedImage" src="" alt="Enlarged Image">
+    <div id="enlargedMetadata" class="enlarged-metadata"></div>
+    <button id="nextButton" class="enlarged-next" onclick="navigateImage(1)">&#8250;</button>
+    <span class="enlarged-close" onclick="closeEnlargedModal()">x</span>
+</div>
+
 </body>
 </html>

@@ -19,7 +19,7 @@ public class SportsleagueApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SportsleagueApplication.class, args);
-		printEncodedPassword("tahaA@4");
+		printEncodedPassword("johnDoe@5");
 	}
 
 	public static void printEncodedPassword(String rawPassword) {
