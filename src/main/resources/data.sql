@@ -61,29 +61,33 @@ VALUES
     ((SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'), 9, 3, 90); -- Thomas Schmidt
 
 -- Step 5: Insert leagues
-INSERT INTO leagues (league_name, number_of_players, start_date, end_date, status)
+INSERT INTO leagues (name, schedule, last_registration_date, venue, sports)
 VALUES
-    ('Table Tennis', 8, '2024-01-01', '2024-12-31', 'active');
-
+    ('Winter Pool League', '2024-12-15 10:00:00', '2024-12-10 23:59:59', 'Sports Club A', 'Pool'),
+    ('Spring Darts League', '2024-03-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B','Darts' ),
+    ('Autumn Table Tennis League', '2024-10-01 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center','Table Tennis'),
+    ('Summer Darts League', '2024-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena','Darts'),
+    ('National Pool Championship', '2024-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza','Pool');
 -- Step 6: Insert matches
+-- Step 6: Insert matches with correct league_id
 INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
-    (1,
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
      'Shashank Ramesha', 'Prateek Kesarwani', 21, 18,
      (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1),
-    (1,
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
      'Ankit Srivastava', 'Taha Ali', 15, 21,
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1),
-    (1,
-     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), -- Corrected username
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'),
      (SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'),
      'John Doe', 'Jane Smith', 22, 20,
      (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), 1),
-    (1,
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
      'Alex Brown', 'Emily Davis', 19, 21,
