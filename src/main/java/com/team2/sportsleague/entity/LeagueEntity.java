@@ -10,7 +10,7 @@ public class LeagueEntity {
     private String venue;
     private String sports; // Add sports field
 
-    // Constructor
+
     public LeagueEntity(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, String sports) {
         this.name = name;
         this.schedule = schedule;
@@ -19,7 +19,7 @@ public class LeagueEntity {
         this.sports = sports;
     }
 
-    // Getters and setters
+
     public String getName() {
         return name;
     }

@@ -34,18 +34,18 @@ public class LeagueController {
         this.matchRepository = matchRepository;
     }
 
-    // Display leagues (upcoming and recent)
+
     @GetMapping("/")
     public String getLeagues(Model model) {
         List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
         List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
         List<LeagueEntity> allLeagues = leagueService.getAllLeagues();
-        // Assuming you have a method to get all sports or a predefined list
+
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");
 
         model.addAttribute("upcomingLeagues", upcomingLeagues);
         model.addAttribute("recentLeagues", recentLeagues);
-        model.addAttribute("sports", sports);  // Add sports to the model
+        model.addAttribute("sports", sports);
 
 
         return "index";
@@ -53,20 +53,20 @@ public class LeagueController {
     }
 
 
-    // Show rankings page
+
     @GetMapping("/rankings")
     public String showRankingList(Model model) {
         model.addAttribute("rankings", rankingService.getAllRankings());
         return "rankings";
     }
 
-    // Show gallery page
+
     @GetMapping("/gallery")
     public ModelAndView showGallery() {
         return new ModelAndView("gallery"); // Thymeleaf template for gallery
     }
 
-    // Show rules page
+
     @GetMapping("/rules")
     public ModelAndView showRules() {
         return new ModelAndView("rules"); // Thymeleaf template for rules
@@ -98,6 +98,6 @@ public class LeagueController {
 
         model.addAttribute("user", user);
 
-        return "UserProfile"; // Thymeleaf template for user profile
+        return "UserProfile";
     }
 }
