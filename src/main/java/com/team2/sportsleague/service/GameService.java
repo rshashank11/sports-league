@@ -1,5 +1,9 @@
 package com.team2.sportsleague.service;
+
+import com.team2.sportsleague.entity.Game;
+import com.team2.sportsleague.repository.GameRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
