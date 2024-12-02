@@ -1,7 +1,6 @@
 package com.team2.sportsleague.controller;
 
 import com.team2.sportsleague.entity.LeagueEntity;
-import com.team2.sportsleague.model.Match;
 import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.repository.MatchRepository;
@@ -12,10 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.LocalDateTime;
-
-import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.List;

@@ -40,23 +40,21 @@ CREATE TABLE rankings (
 ) ENGINE=InnoDB;
 
 -- Create the leagues table
-CREATE TABLE `leagues` (
-                           `id` INT(11) NOT NULL AUTO_INCREMENT,
-                           `name` VARCHAR(255) NOT NULL COLLATE 'latin1_swedish_ci',
-                           `schedule` DATETIME NOT NULL,
-                           `last_registration_date` DATETIME NOT NULL,
-                           `venue` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
-                           `sports` VARCHAR(100) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
-                           PRIMARY KEY (`id`) USING BTREE
-)
-    COLLATE='latin1_swedish_ci'
-    ENGINE=InnoDB
-    AUTO_INCREMENT=54
-;
+CREATE TABLE leagues (
+                         id INT(11) NOT NULL AUTO_INCREMENT,
+                         name VARCHAR(255) NOT NULL COLLATE 'latin1_swedish_ci',
+                         schedule DATETIME NOT NULL,
+                         last_registration_date DATETIME NOT NULL,
+                         venue VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+                         sports VARCHAR(100) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+                         PRIMARY KEY (id) USING BTREE
+) COLLATE='latin1_swedish_ci'
+  ENGINE=InnoDB;
+
 -- Create the matches table
 CREATE TABLE matches (
                          match_id INT AUTO_INCREMENT PRIMARY KEY,
-                         league_id INT NOT NULL,         -- Changed from 'id' to 'league_id'
+                         league_id INT NOT NULL,
                          player1_id INT NOT NULL,
                          player2_id INT NOT NULL,
                          player1_name VARCHAR(255) NOT NULL,
@@ -65,8 +63,7 @@ CREATE TABLE matches (
                          score_player2 INT,
                          winner_id INT,
                          round_number INT NOT NULL,
-                         FOREIGN KEY (league_id) REFERENCES leagues(id),  -- Updated to match 'league_id'
+                         FOREIGN KEY (league_id) REFERENCES leagues(id),
                          FOREIGN KEY (player1_id) REFERENCES users(user_id),
                          FOREIGN KEY (player2_id) REFERENCES users(user_id)
 ) ENGINE=InnoDB;
-
