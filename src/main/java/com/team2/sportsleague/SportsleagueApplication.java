@@ -19,12 +19,12 @@ public class SportsleagueApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SportsleagueApplication.class, args);
-//		printEncodedPassword("johnDoe@5");
+		printEncodedPassword("prateekK@2");
 	}
-//
-//	public static void printEncodedPassword(String rawPassword) {
-//		String encodedPassword = passwordEncoder.encode(rawPassword);
-//		System.out.println("Raw Password: " + rawPassword);
-//		System.out.println("Encoded Password: " + encodedPassword);
-//	}
+
+	public static void printEncodedPassword(String rawPassword) {
+		String encodedPassword = passwordEncoder.encode(rawPassword);
+		System.out.println("Raw Password: " + rawPassword);
+		System.out.println("Encoded Password: " + encodedPassword);
+	}
 }
