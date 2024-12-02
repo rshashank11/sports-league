@@ -22,9 +22,20 @@ public class MatchController {
         this.matchRepository = matchRepository;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")  // Ensure only ADMIN can access
+    @PreAuthorize("hasRole('ROLE_ADMIN')")  // Ensure only ADMIN can access
     @GetMapping("/admin/match")
-    public ModelAndView showMatch() {
+    public ModelAndView showAdminMatch() {
+        ModelAndView mvc = new ModelAndView("match");
+
+        List<Round> rounds = matchRepository.getAllRounds();
+
+        // Pass data to the view
+        mvc.addObject("rounds", rounds);
+        return mvc;
+    }
+
+    @GetMapping("match")
+    public ModelAndView showUserMatch() {
         ModelAndView mvc = new ModelAndView("match");
 
         List<Round> rounds = matchRepository.getAllRounds();
