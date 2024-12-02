@@ -56,12 +56,6 @@ public class LeagueController {
         return new ModelAndView("rankings"); // Thymeleaf template for rankings
     }
 
-    // Show gallery page
-    @GetMapping("/gallery")
-    public ModelAndView showGallery() {
-        return new ModelAndView("gallery"); // Thymeleaf template for gallery
-    }
-
     // Show rules page
     @GetMapping("/rules")
     public ModelAndView showRules() {

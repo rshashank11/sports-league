@@ -11,7 +11,7 @@ async function fetchGalleryData() {
         gameDiv.onclick = () => openModal(game.slug);
 
         const img = document.createElement('img');
-        img.src = game.photos[0]?.src || '/default.jpg'; // Default image if no photos
+        img.src = game.photos?.length > 0 ? game.photos[0].src : '/default.jpg'; // Default image if no photos
         img.alt = game.name;
 
         const nameDiv = document.createElement('div');
@@ -35,13 +35,19 @@ async function openModal(gameSlug) {
     modalTitle.textContent = game.name;
     imageGrid.innerHTML = "";
 
-    game.photos.forEach((photo, index) => {
-        const img = document.createElement("img");
-        img.src = photo.src;
-        img.alt = photo.metadata;
-        img.onclick = () => enlargeImage(index);
-        imageGrid.appendChild(img);
-    });
+    if (game.photos && game.photos.length > 0) {
+        game.photos.forEach((photo, index) => {
+            const img = document.createElement("img");
+            img.src = photo.src;
+            img.alt = photo.metadata || `Photo ${index + 1}`;
+            img.onclick = () => enlargeImage(index);
+            imageGrid.appendChild(img);
+        });
+    } else {
+        const message = document.createElement("div");
+        message.textContent = "No photos available.";
+        imageGrid.appendChild(message);
+    }
 
     modal.style.display = "flex";
 }

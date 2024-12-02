@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Gallery</title>
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/gallery.css}">
     <script src="/js/gallery.js" defer></script>
@@ -12,7 +14,12 @@
 
 <div class="gallery-container">
     <h1>Game Photos Gallery</h1>
-    <div class="gallery"></div>
+    <div class="gallery">
+        <div class="gallery-item" th:each="game : ${games}" th:onclick="'openModal(' + game.slug + ')'">
+            <img th:src="${game.photos?.size() > 0 ? game.photos[0].src : '/default.jpg'}" th:alt="${game.name + ' Image'}">
+            <div class="game-name" th:text="${game.name}"></div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -32,5 +39,6 @@
     <button id="nextButton" class="enlarged-next" onclick="navigateImage(1)">&#8250;</button>
     <span class="enlarged-close" onclick="closeEnlargedModal()">x</span>
 </div>
+
 </body>
 </html>
