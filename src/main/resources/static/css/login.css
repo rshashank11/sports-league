@@ -8,7 +8,7 @@
 
 :root {
     --primary-colour: rgba(238, 46, 36, 1);
-    --primary-colour-hovered: rgba(218, 26, 16);
+    --primary-colour-hovered: rgba(198, 16, 6, 1);
     --tertiary-colour: #8d8d8d;
     --border-colour-one: #ced4da;
     --border-colour-two: #80bdff;
@@ -17,21 +17,30 @@
 }
 
 body {
-    font-family: 'New Amsterdam', sans-serif;;
+    font-family: var(--font-family);
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
 }
 
 #loginForm {
     display: flex;
     flex-direction: column;
     width: 300px;
-    margin: 40px auto 0 auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .13);
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px 40px;
+    background-color: white;
+    border-radius: 8px;
 }
 
 .loginLabel {
     color: var(--tertiary-colour);
+    margin-bottom: 5px;
+    font-size: 14px;
 }
 
 #loginBtn {
@@ -43,14 +52,20 @@ body {
     border: none;
     border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 #loginBtn:hover {
     background-color: var(--primary-colour-hovered);
 }
+#loginBtn:focus {
+    outline: 2px solid var(--border-colour-two);
+    box-shadow: 0 0 4px var(--border-colour-two);
+}
 
 .loginInput {
     margin: 5px 0 10px 0;
-    padding: 7px 5px;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--border-colour-one);
     outline: none;
@@ -58,37 +73,40 @@ body {
 }
 .loginInput::placeholder {
     font-family: var(--font-family);
-    color: var(--tertiary-colour);
+    color: #a9a9a9;
+    opacity: 1;
 }
-
 .loginInput:focus {
     border: 1px solid var(--border-colour-two);
-    box-shadow: 0 0 2px 2px  var(--border-colour-two);
-}
-.loginInput.valid {
-    border: 1px solid green;
-    box-shadow: 0 0 2px 2px green;
+    box-shadow: 0 0 2px 2px var(--border-colour-two);
 }
 
-.visible {
-    display : block;
+.error-messages {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+.error-messages::before {
+    margin-right: 5px;
 }
 
-.submitError {
-    border: 1px solid var(--primary-colour);
-    box-shadow: 0 0 2px 2px var(--primary-colour);
-}
-
-#usernameError {
-    display: none;
-}
-#passwordError {
-    display: none;
-}
-
-#usernameError, #passwordError {
+.errorMessages {
     color: var(--error-colour);
-    margin-top: 0.25rem;
     font-size: 0.75rem;
     font-weight: 300;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 480px) {
+    #loginForm {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+#signup-div {
+    color: black;
+}
+#signup-div > a {
+    color: blue;
 }
