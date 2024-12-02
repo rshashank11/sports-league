@@ -2,6 +2,7 @@ package com.team2.sportsleague.controller;
 
 import com.team2.sportsleague.entity.LeagueEntity;
 import com.team2.sportsleague.model.Round;
+import com.team2.sportsleague.repository.UserDAO;
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.repository.MatchRepository;
 import com.team2.sportsleague.service.LeagueService;
@@ -9,11 +10,16 @@ import com.team2.sportsleague.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
+import java.io.IOException;
 
 @Controller
 public class LeagueController {
@@ -21,6 +27,11 @@ public class LeagueController {
 
     @Autowired
     private RankingService rankingService;
+
+    @Autowired
+    private UserDAO userDAO;
+
+    private static final String UPLOAD_DIR = "src/main/resources/static/images/";
     private MatchRepository matchRepository;
     private final LeagueService leagueService;
     @Autowired
@@ -82,18 +93,42 @@ public class LeagueController {
 
 
     @GetMapping("/profile")
-    public String showUserProfile(Model model) {
-        User user = new User(
-                "John Doe",
-                "john.doe@example.com",
-                "23456",
-                "IT",
-                "Software Engineer",
-                Arrays.asList("Dart", "Table Tennis")
-        );
-
+    public String showUserProfile(@RequestParam String username, Model model) {
+        User user = userDAO.getUserByUsername(username);
         model.addAttribute("user", user);
+        return "UserProfile";
+    }
 
+    @PostMapping("/profile/update")
+    public String updateUserProfile(@RequestParam String username,
+                                    @RequestParam String name,
+                                    @RequestParam String email,
+                                    @RequestParam String department,
+                                    @RequestParam String role,
+                                    @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
+                                    Model model) {
+
+        User user = userDAO.getUserByUsername(username);
+        user.setName(name);
+        user.setEmail(email);
+        user.setDepartment(department);
+        user.setRole(role);
+
+        if (profileImage != null && !profileImage.isEmpty()) {
+            try {
+                String imagePath = UPLOAD_DIR + profileImage.getOriginalFilename();
+                profileImage.transferTo(new File(imagePath));
+                user.setProfileImage(profileImage.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "Error uploading file");
+                return "UserProfile";
+            }
+        }
+
+        userDAO.updateUser(user);
+        model.addAttribute("user", user);
+        model.addAttribute("message", "Profile updated successfully");
         return "UserProfile";
     }
 }

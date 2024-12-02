@@ -3,37 +3,14 @@ package com.team2.sportsleague.model;
 import java.util.List;
 
 public class User {
-
-    private int userId;
     private String username;
     private String name;
     private String email;
     private String department;
     private String role;
-    private List<String> games;
-
-    // Default constructor
-    public User() {}
-
-    // Parameterized constructor
-    public User(String name, String email, String employeeId, String department, String role, List<String> games) {
-        this.name = name;
-        this.email = email;
-        this.userId = Integer.parseInt(employeeId);  // Assuming employeeId is the same as userId
-        this.department = department;
-        this.role = role;
-        this.games = games;
-    }
+    private String profileImage;
 
     // Getters and Setters
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -74,11 +51,11 @@ public class User {
         this.role = role;
     }
 
-    public List<String> getGames() {
-        return games;
+    public String getProfileImage() {
+        return profileImage;
     }
 
-    public void setGames(List<String> games) {
-        this.games = games;
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }
