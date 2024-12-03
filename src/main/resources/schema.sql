@@ -77,6 +77,7 @@ CREATE TABLE league_registrations (
                                       user_id INT NOT NULL,
                                       registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                                       FOREIGN KEY (league_id) REFERENCES leagues(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                                      FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+                                      FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                      CONSTRAINT unique_registration UNIQUE (league_id, user_id)
 ) ENGINE=InnoDB;
 

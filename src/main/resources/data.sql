@@ -64,10 +64,10 @@ VALUES
 INSERT INTO leagues (name, schedule, last_registration_date, venue, sports)
 VALUES
     ('Winter Pool League', '2024-12-15 10:00:00', '2024-12-10 23:59:59', 'Sports Club A', 'Pool'),
-    ('Spring Darts League', '2024-03-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B','Darts' ),
-    ('Autumn Table Tennis League', '2024-10-01 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center','Table Tennis'),
-    ('Summer Darts League', '2024-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena','Darts'),
-    ('National Pool Championship', '2024-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza','Pool');
+    ('Spring Darts League', '2024-12-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B','Darts' ),
+    ('Autumn Table Tennis League', '2024-12-11 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center','Table Tennis'),
+    ('Summer Darts League', '2025-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena','Darts'),
+    ('National Pool Championship', '2025-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza','Pool');
 -- Step 6: Insert matches
 -- Step 6: Insert matches with correct league_id
 INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
@@ -94,6 +94,6 @@ VALUES
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
 
 
-INSERT INTO league_registrations (league_id, user_id)
-VALUES ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 1),
-       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 2);
+# INSERT INTO league_registrations (league_id, user_id)
+# VALUES ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 1),
+#        ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 2);

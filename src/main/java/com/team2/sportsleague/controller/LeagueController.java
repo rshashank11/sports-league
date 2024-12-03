@@ -10,11 +10,15 @@ import com.team2.sportsleague.service.LoginService;
 import com.team2.sportsleague.service.RankingService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -45,25 +49,23 @@ public class LeagueController {
 
     @GetMapping("/")
     public String getLeagues(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-
         String username = userDetails.getUsername();
-        Long userId = loginService.getUserIdByUsername(username);
+        Long userId = loginService.getUserIdByUsername(username);  // Ensure correct userId fetching
         model.addAttribute("userId", userId);
+        System.out.println("userId: "  + userId);
+
         List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
         List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
-        List<LeagueEntity> allLeagues = leagueService.getAllLeagues();
-        // In your service or controller method
-
-
+        List<Long> joinedLeagues = leagueService.getUserJoinedLeagues(userId);
+        System.out.println("Joined leagues: " + joinedLeagues);
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");
 
         model.addAttribute("upcomingLeagues", upcomingLeagues);
         model.addAttribute("recentLeagues", recentLeagues);
+        model.addAttribute("joinedLeagues", joinedLeagues);
         model.addAttribute("sports", sports);
 
-
         return "index";
-
     }
 
 
@@ -115,4 +117,25 @@ public class LeagueController {
 
         return "UserProfile";
     }
+
+    @GetMapping("/register")
+    public ResponseEntity<String> registerUserToLeague(
+            @RequestParam("userId") Long userId,
+            @RequestParam("leagueId") Long leagueId) {
+        try {
+            leagueService.registerUserToLeague(userId, leagueId);
+            return ResponseEntity.ok("User successfully registered to league.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error: Unable to register user to league.");
+        }
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleRegistrationException(IllegalArgumentException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+
 }
