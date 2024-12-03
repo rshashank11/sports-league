@@ -1,16 +1,25 @@
 package com.team2.sportsleague.model;
 
 import java.util.List;
+//package com.example.demo.model;
 
 public class User {
+    private int userId;
     private String username;
     private String name;
     private String email;
     private String department;
     private String role;
-    private String profileImage;
 
     // Getters and Setters
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -50,12 +59,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
 }
+

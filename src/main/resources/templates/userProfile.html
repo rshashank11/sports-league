@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Profile Page">
+    <title>User Profile</title>
+
+    <th:block th:replace="fragments/fonts :: font-links"></th:block>
+    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/userProfile.css}">
+</head>
+<body style="font-family: 'New Amsterdam', sans-serif;">
+<header>
+    <nav th:replace="fragments/header :: header"></nav>
+</header>
+<div class="profile-container">
+    <div class="photo-box">
+<!--        <img th:src="${user.profileImage != null ? user.profileImage : '/dart.jpg'}" alt="User Photo">-->
+    </div>
+    <div class="details-box">
+        <h2>Personal Details</h2>
+        <p><span>Name:</span> <span th:text="${user.name}">John Doe</span></p>
+        <p><span>Email:</span> <span th:text="${user.email}">john.doe@example.com</span></p>
+        <p><span>EmployeeID:</span> <span th:text="${user.userId}">23456</span></p>
+        <p><span>Department:</span> <span th:text="${user.department}">IT</span></p>
+        <p><span>Role:</span> <span th:text="${user.role}">Software Engineer</span></p>
+        <div class="toggle-container">
+            <h2>Select Interested Games</h2>
+            <form th:action="@{/api/user-details/{userId}/games(userId=${user.userId})}" method="post">
+                <div class="toggle">
+<!--                    <input type="checkbox" id="dart" name="games" value="Dart"-->
+<!--                           th:checked="${user.games.contains('Dart')}">-->
+<!--                    <label for="dart">Dart</label>-->
+                </div>
+                <div class="toggle">
+<!--                    <input type="checkbox" id="table-tennis" name="games" value="Table Tennis"-->
+<!--                           th:checked="${user.games.contains('Table Tennis')}">-->
+<!--                    <label for="table-tennis">Table Tennis</label>-->
+                </div>
+                <div class="toggle">
+<!--                    <input type="checkbox" id="pool" name="games" value="Pool"-->
+<!--                           th:checked="${user.games.contains('Pool')}">-->
+<!--                    <label for="pool">Pool</label>-->
+                </div>
+                <button type="submit">Save Preferences</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

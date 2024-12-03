@@ -13,10 +13,10 @@ CREATE TABLE users (
                        username VARCHAR(255) NOT NULL UNIQUE,
                        name VARCHAR(255) NOT NULL,
                        password VARCHAR(255) NOT NULL,
-                       email VARCHAR(255) NOT NULL UNIQUE,
+                       email VARCHAR(255) DEFAULT NULL, -- Made email nullable
                        department VARCHAR(255),
                        role VARCHAR(255),
-                       profile_image VARCHAR(255),
+                       profile_image VARCHAR(255) DEFAULT 'default.jpg',
                        enabled BOOLEAN DEFAULT TRUE,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
