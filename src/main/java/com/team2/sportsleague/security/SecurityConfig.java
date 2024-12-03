@@ -5,15 +5,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)  // Enable pre/post annotations
 public class SecurityConfig {
 
     private final DataSource dataSource;
@@ -21,7 +27,7 @@ public class SecurityConfig {
 
     // Whitelisted endpoints
     public static final String[] ENDPOINTS_WHITELIST = {
-            "/login", "/signup", "/css/**", "/js/**", "/images/**"
+            "/login", "/signup", "/css/**", "/js/**", "/images/**", "/match/**"
     };
 
     @Autowired
@@ -44,8 +50,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(request -> request
-                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()  // Allow unauthenticated access to whitelisted endpoints
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
+                        .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -53,9 +60,11 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login"))  // Redirect to login page after successful logout
+                        .logoutSuccessUrl("/login"))                     // Redirect to login page after successful logout
                 .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403"));  // Access denied page
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect(request.getContextPath() + "/"); // Redirect to root dynamically
+                        }));
 
         return http.build();
     }
@@ -64,7 +73,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
-
-
 }
 

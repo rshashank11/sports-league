@@ -26,12 +26,10 @@ public class LeagueController {
 
     @Autowired
     private RankingService rankingService;
-    private MatchRepository matchRepository;
     private final LeagueService leagueService;
     @Autowired
-    public LeagueController(LeagueService leagueService, MatchRepository matchRepository) {
+    public LeagueController(LeagueService leagueService) {
         this.leagueService = leagueService;
-        this.matchRepository = matchRepository;
     }
 
 
@@ -70,19 +68,6 @@ public class LeagueController {
     @GetMapping("/rules")
     public ModelAndView showRules() {
         return new ModelAndView("rules"); // Thymeleaf template for rules
-    }
-
-
-    // Show match page
-    @GetMapping("/match")
-    public ModelAndView showMatch() {
-        ModelAndView mvc = new ModelAndView("match");
-
-        List<Round> rounds = matchRepository.getAllRounds();
-
-        // Pass data to the view
-        mvc.addObject("rounds", rounds);
-        return mvc;
     }
 
 
