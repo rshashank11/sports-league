@@ -8,22 +8,21 @@ import java.util.List;
 
 @Entity
 public class Game {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String name;
     private String slug;
 
-    // Adding photos field for association
-    private transient List<Photo> photos; // `transient` to avoid persistence issues (or use proper mapping in JPA)
+    private transient List<Photo> photos; // Marked as transient since it's not persisted in DB
 
     // Getters and Setters
-    public long getId() { // Changed return type to `long`
+    public long getId() {
         return id;
     }
 
-    public void setId(long id) { // Changed parameter type to `long`
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -43,11 +42,11 @@ public class Game {
         this.slug = slug;
     }
 
-    public List<Photo> getPhotos() { // Getter for photos
+    public List<Photo> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<Photo> photos) { // Setter for photos
+    public void setPhotos(List<Photo> photos) {
         this.photos = photos;
     }
 }

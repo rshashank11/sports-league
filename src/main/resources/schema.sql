@@ -1,8 +1,9 @@
-
-
 USE sports_league_db;
 
+drop table games;
+drop table photos;
 
+-- Create the games table
 CREATE TABLE IF NOT EXISTS games (
                                      id INT AUTO_INCREMENT PRIMARY KEY,
                                      name VARCHAR(255) NOT NULL,
@@ -18,16 +19,16 @@ CREATE TABLE IF NOT EXISTS photos (
                                       FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
 );
 
-/*-- Insert sample data into games table
+-- Insert sample data into the games table
 INSERT INTO games (name, slug) VALUES
                                    ('Dart', 'dartleague'),
                                    ('Table Tennis', 'table-tennisleague'),
-                                   ('Pool', 'poolleague');*/
+                                   ('Pool', 'poolleague');
 
--- Insert sample data into photos table
+-- Insert sample data into the photos table
 INSERT INTO photos (game_id, src, metadata) VALUES
-                                                (1, '/DART/Background.jpg', 'Background of Dart Game'),
-                                                (1, '/DART/dart.jpg', 'Dart game action shot'),
-                                                (1, '/DART/demo.jpg', 'Dart demonstration'),
-                                                (2, '/TT/sport.jpg', 'Kids playing table tennis'),
-                                                (3, '/POOL/game.png', 'World Cup details for Pool');
+                                                (1, '/images/dart/demo.jpg', 'Background of Dart Game'),
+                                                (1, '/images/dart/dart.jpg', 'Dart game action shot'),
+                                                (1, '/images/dart/Profile.jpg', 'Dart demonstration'),
+                                                (2, '/images/tabletennis/pool.jpg', 'Kids playing table tennis'),
+                                                (3, '/images/pool/dart.png', 'World Cup details for Pool');

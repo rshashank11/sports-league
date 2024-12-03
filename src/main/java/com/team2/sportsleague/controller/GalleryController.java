@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,11 +20,6 @@ public class GalleryController {
     @GetMapping
     public String showGallery(Model model) {
         List<Game> games = gameService.getAllGames();
-        for (Game game : games) {
-            if (game.getPhotos() == null) {
-                game.setPhotos(new ArrayList<>()); // Ensure photos list is never null
-            }
-        }
         model.addAttribute("games", games);
         return "gallery";
     }
