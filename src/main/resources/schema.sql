@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS users_roles;
 DROP TABLE IF EXISTS rankings;
 DROP TABLE IF EXISTS matches;
+DROP TABLE IF EXISTS league_registrations;
 DROP TABLE IF EXISTS leagues;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
@@ -40,7 +41,7 @@ CREATE TABLE rankings (
 ) ENGINE=InnoDB;
 
 -- Create the leagues table
-CREATE TABLE `leagues` (
+CREATE TABLE leagues (
                            `id` INT(11) NOT NULL AUTO_INCREMENT,
                            `name` VARCHAR(255) NOT NULL COLLATE 'latin1_swedish_ci',
                            `schedule` DATETIME NOT NULL,
@@ -51,7 +52,7 @@ CREATE TABLE `leagues` (
 )
     COLLATE='latin1_swedish_ci'
     ENGINE=InnoDB
-    AUTO_INCREMENT=54
+    AUTO_INCREMENT=1
 ;
 -- Create the matches table
 CREATE TABLE matches (
@@ -68,5 +69,14 @@ CREATE TABLE matches (
                          FOREIGN KEY (league_id) REFERENCES leagues(id),  -- Updated to match 'league_id'
                          FOREIGN KEY (player1_id) REFERENCES users(user_id),
                          FOREIGN KEY (player2_id) REFERENCES users(user_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE league_registrations (
+                                      registration_id INT AUTO_INCREMENT PRIMARY KEY,
+                                      league_id INT NOT NULL,
+                                      user_id INT NOT NULL,
+                                      registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                      FOREIGN KEY (league_id) REFERENCES leagues(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                      FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 

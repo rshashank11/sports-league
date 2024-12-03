@@ -92,3 +92,8 @@ VALUES
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
      'Alex Brown', 'Emily Davis', 19, 21,
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
+
+
+INSERT INTO league_registrations (league_id, user_id)
+VALUES ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 1),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 2);

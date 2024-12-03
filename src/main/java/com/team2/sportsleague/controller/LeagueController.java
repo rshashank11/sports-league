@@ -6,8 +6,12 @@ import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.repository.MatchRepository;
 import com.team2.sportsleague.service.LeagueService;
+import com.team2.sportsleague.service.LoginService;
 import com.team2.sportsleague.service.RankingService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,18 +32,28 @@ public class LeagueController {
     private RankingService rankingService;
     private MatchRepository matchRepository;
     private final LeagueService leagueService;
+
     @Autowired
-    public LeagueController(LeagueService leagueService, MatchRepository matchRepository) {
+    private final LoginService loginService;
+    @Autowired
+    public LeagueController(LeagueService leagueService, MatchRepository matchRepository, LoginService loginService) {
         this.leagueService = leagueService;
         this.matchRepository = matchRepository;
+        this.loginService = loginService;
     }
 
 
     @GetMapping("/")
-    public String getLeagues(Model model) {
+    public String getLeagues(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+
+        String username = userDetails.getUsername();
+        Long userId = loginService.getUserIdByUsername(username);
+        model.addAttribute("userId", userId);
         List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
         List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
         List<LeagueEntity> allLeagues = leagueService.getAllLeagues();
+        // In your service or controller method
+
 
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");
 

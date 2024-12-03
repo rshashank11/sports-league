@@ -183,6 +183,7 @@
 </div>
 
 <div class="container">
+    <pre th:utext="${upcomingLeagues}"></pre>
     <section>
         <h2>Upcoming Leagues</h2>
         <ul class="league-list">
@@ -196,8 +197,10 @@
                     <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
                 <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
+                <button class="join-league-btn button"  th:data-league-id="${league.id}">Join the League</button>
             </li>
         </ul>
+
     </section>
 
     <section>
@@ -217,7 +220,6 @@
         </ul>
     </section>
 
-    <a href="#" class="button">Join a League</a>
 </div>
 
 <footer class="footer">
@@ -226,12 +228,15 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const userId = [[${userId}]];
+        console.log(userId);
         const searchBar = document.getElementById("search-bar");
         const sportFilter = document.getElementById("sportFilter");
 
         const filterLeagues = () => {
             const searchFilter = searchBar.value.toLowerCase();
             const selectedSport = sportFilter.value.toLowerCase();
+
 
             document.querySelectorAll(".league-item").forEach((item) => {
                 const name = item.querySelector("h3").textContent.toLowerCase();
@@ -243,6 +248,29 @@
                 item.style.display = matchesSearch && matchesSport ? "block" : "none";
             });
         };
+
+        document.querySelectorAll(".join-league-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const leagueId = button.getAttribute("data-league-id");
+
+                // Send AJAX request to register user for the league
+                fetch("/api/league/register?userId=" + userId + "&leagueId=" + leagueId, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        alert(data); // Show the response message
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while registering.');
+                    });
+            });
+        });
+
 
         searchBar.addEventListener("input", filterLeagues);
         sportFilter.addEventListener("change", filterLeagues);
