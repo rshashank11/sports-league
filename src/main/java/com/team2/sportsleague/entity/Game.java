@@ -4,19 +4,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Game {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
     private String slug;
 
-     // Exclude from persistence
+    // One-to-many relationship with Photo (Assuming a Game can have many Photos)
+    @OneToMany(mappedBy = "game") // Ensure Photo has a 'game' field
     private List<Photo> photos = new ArrayList<>();
 
     // Getters and Setters

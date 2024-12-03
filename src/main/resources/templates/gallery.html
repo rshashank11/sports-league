@@ -15,12 +15,7 @@
 <div class="gallery-container">
     <h1>Game Photos Gallery</h1>
     <div class="gallery">
-        <div class="gallery-item" th:each="game : ${games}" th:onclick="'openModal(' + game.slug + ')'">
-            <!-- Check if the game has photos, if not, use a default image stored in the static folder -->
-            <img th:src="${game.photos != null && game.photos.size() > 0 ? '/images/' + game.name + '/' + game.photos[0].src : '/images/default.jpg'}"
-                 th:alt="${game.name + ' Image'}">
-            <div class="game-name" th:text="${game.name}"></div>
-        </div>
+        <!-- Dynamically generated gallery items -->
     </div>
 </div>
 
