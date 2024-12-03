@@ -17,7 +17,8 @@ async function fetchGalleryData() {
             gameDiv.onclick = () => openModal(game.slug); // Pass the game slug
 
             const img = document.createElement('img');
-            img.src = game.photos?.length > 0 ? `/images/${game.photos[0].src}` : '/images/default.jpg'; // Construct image URL without extra slug
+            // img.src = game.photos?.length > 0 ? `/images/${game.photos[0].src}` : '/images/default.jpg'; // Construct image URL without extra slug
+            img.src = game.photos?.length > 0 ? `${game.photos[0].src}` : '/images/default.jpg'; // Construct image URL without extra slug
             img.alt = game.name;
 
             const nameDiv = document.createElement('div');
@@ -53,7 +54,8 @@ async function openModal(gameSlug) {
         if (game.photos && game.photos.length > 0) {
             game.photos.forEach((photo, index) => {
                 const img = document.createElement("img");
-                img.src = `/images/${photo.src}`; // Use the correct image URL
+                // img.src = `/images/${photo.src}`; // Use the correct image URL
+                img.src = `${photo.src}`; // Use the correct image URL
                 img.alt = photo.metadata || `Photo ${index + 1}`;
                 img.onclick = () => enlargeImage(game.photos, index); // Pass the array and index for enlarging
                 imageGrid.appendChild(img);
@@ -75,7 +77,8 @@ function enlargeImage(photos, index) {
     const enlargedImage = document.getElementById("enlargedImage");
     const enlargedMetadata = document.getElementById("enlargedMetadata");
 
-    enlargedImage.src = `/images/${photos[index].src}`;
+    // enlargedImage.src = `/images/${photos[index].src}`;
+    enlargedImage.src = `${photos[index].src}`;
     enlargedMetadata.textContent = photos[index].metadata || "";
 
     enlargedModal.style.display = "flex"; // Show the enlarged modal
