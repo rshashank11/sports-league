@@ -1,4 +1,4 @@
--- Drop the tables if they exist
+/*-- Drop the tables if they exist
 DROP TABLE IF EXISTS users_roles;
 DROP TABLE IF EXISTS rankings;
 DROP TABLE IF EXISTS users;
@@ -65,3 +65,4 @@ CREATE TABLE matches (
                          round_number INT NOT NULL,
                          FOREIGN KEY (league_id) REFERENCES leagues(league_id)
 )engine=InnoDB;
+*/

@@ -1,4 +1,4 @@
--- Insert users into the users table
+/*-- Insert users into the users table
 INSERT INTO users (username, name, password, enabled) VALUES
                                                           ('shashankr1@creditsafe.com', 'Shashank Ramesha', '$2a$10$SiZBkjrJhn19Bpn5EomAAevx0HprUAJKPps4wJbT8FO3kE5Ar1Nme', true),  -- Password: shashankR@1
                                                           ('prateekk2@creditsafe.it', 'Prateek Kesarwani', '$2a$10$/mifxplYOJ726OyJ9JVT5OnX9W3WWPf32nVrJelTLO/EcRCjrYt4.', true),  -- Password: prateekK@2
@@ -92,3 +92,4 @@ VALUES
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
      'Alex Brown', 'Emily Davis', 19, 21,
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
+*/
