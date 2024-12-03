@@ -31,10 +31,11 @@ public class MatchController {
 
         // Pass data to the view
         mvc.addObject("rounds", rounds);
+        mvc.addObject("isAdmin", true);
         return mvc;
     }
 
-    @GetMapping("match")
+    @GetMapping("/match")
     public ModelAndView showUserMatch() {
         ModelAndView mvc = new ModelAndView("match");
 
@@ -42,6 +43,7 @@ public class MatchController {
 
         // Pass data to the view
         mvc.addObject("rounds", rounds);
+        mvc.addObject("isAdmin", false);
         return mvc;
     }
 }
