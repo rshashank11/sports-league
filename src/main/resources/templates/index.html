@@ -198,13 +198,13 @@
                     <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
                 <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-                <p th:text="${league.id}"></p>
-                <p th:text="${joinedLeagues}"></p>
-                <input class="join-league-btn button"
+<!--                <p th:text="${league.id}"></p>-->
+<!--                <p th:text="${joinedLeagues}"></p>-->
+                <button class="join-league-btn button"
+                        th:data-joined-leagues="${joinedLeagues}"
+                        th:text="#{${joinedLeagues.contains(league.id) ? 'Joined' : 'Join the league'}}"
                        th:data-league-id="${league.id}"
-                       th:value="${joinedLeagues.contains(league.id) ? 'Joined' : 'Join the League'}"
-                       th:disabled="${joinedLeagues.contains(league.id)}"
-                       type="button" />
+                       type="button" ></button>
             </li>
 
         </ul>
@@ -256,10 +256,23 @@
         };
 
         document.querySelectorAll(".join-league-btn").forEach((button) => {
+            // Get the joined leagues from the data attribute
+            const joinedLeagues = button.getAttribute("data-joined-leagues");
+            console.log(typeof joinedLeagues)
+            const leagueId = button.getAttribute("data-league-id");
+
+            // Set the button text based on whether the user has joined this league
+            if (joinedLeagues.includes(leagueId)) {
+                button.innerHTML = "Joined";
+                button.disabled = true;
+            } else {
+                button.innerHTML = "Join the League";
+                button.disabled = false;
+            }
+
+            // Add click event listener to handle registration
             button.addEventListener("click", () => {
                 console.log("Button state: " + button.textContent);
-
-                const leagueId = button.getAttribute("data-league-id");
 
                 // Use proper AJAX POST request with fetch
                 fetch("/register?userId=" + userId + "&leagueId=" + leagueId, {
@@ -277,7 +290,7 @@
                     })
                     .then(data => {
                         alert(data);
-                        button.value = "Joined";
+                        button.innerHTML = "Joined";
                         button.disabled = true;
                     })
                     .catch(error => {
