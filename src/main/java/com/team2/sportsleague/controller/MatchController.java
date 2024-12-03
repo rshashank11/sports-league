@@ -23,7 +23,7 @@ public class MatchController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")  // Ensure only ADMIN can access
-    @GetMapping("/admin/match")
+    @GetMapping("/admin/update_match")
     public ModelAndView showAdminMatch() {
         ModelAndView mvc = new ModelAndView("match");
 

@@ -85,8 +85,8 @@ public class MatchRepositoryJDBC implements MatchRepository {
                         match2.getWinner_id(),  // playerId2 from match2 winner
                         winnerName1,            // Player 1 Name
                         winnerName2,            // Player 2 Name
-                        15,                   // player1Score
-                        10,                   // player2Score
+                        null,                   // player1Score
+                        null,                   // player2Score
                         null,                   // winner_id
                         match1.getRoundNumber()// Increment round number
                 );
