@@ -3,111 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <th:block th:replace="fragments/fonts :: font-links"></th:block>
-    <th:block th:replace="fragments/styles :: style-links"></th:block>
+    <link th:replace="fragments/fonts :: font-links" />
+    <link th:replace="fragments/styles :: style-links" />
     <link rel="stylesheet" th:href="@{/css/login.css}">
-    <link rel="stylesheet" th:href="@{/css/header.css}">
 </head>
 <body>
-<header th:include="fragments/header :: header">
-</header>
-<form id="loginForm" method="post">
+<form id="loginForm" th:action="@{/login}" th:object="${loginDTO}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
     <label class="loginLabel" for="username">Email or Username</label>
-    <input class="loginInput" type="text" id="username" name="username" placeholder="Enter an email or username">
-    <p id="usernameError"></p>
+    <input th:field="*{username}" class="loginInput" type="text" id="username" placeholder="Enter email or username">
+
+    <div id="usernameError" class="errorMessages" style="display: none;"></div>
+
+
 
     <label class="loginLabel" for="password">Password</label>
-    <input class="loginInput" type="password" id="password" name="password" placeholder="Enter a password">
-    <p id="passwordError"></p>
+    <input th:field="*{password}" class="loginInput" type="password" id="password" placeholder="Enter password">
+
+    <div id="passwordError" class="errorMessages" style="display: none;"></div>
+
+
+    <div th:if="${param.error}" class="errorMessages">
+        <p>Invalid username or password. Please enter again.</p>
+        <div th:if="${#fields.hasErrors('password')}" class="errorMessages">
+            <p th:errors="*{password}"></p>
+        </div>
+        <div th:if="${#fields.hasErrors('username')}" class="errorMessages">
+            <p th:errors="*{username}"></p>
+        </div>
+    </div>
+
     <button type="submit" id="loginBtn">Login</button>
 </form>
+<div id="signup-div">New here? <a href="/signup">
+    Create an account
+</a></div>
+
 </body>
 <script>
-    let loginForm = document.getElementById('loginForm');
-    let username = document.getElementById('username');
-    let usernameError = document.getElementById('usernameError');
-    let password = document.getElementById('password');
-    let passwordError = document.getElementById('passwordError');
-    let isFormValid = true;
+    document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.getElementById("loginForm");
+        const username = document.getElementById("username");
+        const usernameError = document.getElementById("usernameError");
+        const password = document.getElementById("password");
+        const passwordError = document.getElementById("passwordError");
 
-    username.addEventListener('input', function() {
-        let usernameValue = username.value.trim();
-        usernameError.style.display = 'none';
+        // Function to validate username/email
+        const validateUsername = () => {
+            const usernameValue = username.value.trim();
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@(creditsafe\.(com|be|co\.uk|co\.in|co\.jp|dk|fi|fr|hu|ie|it|lu|nl|no|se)|creditsafede\.com|creditsafemail\.com|creditsafenenl\.com|creditsafeuk\.com|creditsafeusa\.com|graydoncreditsafe\.(be|com|lu|nl)|safeinformationgroup\.com)$/;
+            const usernameRegex = /^[0-9]{6,10}$/;
 
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@(creditsafe\.(com|be|co\.uk|co\.in|co\.jp|dk|fi|fr|hu|ie|it|lu|nl|no|se)|creditsafede\.com|creditsafemail\.com|creditsafenl\.com|creditsafeuk\.com|creditsafeusa\.com|graydoncreditsafe\.(be|com|lu|nl)|safeinformationgroup\.com)$/;
+            if (!emailRegex.test(usernameValue) && !usernameRegex.test(usernameValue)) {
+                usernameError.innerHTML = "Enter a valid Creditsafe email or username.";
+                usernameError.style.display = "block";
+                return false;
+            }
 
-        const usernameRegex = /^[a-zA-Z0-9_]{6,10}$/;
-        if (!emailRegex.test(usernameValue) && !usernameRegex.test(usernameValue)) {
-            username.classList.remove('valid');
-            usernameError.style.display = 'block';
-            usernameError.innerHTML = 'Enter a valid creditsafe email or username.';
-            isFormValid = false;
-        } else {
-            username.classList.add('valid');
-            isFormValid = true;
-        }
-    })
+            usernameError.style.display = "none";
+            return true;
+        };
 
-    password.addEventListener('input', function () {
-        const passwordValue = password.value;
-        let errors = [];
+        // Function to validate password
+        const validatePassword = () => {
+            const passwordValue = password.value.trim();
+            const passwordRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}/;
 
-        if (!/(?=.*[a-z])/.test(passwordValue)) {
-            errors.push('Password must contain at least one lowercase letter.');
-        }
+            if (!passwordRegex.test(passwordValue)) {
+                passwordError.innerHTML = "Enter a valid password.";
+                passwordError.style.display = "block";
+                return false;
+            }
+            passwordError.style.display = "none";
+            return true;
+        };
 
-        if (!/(?=.*[A-Z])/.test(passwordValue)) {
-            errors.push('Password must contain at least one uppercase letter.');
-        }
+        // Add event listeners for real-time validation
+        username.addEventListener("input", validateUsername);
+        password.addEventListener("input", validatePassword);
 
-        if (!/(?=.*\d)/.test(passwordValue)) {
-            errors.push('Password must contain at least one number.');
-        }
+        // Form submission validation
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const isUsernameValid = validateUsername();
+            const isPasswordValid = validatePassword();
 
-        if (!/(?=.*[@$!%*?&])/.test(passwordValue)) {
-            errors.push('Password must contain at least one special character (@, $, !, %, *, ?, &).');
-        }
-
-        if (!/.{8,}/.test(passwordValue)) {
-            errors.push('Password must be at least 8 characters long.');
-        }
-
-        if (errors.length > 0) {
-            passwordError.style.display = 'block';
-            passwordError.innerHTML = errors.join(', ');
-            password.classList.remove('valid');
-            isFormValid = false;
-        } else {
-            password.classList.add('valid');
-            passwordError.style.display = 'none';
-            isFormValid = true;
-        }
-    })
-
-    loginForm.addEventListener('submit', function(event) {
-        let usernameValue = username.value
-        let passwordValue = password.value
-        event.preventDefault()
-        if(usernameValue.length == 0) {
-            usernameError.style.display = 'block'
-            username.classList.add('submitError')
-            usernameError.innerHTML = 'Please enter a username or email.';
-            isFormValid = false;
-        }
-
-        if(passwordValue.length == 0) {
-            passwordError.style.display = 'block'
-            password.classList.add('submitError')
-            passwordError.innerHTML = 'Please enter a password.';
-            isFormValid = false;
-        }
-
-        if(isFormValid) {
-            loginForm.submit();
-        }
-
-    })
-
-
+            if (isUsernameValid && isPasswordValid) {
+                loginForm.submit();
+            }
+        });
+    });
 </script>
+
 </html>
