@@ -4,18 +4,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 public class Game {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
+
     private String name;
     private String slug;
 
-    private transient List<Photo> photos; // Marked as transient since it's not persisted in DB
+     // Exclude from persistence
+    private List<Photo> photos = new ArrayList<>();
 
     // Getters and Setters
     public long getId() {

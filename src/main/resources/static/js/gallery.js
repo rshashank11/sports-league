@@ -1,5 +1,5 @@
 async function fetchGalleryData() {
-    const response = await fetch('/api/gallery');
+    const response = await fetch('/gallery');
     const games = await response.json();
 
     const galleryContainer = document.querySelector('.gallery');

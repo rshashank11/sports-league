@@ -94,21 +94,20 @@ public class GameService {
 
     public List<Game> getAllGames() {
         List<Game> games = new ArrayList<>();
-        String query = "SELECT * FROM games";
+        String gameQuery = "SELECT * FROM games";
+        String photoQuery = "SELECT * FROM photos WHERE game_id = ?";
 
         try (Connection connection = DatabaseConfig.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+             Statement gameStatement = connection.createStatement();
+             ResultSet gameResultSet = gameStatement.executeQuery(gameQuery)) {
 
-            while (resultSet.next()) {
+            while (gameResultSet.next()) {
                 Game game = new Game();
-                game.setId(resultSet.getLong("id"));
-                game.setName(resultSet.getString("name"));
-                game.setSlug(resultSet.getString("slug"));
+                game.setId(gameResultSet.getLong("id"));
+                game.setName(gameResultSet.getString("name"));
+                game.setSlug(gameResultSet.getString("slug"));
 
-                // Fetch photos for this game
                 List<Photo> photos = new ArrayList<>();
-                String photoQuery = "SELECT * FROM photos WHERE game_id = ?";
                 try (PreparedStatement photoStatement = connection.prepareStatement(photoQuery)) {
                     photoStatement.setLong(1, game.getId());
                     ResultSet photoResultSet = photoStatement.executeQuery();
@@ -121,14 +120,14 @@ public class GameService {
                         photos.add(photo);
                     }
                 }
+
                 game.setPhotos(photos);
                 games.add(game);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return games;
     }
-
-    // Additional methods if needed (e.g., for getting a single game by slug)
 }

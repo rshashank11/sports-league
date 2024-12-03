@@ -1,7 +1,7 @@
-USE sports_league_db;
+# USE sports_league_db;
 
-drop table games;
-drop table photos;
+# drop table games;
+# drop table photos;
 
 -- Create the games table
 CREATE TABLE IF NOT EXISTS games (
@@ -31,4 +31,4 @@ INSERT INTO photos (game_id, src, metadata) VALUES
                                                 (1, '/images/dart/dart.jpg', 'Dart game action shot'),
                                                 (1, '/images/dart/Profile.jpg', 'Dart demonstration'),
                                                 (2, '/images/tabletennis/pool.jpg', 'Kids playing table tennis'),
-                                                (3, '/images/pool/dart.png', 'World Cup details for Pool');
+                                                (3, '/images/pool/dart.jpg', 'World Cup details for Pool');
