@@ -50,8 +50,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(request -> request
-                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()  // Allow unauthenticated access to whitelisted endpoints
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
+                        .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -59,9 +60,11 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login"))  // Redirect to login page after successful logout
+                        .logoutSuccessUrl("/login"))                     // Redirect to login page after successful logout
                 .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403"));  // Access denied page
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect(request.getContextPath() + "/"); // Redirect to root dynamically
+                        }));
 
         return http.build();
     }
