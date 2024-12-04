@@ -11,6 +11,7 @@
 <body>
     <header th:fragment="header">
         <nav>
+            <p>Debug: User ID is <span th:text="${userId}">N/A</span></p>
             <a href="/">
                 Leagues
             </a>
@@ -24,8 +25,8 @@
                 Rules
             </a>
 <!--            <a th:href="@{/profile/{id}(id=${userId})}" class="profile">-->
-            <a th:href="@{/profile/2}" class="profile">
-                <img th:src="@{/images/defaultProfile.png}">
+            <a th:href="@{/profile/{id}(id=${userId})}" class="profile">
+                <img th:src="@{/images/defaultProfile.png}" alt="Profile">
             </a>
         </nav>
     </header>

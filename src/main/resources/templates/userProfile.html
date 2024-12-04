@@ -13,8 +13,9 @@
 </head>
 <body style="font-family: 'New Amsterdam', sans-serif;">
 <header>
-    <nav th:replace="fragments/header :: header"></nav>
+    <nav th:replace="~{fragments/header :: header(userId=${user.userId})}"></nav>
 </header>
+
 <div class="profile-container">
     <div class="photo-box">
 <!--        <img th:src="${user.profileImage != null ? user.profileImage : '/dart.jpg'}" alt="User Photo">-->

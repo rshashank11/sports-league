@@ -15,7 +15,17 @@ public class UserProfileController {
 
     @GetMapping("/profile/{userId}")
     public String getUserProfile(@PathVariable int userId, Model model) {
+        // Debug log to see userId
+        System.out.println("User ID: " + userId); // This will print the userId in the server log
+
+        model.addAttribute("userId", userId);
+        // Fetch user data and add to the model
         userService.getUserById(userId).ifPresent(user -> model.addAttribute("user", user));
+
+//        // Pass the userId to the model for the fragment
+//        model.addAttribute("userId", userId);
+
         return "userProfile";
     }
+
 }
