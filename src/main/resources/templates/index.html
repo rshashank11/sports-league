@@ -361,7 +361,7 @@
                 // Ignore clicks on the "Join" button within the item
                 if (event.target.tagName.toLowerCase() !== "button") {
                     // Navigate to the league page
-                    window.location.href = `/match/${leagueId}`;
+                    window.location.href = `/match?leagueId=${leagueId}`;
 
                 }
             });

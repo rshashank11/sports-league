@@ -1,10 +1,7 @@
--- Step 1: Insert roles
 INSERT INTO roles (role_name)
 VALUES
     ('ROLE_USER'),
     ('ROLE_ADMIN');
-
--- Insert users into the users table
 INSERT INTO users (username, name, password, enabled)
 VALUES
     ('shashankr1@creditsafe.com', 'Shashank Ramesha', '$2a$10$kcPWazDCSLJOiC6y3ib/ZO5R9Q3srwF5dgkVZ7GCnbWwEM6oZ3s/C', true),
@@ -27,15 +24,12 @@ VALUES
     ('olav.hansen@creditsafe.no', 'Olav Hansen', '$2a$10$X0yNUvm0b5Un.2ljVGisOlrXDCUQdflgNc0Vuay9wUqRk91bS6k9u', true),
     ('eva.karlsson@creditsafe.se', 'Eva Karlsson', '$2a$10$zq.9XJ59a8tbxtYeBAlOnHzkhHgk1wr6oFJ4VeL9RYTnKM3Alu9zC', true),
     ('thomas.schmidt@creditsafede.com', 'Thomas Schmidt', '$2a$10$wv7HZm4P4MjLO2V96tyhfnJzM5dG2r5cbB7g2e.sQ8Guv40r5uC2G', true);
-
--- Step 3: Assign roles to users
 INSERT INTO users_roles (username, role_id)
 VALUES
     ('shashankr1@creditsafe.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('prateekk2@creditsafe.it', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('ankits34@creditsafeuk.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN'));
--- Step 4: Insert rankings
 INSERT INTO rankings (user_id, wins, losses, points)
 VALUES
     ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100), -- Shashank Ramesha
@@ -58,8 +52,6 @@ VALUES
     ((SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'), 8, 4, 80),    -- Olav Hansen
     ((SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'), 10, 2, 100), -- Eva Karlsson
     ((SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'), 9, 3, 90); -- Thomas Schmidt
-
--- Step 5: Insert leagues
 INSERT INTO leagues (name, schedule, last_registration_date, venue, sports)
 VALUES
     ('Winter Pool League', '2024-12-15 10:00:00', '2024-12-10 23:59:59', 'Sports Club A', 'Pool'),
@@ -67,8 +59,6 @@ VALUES
     ('Autumn Table Tennis League', '2024-12-11 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center','Table Tennis'),
     ('Summer Darts League', '2025-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena','Darts'),
     ('National Pool Championship', '2025-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza','Pool');
--- Step 6: Insert matches
--- Step 6: Insert matches with correct league_id
 INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
@@ -91,8 +81,6 @@ VALUES
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
      'Alex Brown', 'Emily Davis', 14, 134,
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
-
-
 INSERT INTO league_registrations (league_id, user_id)
 VALUES ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 1),
        ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 3),
