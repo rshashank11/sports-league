@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.MultipartFile;
+import com.team2.sportsleague.service.UserService;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class LeagueController {
 
     @GetMapping("/")
     public String getLeagues(Model model) {
+
         List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
         List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");

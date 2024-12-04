@@ -23,7 +23,8 @@
             <a href="/rules">
                 Rules
             </a>
-            <a href="/profile" class="profile">
+<!--            <a th:href="@{/profile/{id}(id=${userId})}" class="profile">-->
+            <a th:href="@{/profile/2}" class="profile">
                 <img th:src="@{/images/defaultProfile.png}">
             </a>
         </nav>
