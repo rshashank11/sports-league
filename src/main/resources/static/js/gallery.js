@@ -97,12 +97,33 @@ function navigateImage(offset) {
 
 function closeModal() {
     const modal = document.getElementById("myModal");
-    modal.style.display = "none"; // Close the modal
+    if (modal) {
+        console.log("Closing modal...");
+        modal.style.display = "none"; // Close the modal
+    } else {
+        console.error("Modal with ID 'myModal' not found.");
+    }
 }
+
+window.onclick = function (event) {
+    const modal = document.getElementById("myModal");
+    const enlargedModal = document.getElementById("enlargedModal");
+
+    // Only close modal if clicking outside the modal content
+    if (event.target === modal) {
+        closeModal();
+    } else if (event.target === enlargedModal) {
+        closeEnlargedModal();
+    }
+};
 
 function closeEnlargedModal() {
     const enlargedModal = document.getElementById("enlargedModal");
-    enlargedModal.style.display = "none"; // Close the enlarged modal
+    if (enlargedModal) {
+        enlargedModal.style.display = "none"; // Hide the enlarged modal
+    } else {
+        console.error("Modal with ID 'enlargedModal' not found.");
+    }
 }
 
 // Initial call to load gallery data
