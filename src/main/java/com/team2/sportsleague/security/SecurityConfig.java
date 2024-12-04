@@ -115,18 +115,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Allow unauthenticated access to whitelisted endpoints
-                        .requestMatchers("/profile").authenticated()     // Restrict "/profile" to authenticated users
-                        .anyRequest().authenticated())                   // All other requests require authentication
+                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+                        .requestMatchers("/profile").authenticated()
+                        .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .permitAll())                                    // Allow access to custom login page
+                        .permitAll())
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login"))                     // Redirect to login page after logout
+                        .logoutSuccessUrl("/login"))
                 .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403"));                      // Redirect to custom access denied page
+                        .accessDeniedPage("/403"));
 
         return http.build();
     }

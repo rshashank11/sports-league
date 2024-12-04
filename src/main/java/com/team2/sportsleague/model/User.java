@@ -1,7 +1,6 @@
 package com.team2.sportsleague.model;
 
 import java.util.List;
-//package com.example.demo.model;
 
 public class User {
     private int userId;
@@ -11,7 +10,6 @@ public class User {
     private String department;
     private String role;
 
-    // Getters and Setters
     public int getUserId() {
         return userId;
     }
