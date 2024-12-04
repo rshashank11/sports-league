@@ -39,16 +39,14 @@ public class MatchController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/admin/update-scores")
-    public RedirectView updateScores(@RequestParam int player1Score,
-                                     @RequestParam int player2Score,
-                                     @RequestParam int matchId) {
+    public ResponseEntity<String> updateScores(@RequestParam int player1Score,
+                                               @RequestParam int player2Score,
+                                               @RequestParam int matchId) {
         // Call service to update scores
-        System.out.println("Over here now!");  // Log the response
-        matchService.updateMatchScores(player1Score, player2Score, matchId);
-        System.out.println("Response: success");  // Log the response
+        matchService.updateMatchScores(player1Score, player2Score,matchId);
 
-        // Redirect to the match page to refresh the view
-        return new RedirectView("/admin/update_match");  // Adjust this to your actual URL
+        // Return a success response without redirecting
+        return ResponseEntity.ok("success");
     }
 
     @GetMapping("/match")
