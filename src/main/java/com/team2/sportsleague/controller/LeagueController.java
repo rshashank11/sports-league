@@ -88,19 +88,6 @@ public class LeagueController {
     }
 
 
-    // Show match page
-    @GetMapping("/match")
-    public ModelAndView showMatch() {
-        ModelAndView mvc = new ModelAndView("match");
-
-        List<Round> rounds = matchRepository.getAllRounds();
-
-        // Pass data to the view
-        mvc.addObject("rounds", rounds);
-        return mvc;
-    }
-
-
     @GetMapping("/profile")
     public String showUserProfile(Model model) {
         User user = new User(

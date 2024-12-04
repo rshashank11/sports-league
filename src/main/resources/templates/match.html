@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+        lang = "en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +9,7 @@
     <th:block th:replace="fragments/fonts :: font-links"></th:block>
     <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{css/match.css}">
+    <link rel="stylesheet" th:href="@{/css/match.css}">
 </head>
 <body>
     <nav th:replace="fragments/header :: header"></nav>
@@ -20,12 +22,30 @@
                 <div class="player" th:classappend="${match.player1Score > match.player2Score} ? 'winner' : ''">
                     <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
                     <span th:text="${match.playerName1}">Player 1</span>
-                    <span class="score" th:text="${match.player1Score}">0</span>
+
+                    <div th:if="${isAdmin}">
+                        <!-- This is for admin only -->
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <input type="number" name="player1Score"
+                                   th:value="${match.player2Score}"
+                                   min="0" max="1"/>
+                        </div>
+                    </div>
+                    <span th:text="${match.player2Score}">0</span>
                 </div>
                 <div class="player" th:classappend="${match.player2Score > match.player1Score} ? 'winner' : ''">
                     <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
                     <span th:text="${match.playerName2}">Player 2</span>
-                    <span class="score" th:text="${match.player2Score}">0</span>
+
+                    <div th:if="${isAdmin}">
+                        <!-- This is for admin only -->
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <input type="number" name="player1Score"
+                                   th:value="${match.player1Score}"
+                                   min="0" max="1"/>
+                        </div>
+                    </div>
+                    <span th:text="${match.player1Score}">0</span>
                 </div>
             </div>
         </div>

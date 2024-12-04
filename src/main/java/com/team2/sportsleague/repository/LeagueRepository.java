@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public class LeagueRepository {
 
-
     public List<LeagueEntity> findAll() {
         List<LeagueEntity> leagues = new ArrayList<>();
         String query = "SELECT * FROM leagues ORDER BY schedule ASC";
