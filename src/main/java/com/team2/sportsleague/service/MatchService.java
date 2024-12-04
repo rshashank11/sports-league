@@ -14,12 +14,12 @@ public class MatchService {
         this.matchRepository = matchRepository;
     }
 
-    public void updateMatchScores(int player1Score, int player2Score, int matchId) {
-
-        matchRepository.updateScores(player1Score, player2Score, matchId);
+    public void updateMatchScores(int player1Score, int player2Score, int matchId, int leagueId) {
+        matchRepository.updateScores(player1Score, player2Score, matchId, leagueId);
+        matchRepository.generateNextRoundIfNeeded(leagueId);
     }
 
-    public List<Round> getAllRounds() {
-        return matchRepository.getAllRounds();
+    public List<Round> getAllRounds(int leagueId) {
+        return matchRepository.getAllRounds(leagueId); // Pass the leagueId to the repository
     }
 }

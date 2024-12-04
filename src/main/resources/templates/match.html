@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-        lang = "en">
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,88 +12,94 @@
     <link rel="stylesheet" th:href="@{/css/match.css}">
 </head>
 <body>
-    <nav th:replace="fragments/header :: header"></nav>
-    <h1 style="text-align: center;color: #c0392b;">
-        League 1
-    </h1>
-    <div class="bracket">
-        <div class="round" th:each="round : ${rounds}">
-            <div class="match" th:each="match : ${round.matches}" th:attr="data-match-id=${match.matchId}">
-                <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
-                    <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
-                    <span th:text="${match.player1_name}">Player 1</span>
+<nav th:replace="fragments/header :: header"></nav>
 
-                    <div th:if="${isAdmin}">
-                        <!-- This is for admin only -->
-                        <div sec:authorize="hasRole('ROLE_ADMIN')">
-                            <input type="number"
-                                   class="score-input player1"
-                                   th:value="${match.score_player1}"
-                                   min="0"
-                                   max="1" />
-                        </div>
+<h1 style="text-align: center; color: #c0392b;" th:text="'League ' + ${leagueId}"></h1>
+
+<div class="bracket">
+
+    <!-- Hidden input to store leagueId -->
+    <input type="hidden" id="leagueId" th:value="${leagueId}">
+    <div class="round" th:each="round : ${rounds}">
+        <div class="match" th:each="match : ${round.matches}" th:attr="data-match-id=${match.matchId}">
+            <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
+                <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
+                <span th:text="${match.player1_name}">Player 1</span>
+
+                <div th:if="${isAdmin}">
+                    <!-- This is for admin only -->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <input type="number"
+                               class="score-input player1"
+                               th:value="${match.score_player1}"
+                               min="0"
+                               max="1" />
                     </div>
-                    <span th:text="${match.score_player1}">0</span> <!-- Display Player 1 score -->
                 </div>
+                <span th:text="${match.score_player1}">0</span> <!-- Display Player 1 score -->
+            </div>
 
-                <div class="player" th:classappend="${match.score_player2 > match.score_player2} ? 'winner' : ''">
-                    <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
-                    <span th:text="${match.player2_name}">Player 2</span>
+            <div class="player" th:classappend="${match.score_player2 > match.score_player1} ? 'winner' : ''">
+                <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
+                <span th:text="${match.player2_name}">Player 2</span>
 
-                    <div th:if="${isAdmin}">
-                        <!-- This is for admin only -->
-                        <div sec:authorize="hasRole('ROLE_ADMIN')">
-                            <!-- Input field for player 2 score -->
-                            <input type="number"
-                                   class="score-input player2"
-                                   th:value="${match.score_player2}"
-                                   min="0"
-                                   max="1" />
-                        </div>
+                <div th:if="${isAdmin}">
+                    <!-- This is for admin only -->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <!-- Input field for player 2 score -->
+                        <input type="number"
+                               class="score-input player2"
+                               th:value="${match.score_player2}"
+                               min="0"
+                               max="1" />
                     </div>
-                    <span th:text="${match.score_player2}">0</span>
                 </div>
+                <span th:text="${match.score_player2}">0</span>
             </div>
         </div>
     </div>
+</div>
 </body>
+
 <script>
     document.querySelectorAll('.score-input').forEach(input => {
-        input.addEventListener('change', function() {
+        input.addEventListener('change', function(event) {
             event.preventDefault(); // Prevent default browser behavior
+
             // Get the nearest '.match' ancestor of the input field
             let matchElement = this.closest('.match');
 
-            // Find the specific player score fields within the match
+            // Retrieve specific data from the DOM
             let player1Score = matchElement.querySelector('.player1').value;
             let player2Score = matchElement.querySelector('.player2').value;
-            let matchId = matchElement.getAttribute('data-match-id'); // Get matchId from data attribute
+            let matchId = matchElement.getAttribute('data-match-id'); // Match ID
+            let leagueId = document.getElementById('leagueId').value; // League ID from hidden input
 
+            // Create an AJAX request
             let xhttp = new XMLHttpRequest();
-            xhttp.open('POST', '/admin/update-scores', true); // Using POST request since PUT was creating redirection errors
+            xhttp.open('POST', '/admin/update-scores', true); // POST request
             xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // URL-encoded form data
 
             xhttp.onreadystatechange = function() {
-                if (xhttp.readyState === 4) {  // Request is done
-                    if (xhttp.status === 200) {  // Success
+                if (xhttp.readyState === 4) { // Request is done
+                    if (xhttp.status === 200) { // Success
                         let response = xhttp.responseText;
                         if (response === 'success') {
                             alert('Scores updated successfully!');
+                            location.reload(); // Reload page to reflect changes
                         } else {
                             alert('Error updating scores!');
                         }
                     } else {
-                        alert('Request failed.');
+                        alert('Request failed. Server responded with status: ' + xhttp.status);
                     }
                 }
             };
 
-            // Send the scores in the request body as URL-encoded form data
-            let params = `player1Score=${player1Score}&player2Score=${player2Score}&matchId=${matchId}`;
+            // Send the scores along with matchId and leagueId as URL-encoded form data
+            let params = `player1Score=${player1Score}&player2Score=${player2Score}&matchId=${matchId}&leagueId=${leagueId}`;
             xhttp.send(params);
         });
     });
 </script>
-
-
 </html>

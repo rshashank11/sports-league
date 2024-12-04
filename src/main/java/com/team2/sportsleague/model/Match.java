@@ -8,6 +8,7 @@ import lombok.Data;
 public class Match {
 
     int matchId;
+    int leagueId;
     int player1_id;
     int player2_id;
     String player1_name;
