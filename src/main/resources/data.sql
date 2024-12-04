@@ -1,8 +1,8 @@
 -- Insert roles
 INSERT INTO roles (role_name)
 VALUES
-    ('user'),
-    ('admin');
+    ('ROLE_USER'),
+    ('ROLE_ADMIN');
 
 -- Insert users
 INSERT INTO users (username, name, password, email, department, role, profile_image, enabled)
@@ -15,12 +15,12 @@ VALUES
 -- Assign roles to users
 INSERT INTO users_roles (username, role_id)
 VALUES
-    ('shashankr1@creditsafe.com', (SELECT role_id FROM roles WHERE role_name = 'admin')),
-    ('prateekk2@creditsafe.it', (SELECT role_id FROM roles WHERE role_name = 'user')),
-    ('ankits34@creditsafeuk.com', (SELECT role_id FROM roles WHERE role_name = 'user')),
-    ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'user'));
+    ('shashankr1@creditsafe.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
+    ('prateekk2@creditsafe.it', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
+    ('ankits34@creditsafeuk.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
+    ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN'));
+-- Step 4: Insert rankings
 
--- Insert rankings
 INSERT INTO rankings (user_id, wins, losses, points)
 VALUES
     ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100),
@@ -56,3 +56,20 @@ INSERT INTO user_updates (user_id, updated_fields)
 VALUES
     ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 'Updated profile picture'),
     ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 'Updated password');
+     'Shashank Ramesha', 'Prateek Kesarwani', 32, 16,
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
+     'Ankit Srivastava', 'Taha Ali', 21, 42,
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'),
+     (SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'),
+     'John Doe', 'Jane Smith', 34, 23,
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), 1),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
+     (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
+     'Alex Brown', 'Emily Davis', 14, 134,
+     (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
