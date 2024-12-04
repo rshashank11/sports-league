@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
+@Getter
 @Data
 @AllArgsConstructor
 public class LoginDTO {
@@ -19,16 +21,8 @@ public class LoginDTO {
     @Size(min=8, message="Password must be at least 8 long.")
     private String password;
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {

@@ -7,34 +7,31 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final DataSource dataSource;
-    private final PasswordEncoder passwordEncoder;
 
-    // Whitelisted endpoints
+    @Autowired
+    public SecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public static final String[] ENDPOINTS_WHITELIST = {
             "/login", "/signup", "/css/**", "/js/**", "/images/**"
     };
 
     @Autowired
-    public SecurityConfig(DataSource dataSource, PasswordEncoder passwordEncoder) {
-        this.dataSource = dataSource;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Autowired
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.jdbcAuthentication()
                 .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder)
+                .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username=?")
                 .authoritiesByUsernameQuery("SELECT u.username, r.role_name FROM users u " +
                         "JOIN users_roles ur ON u.username = ur.username " +
@@ -45,7 +42,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(request -> request
-                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()  // Allow unauthenticated access to whitelisted endpoints
+                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -53,9 +50,9 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login"))  // Redirect to login page after successful logout
+                        .logoutSuccessUrl("/login"))
                 .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403"));  // Access denied page
+                        .accessDeniedPage("/403"));
 
         return http.build();
     }
@@ -65,6 +62,8 @@ public class SecurityConfig {
         return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
-

@@ -26,14 +26,11 @@ public class LoginController {
     @GetMapping("/login")
     public String getLogin(Model model, Authentication authentication) {
         model.addAttribute("loginDTO", new LoginDTO());
+
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
         return "login"; // Return the login view
-    }
-    @GetMapping("/signup")
-    public String getSignup() {
-        return "signup";
     }
 
     @PostMapping("/login")

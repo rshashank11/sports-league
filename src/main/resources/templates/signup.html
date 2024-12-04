@@ -115,9 +115,9 @@
         <input type="text" id="username" th:field="*{username}" placeholder="Enter your username">
         <div th:if="${#fields.hasErrors('username')}" class="error" th:text="${#fields.errors('username')}"></div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" th:field="*{email}" placeholder="Enter your email">
-        <div th:if="${#fields.hasErrors('email')}" class="error" th:text="${#fields.errors('email')}"></div>
+        <label for="name">Name</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="Enter your name">
+        <div th:if="${#fields.hasErrors('name')}" class="error" th:text="${#fields.errors('name')}"></div>
 
         <label for="password">Password</label>
         <input type="password" id="password" th:field="*{password}" placeholder="Enter your password">
@@ -136,13 +136,5 @@
 
 </body>
 </html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Credit safe - Sign Up</title>
-</head>
-<body>
-<h1>Sign Up</h1>
-</body>
-</html>
+
 

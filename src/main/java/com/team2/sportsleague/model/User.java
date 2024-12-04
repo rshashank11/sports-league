@@ -67,4 +67,7 @@ public class User {
     public void setGames(List<String> games) {
         this.games = games;
     }
+
+    public void setUsername(String username) {
+    }
 }

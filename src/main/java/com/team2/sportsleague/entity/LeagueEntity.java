@@ -1,8 +1,11 @@
 package com.team2.sportsleague.entity;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
 public class LeagueEntity {
     private String name;
     private LocalDateTime schedule;
@@ -20,40 +23,20 @@ public class LeagueEntity {
     }
 
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LocalDateTime getSchedule() {
-        return schedule;
     }
 
     public void setSchedule(LocalDateTime schedule) {
         this.schedule = schedule;
     }
 
-    public LocalDateTime getLastRegistrationDate() {
-        return lastRegistrationDate;
-    }
-
     public void setLastRegistrationDate(LocalDateTime lastRegistrationDate) {
         this.lastRegistrationDate = lastRegistrationDate;
     }
 
-    public String getVenue() {
-        return venue;
-    }
-
     public void setVenue(String venue) {
         this.venue = venue;
-    }
-
-    public String getSports() {
-        return sports;
     }
 
     public void setSports(String sports) {
