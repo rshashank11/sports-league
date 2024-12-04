@@ -20,7 +20,6 @@ public class Photo {
     @ManyToOne
     private Game game;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

@@ -17,8 +17,7 @@ async function fetchGalleryData() {
             gameDiv.onclick = () => openModal(game.slug); // Pass the game slug
 
             const img = document.createElement('img');
-            // img.src = game.photos?.length > 0 ? `/images/${game.photos[0].src}` : '/images/default.jpg'; // Construct image URL without extra slug
-            img.src = game.photos?.length > 0 ? `${game.photos[0].src}` : '/images/default.jpg'; // Construct image URL without extra slug
+            img.src = game.photos?.length > 0 ? `${game.photos[0].src}` : '/images/default.jpg';
             img.alt = game.name;
 
             const nameDiv = document.createElement('div');
@@ -36,28 +35,27 @@ async function fetchGalleryData() {
 
 async function openModal(gameSlug) {
     try {
-        const response = await fetch(`/gallery/data`); // Fetch all games' data for the modal
+        const response = await fetch(`/gallery/data`);
         if (!response.ok) {
             throw new Error(`Failed to fetch game data: ${response.statusText}`);
         }
 
         const games = await response.json();
-        const game = games.find(g => g.slug === gameSlug); // Find the specific game by slug
+        const game = games.find(g => g.slug === gameSlug);
 
         const modal = document.getElementById("myModal");
         const imageGrid = document.getElementById("imageGrid");
         const modalTitle = document.getElementById("modalTitle");
 
         modalTitle.textContent = game.name;
-        imageGrid.innerHTML = ""; // Clear the image grid
+        imageGrid.innerHTML = "";
 
         if (game.photos && game.photos.length > 0) {
             game.photos.forEach((photo, index) => {
                 const img = document.createElement("img");
-                // img.src = `/images/${photo.src}`; // Use the correct image URL
-                img.src = `${photo.src}`; // Use the correct image URL
+                img.src = `${photo.src}`;
                 img.alt = photo.metadata || `Photo ${index + 1}`;
-                img.onclick = () => enlargeImage(game.photos, index); // Pass the array and index for enlarging
+                img.onclick = () => enlargeImage(game.photos, index);
                 imageGrid.appendChild(img);
             });
         } else {
@@ -66,7 +64,7 @@ async function openModal(gameSlug) {
             imageGrid.appendChild(message);
         }
 
-        modal.style.display = "flex"; // Show the modal
+        modal.style.display = "flex";
     } catch (error) {
         console.error("Error opening modal:", error);
     }
@@ -77,13 +75,12 @@ function enlargeImage(photos, index) {
     const enlargedImage = document.getElementById("enlargedImage");
     const enlargedMetadata = document.getElementById("enlargedMetadata");
 
-    // enlargedImage.src = `/images/${photos[index].src}`;
     enlargedImage.src = `${photos[index].src}`;
     enlargedMetadata.textContent = photos[index].metadata || "";
 
-    enlargedModal.style.display = "flex"; // Show the enlarged modal
+    enlargedModal.style.display = "flex";
     enlargedModal.dataset.currentIndex = index;
-    enlargedModal.dataset.photos = JSON.stringify(photos); // Store photos data for navigation
+    enlargedModal.dataset.photos = JSON.stringify(photos);
 }
 
 function navigateImage(offset) {
@@ -99,7 +96,7 @@ function closeModal() {
     const modal = document.getElementById("myModal");
     if (modal) {
         console.log("Closing modal...");
-        modal.style.display = "none"; // Close the modal
+        modal.style.display = "none";
     } else {
         console.error("Modal with ID 'myModal' not found.");
     }
@@ -109,7 +106,6 @@ window.onclick = function (event) {
     const modal = document.getElementById("myModal");
     const enlargedModal = document.getElementById("enlargedModal");
 
-    // Only close modal if clicking outside the modal content
     if (event.target === modal) {
         closeModal();
     } else if (event.target === enlargedModal) {
@@ -120,11 +116,10 @@ window.onclick = function (event) {
 function closeEnlargedModal() {
     const enlargedModal = document.getElementById("enlargedModal");
     if (enlargedModal) {
-        enlargedModal.style.display = "none"; // Hide the enlarged modal
+        enlargedModal.style.display = "none";
     } else {
         console.error("Modal with ID 'enlargedModal' not found.");
     }
 }
 
-// Initial call to load gallery data
 fetchGalleryData();

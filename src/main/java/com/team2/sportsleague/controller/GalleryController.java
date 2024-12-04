@@ -20,14 +20,14 @@ public class GalleryController {
     @GetMapping("/gallery")
     public String showGalleryPage(Model model) {
         List<Game> games = gameService.getAllGames();
-        model.addAttribute("games", games); // Pass the games to the view
-        return "gallery"; // Name of the HTML page (gallery.html)
+        model.addAttribute("games", games);
+        return "gallery";
     }
 
     // Return JSON response for gallery data
     @GetMapping("/gallery/data")
     @ResponseBody
     public List<Game> showGalleryData() {
-        return gameService.getAllGames();  // This will automatically be converted to JSON
+        return gameService.getAllGames();
     }
 }

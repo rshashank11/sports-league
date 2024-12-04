@@ -19,11 +19,9 @@ public class Game {
     private String name;
     private String slug;
 
-    // One-to-many relationship with Photo (Assuming a Game can have many Photos)
-    @OneToMany(mappedBy = "game") // Ensure Photo has a 'game' field
+    @OneToMany(mappedBy = "game")
     private List<Photo> photos = new ArrayList<>();
 
-    // Getters and Setters
     public long getId() {
         return id;
     }

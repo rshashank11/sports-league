@@ -16,7 +16,6 @@ public class GameRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // RowMapper for converting result set into Game object
     private static final class GameMapper implements RowMapper<Game> {
         @Override
         public Game mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -28,13 +27,12 @@ public class GameRepository {
         }
     }
 
-    // Fetch all games
     public List<Game> findAll() {
         String sql = "SELECT * FROM games";
         return jdbcTemplate.query(sql, new GameMapper());
     }
 
-    // Fetch a game by its slug
+
     public Game findBySlug(String slug) {
         String sql = "SELECT * FROM games WHERE slug = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{slug}, new GameMapper());
