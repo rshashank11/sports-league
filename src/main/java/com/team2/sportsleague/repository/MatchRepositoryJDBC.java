@@ -22,6 +22,7 @@ public class MatchRepositoryJDBC implements MatchRepository {
     }
     private void setMatchMapper(){
         matchMapper = (rs,i)-> new Match(
+                rs.getInt("match_id"),
                 rs.getInt("player1_id"),
                 rs.getInt("player2_id"),
                 rs.getString("player1_name"),
@@ -56,11 +57,11 @@ public class MatchRepositoryJDBC implements MatchRepository {
         return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null); // check if all matches have a winners
     }
 
-    public void updateScores(int player1Score, int player2Score) {
+    public void updateScores(int player1Score, int player2Score, int matchId) {
         // Update the scores for player1 and player2
-        String sql = "UPDATE matches SET score_player1 = ?, score_player2 = ?";
+        String sql = "UPDATE matches SET score_player1 = ?, score_player2 = ? WHERE match_id = ?";
         System.out.println("Updated scores");
-        jdbc.update(sql, player1Score, player2Score);
+        jdbc.update(sql, player1Score, player2Score, matchId);
 
         // Determine the winner using SQL and update the winner_id
         String updateWinnerSql = "UPDATE matches SET winner_id = CASE " +
@@ -68,9 +69,15 @@ public class MatchRepositoryJDBC implements MatchRepository {
                 "WHEN score_player2 > score_player1 THEN player2_id " +
                 "ELSE NULL END " +
                 "WHERE match_id = ?";
-        jdbc.update(updateWinnerSql);
+        jdbc.update(updateWinnerSql, matchId);
 
         System.out.println("Winner updated based on scores.");
+    }
+
+    public int getNextMatchId() {
+        String sql = "SELECT MAX(match_id) FROM matches";
+        Integer maxId = jdbc.queryForObject(sql, Integer.class);
+        return (maxId == null ? 1 : maxId + 1);
     }
 
     private List<Match> generateNextRoundMatches(List<Match> previousRoundMatches) {
@@ -92,6 +99,7 @@ public class MatchRepositoryJDBC implements MatchRepository {
                         : match2.getPlayer2_name();
 
                 Match nextMatch = new Match(
+                        getNextMatchId(),
                         match1.getWinner_id(),  // playerId1 from match1 winner
                         match2.getWinner_id(),  // playerId2 from match2 winner
                         winnerName1,            // Player 1 Name

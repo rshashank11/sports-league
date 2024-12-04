@@ -51,7 +51,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/admin/update-scores")  // Ignore CSRF for this endpoint otherwise giving erro
+                        .ignoringRequestMatchers("/admin/**")  // Ignore CSRF for this endpoint otherwise giving error
                 )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints

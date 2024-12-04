@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -38,13 +39,16 @@ public class MatchController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/admin/update-scores")
-    public ResponseEntity<String> updateScores(@RequestParam int player1Score,
-                                               @RequestParam int player2Score) {
+    public RedirectView updateScores(@RequestParam int player1Score,
+                                     @RequestParam int player2Score,
+                                     @RequestParam int matchId) {
         // Call service to update scores
         System.out.println("Over here now!");  // Log the response
-        matchService.updateMatchScores(player1Score, player2Score);
+        matchService.updateMatchScores(player1Score, player2Score, matchId);
         System.out.println("Response: success");  // Log the response
-        return ResponseEntity.ok("success");
+
+        // Redirect to the match page to refresh the view
+        return new RedirectView("/admin/update_match");  // Adjust this to your actual URL
     }
 
     @GetMapping("/match")

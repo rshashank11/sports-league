@@ -14,9 +14,9 @@ public class MatchService {
         this.matchRepository = matchRepository;
     }
 
-    public void updateMatchScores(int player1Score, int player2Score) {
+    public void updateMatchScores(int player1Score, int player2Score, int matchId) {
 
-        matchRepository.updateScores(player1Score, player2Score);
+        matchRepository.updateScores(player1Score, player2Score, matchId);
     }
 
     public List<Round> getAllRounds() {
