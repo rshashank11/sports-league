@@ -125,34 +125,43 @@ public class MatchRepositoryJDBC implements MatchRepository {
     private List<Match> generateNextRoundMatches(List<Match> previousRoundMatches, int leagueId) {
         List<Match> nextRoundMatches = new ArrayList<>();
 
-        for (int i = 0; i < previousRoundMatches.size(); i += 2) {
-            Match match1 = previousRoundMatches.get(i);
-            Match match2 = previousRoundMatches.get(i + 1);
+        // If we are in the final round and only have one match
+        if (previousRoundMatches.size() == 1) {
+           // No new match to generate
+        } else {
+            for (int i = 0; i < previousRoundMatches.size(); i += 2) {
+                // Ensure we don't go beyond the bounds of the list
+                if (i + 1 < previousRoundMatches.size()) {
+                    Match match1 = previousRoundMatches.get(i);
+                    Match match2 = previousRoundMatches.get(i + 1);
 
-            if (match1.getWinner_id() != null && match2.getWinner_id() != null) {
-                String winnerName1 = match1.getWinner_id().equals(match1.getPlayer1_id())
-                        ? match1.getPlayer1_name()
-                        : match1.getPlayer2_name();
+                    if (match1.getWinner_id() != null && match2.getWinner_id() != null) {
+                        String winnerName1 = match1.getWinner_id().equals(match1.getPlayer1_id())
+                                ? match1.getPlayer1_name()
+                                : match1.getPlayer2_name();
 
-                String winnerName2 = match2.getWinner_id().equals(match2.getPlayer1_id())
-                        ? match2.getPlayer1_name()
-                        : match2.getPlayer2_name();
+                        String winnerName2 = match2.getWinner_id().equals(match2.getPlayer1_id())
+                                ? match2.getPlayer1_name()
+                                : match2.getPlayer2_name();
 
-                Match nextMatch = new Match(
-                        getNextMatchId(),
-                        leagueId,
-                        match1.getWinner_id(),
-                        match2.getWinner_id(),
-                        winnerName1,
-                        winnerName2,
-                        0,
-                        0,
-                        null,
-                        match1.getRound_number() + 1
-                );
-                nextRoundMatches.add(nextMatch);
+                        Match nextMatch = new Match(
+                                getNextMatchId(),
+                                leagueId,
+                                match1.getWinner_id(),
+                                match2.getWinner_id(),
+                                winnerName1,
+                                winnerName2,
+                                0,
+                                0,
+                                null,
+                                match1.getRound_number() + 1
+                        );
+                        nextRoundMatches.add(nextMatch);
+                    }
+                }
             }
         }
         return nextRoundMatches;
     }
+
 }
