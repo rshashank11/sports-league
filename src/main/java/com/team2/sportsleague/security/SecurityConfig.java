@@ -52,7 +52,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes
-
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -60,12 +59,10 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .permitAll()
-
-
-                        .logoutSuccessUrl("/login"))                     // Redirect to login page after successful logout
+                        .logoutSuccessUrl("/login"))
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.sendRedirect(request.getContextPath() + "/"); // Redirect to root dynamically
+                            response.sendRedirect(request.getContextPath() + "/");
                         }));
 
         return http.build();
