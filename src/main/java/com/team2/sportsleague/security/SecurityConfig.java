@@ -50,6 +50,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/admin/update-scores")  // Ignore CSRF for this endpoint otherwise giving erro
+                )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes

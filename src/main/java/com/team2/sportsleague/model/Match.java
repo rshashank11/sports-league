@@ -7,12 +7,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class Match {
 
-    int playerId1;
-    int playerId2;
-    String playerName1;
-    String playerName2;
-    Integer player1Score;
-    Integer player2Score;
+    int player1_id;
+    int player2_id;
+    String player1_name;
+    String player2_name;
+    Integer score_player1;
+    Integer score_player2;
     Integer winner_id;
-    int roundNumber;
+    int round_number;
 }

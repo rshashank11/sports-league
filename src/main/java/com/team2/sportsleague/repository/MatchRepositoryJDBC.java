@@ -40,18 +40,11 @@ public class MatchRepositoryJDBC implements MatchRepository {
 
         // Group matches by round number
         Map<Integer, List<Match>> matchesByRound = matches.stream()
-                .collect(Collectors.groupingBy(Match::getRoundNumber));
+                .collect(Collectors.groupingBy(Match::getRound_number));
 
         List<Round> rounds = new ArrayList<>();
         for (Map.Entry<Integer, List<Match>> entry : matchesByRound.entrySet()) {
             rounds.add(new Round(entry.getValue()));  // Build the round objects
-        }
-
-        // Add logic for semi-finals and finals dynamically
-        while (canGenerateNextRound(rounds)) {
-            List<Match> previousRoundMatches = rounds.get(rounds.size() - 1).getMatches();
-            List<Match> nextRoundMatches = generateNextRoundMatches(previousRoundMatches);
-            rounds.add(new Round(nextRoundMatches));
         }
 
         return rounds;
@@ -59,7 +52,25 @@ public class MatchRepositoryJDBC implements MatchRepository {
 
     private boolean canGenerateNextRound(List<Round> rounds) {
         List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches();  //get the last round
+        System.out.println(lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null));
         return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null); // check if all matches have a winners
+    }
+
+    public void updateScores(int player1Score, int player2Score) {
+        // Update the scores for player1 and player2
+        String sql = "UPDATE matches SET score_player1 = ?, score_player2 = ?";
+        System.out.println("Updated scores");
+        jdbc.update(sql, player1Score, player2Score);
+
+        // Determine the winner using SQL and update the winner_id
+        String updateWinnerSql = "UPDATE matches SET winner_id = CASE " +
+                "WHEN score_player1 > score_player2 THEN player1_id " +
+                "WHEN score_player2 > score_player1 THEN player2_id " +
+                "ELSE NULL END " +
+                "WHERE match_id = ?";
+        jdbc.update(updateWinnerSql);
+
+        System.out.println("Winner updated based on scores.");
     }
 
     private List<Match> generateNextRoundMatches(List<Match> previousRoundMatches) {
@@ -72,13 +83,13 @@ public class MatchRepositoryJDBC implements MatchRepository {
             // Ensure both matches have winners before creating the next match
             if (match1.getWinner_id() != null && match2.getWinner_id() != null) {
                 // Determine winner names
-                String winnerName1 = match1.getWinner_id().equals(match1.getPlayerId1())
-                        ? match1.getPlayerName1()
-                        : match1.getPlayerName2();
+                String winnerName1 = match1.getWinner_id().equals(match1.getPlayer1_id())
+                        ? match1.getPlayer1_name()
+                        : match1.getPlayer2_name();
 
-                String winnerName2 = match2.getWinner_id().equals(match2.getPlayerId1())
-                        ? match2.getPlayerName1()
-                        : match2.getPlayerName2();
+                String winnerName2 = match2.getWinner_id().equals(match2.getPlayer1_id())
+                        ? match2.getPlayer1_name()
+                        : match2.getPlayer2_name();
 
                 Match nextMatch = new Match(
                         match1.getWinner_id(),  // playerId1 from match1 winner
@@ -88,7 +99,7 @@ public class MatchRepositoryJDBC implements MatchRepository {
                         null,                   // player1Score
                         null,                   // player2Score
                         null,                   // winner_id
-                        match1.getRoundNumber()// Increment round number
+                        match1.getRound_number()// Increment round number
                 );
 
                 nextRoundMatches.add(nextMatch);

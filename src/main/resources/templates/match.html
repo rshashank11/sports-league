@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}"/>
     <title>Match Bracket</title>
     <th:block th:replace="fragments/fonts :: font-links"></th:block>
     <th:block th:replace="fragments/styles :: style-links"></th:block>
@@ -19,26 +20,26 @@
     <div class="bracket">
         <div class="round" th:each="round : ${rounds}">
             <div class="match" th:each="match : ${round.matches}">
-                <div class="player" th:classappend="${match.player1Score > match.player2Score} ? 'winner' : ''">
+                <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
                     <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
-                    <span th:text="${match.playerName1}">Player 1</span>
+                    <span th:text="${match.player1_name}">Player 1</span>
 
                     <div th:if="${isAdmin}">
                         <!-- This is for admin only -->
                         <div sec:authorize="hasRole('ROLE_ADMIN')">
                             <input type="number"
                                    class="score-input player1"
-                                   th:value="${match.player1Score}"
+                                   th:value="${match.score_player1}"
                                    min="0"
                                    max="1" />
                         </div>
                     </div>
-                    <span th:text="${match.player1Score}">0</span> <!-- Display Player 1 score -->
+                    <span th:text="${match.score_player1}">0</span> <!-- Display Player 1 score -->
                 </div>
 
-                <div class="player" th:classappend="${match.player2Score > match.player1Score} ? 'winner' : ''">
+                <div class="player" th:classappend="${match.score_player2 > match.score_player2} ? 'winner' : ''">
                     <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
-                    <span th:text="${match.playerName2}">Player 2</span>
+                    <span th:text="${match.player2_name}">Player 2</span>
 
                     <div th:if="${isAdmin}">
                         <!-- This is for admin only -->
@@ -46,35 +47,42 @@
                             <!-- Input field for player 2 score -->
                             <input type="number"
                                    class="score-input player2"
-                                   th:value="${match.player2Score}"
+                                   th:value="${match.score_player2}"
                                    min="0"
                                    max="1" />
                         </div>
                     </div>
-                    <span th:text="${match.player2Score}">0</span>
+                    <span th:text="${match.score_player2}">0</span>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script th:inline="javascript">
-    /*<![CDATA[*/
+<script>
     document.querySelectorAll('.score-input').forEach(input => {
         input.addEventListener('change', function() {
-            let player1Score = document.querySelector('.player1').value;
-            let player2Score = document.querySelector('.player2').value;
+            event.preventDefault(); // Prevent default browser behavior
+            // Get the nearest '.match' ancestor of the input field
+            let matchElement = this.closest('.match');
 
-            let xhr = new XMLHttpRequest();
-            xhr.open('PUT', '/admin/update_match', true); // Using PUT request
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // URL-encoded form data
+            // Find the specific player score fields within the match
+            let player1Score = matchElement.querySelector('.player1').value;
+            let player2Score = matchElement.querySelector('.player2').value;
 
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {  // Request is done
-                    if (xhr.status === 200) {  // Success
-                        let response = xhr.responseText;
+            let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');  // ABSOLUTELY CRUCIAL WON'T WORK IF THIS IS REMOVED
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', '/admin/update-scores', true); // Using POST request since PUT was creating redirection errors
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // URL-encoded form data
+            xhttp.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Add the CSRF token to the request headers
+
+
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState === 4) {  // Request is done
+                    if (xhttp.status === 200) {  // Success
+                        let response = xhttp.responseText;
                         if (response === 'success') {
                             alert('Scores updated successfully!');
-                            location.reload();  // Reload the page to reflect the changes
                         } else {
                             alert('Error updating scores!');
                         }
@@ -86,10 +94,9 @@
 
             // Send the scores in the request body as URL-encoded form data
             let params = `player1Score=${player1Score}&player2Score=${player2Score}`;
-            xhr.send(params);
+            xhttp.send(params);
         });
     });
-    /*]]>*/
 </script>
 
 
