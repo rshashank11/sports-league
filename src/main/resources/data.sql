@@ -94,6 +94,20 @@ VALUES
      (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
 
 
-# INSERT INTO league_registrations (league_id, user_id)
-# VALUES ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 1),
-#        ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 2);
+INSERT INTO league_registrations (league_id, user_id)
+VALUES ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 1),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 3),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 4),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 5),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 6),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 7),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 8),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 9),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 10),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 11),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 12),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 13),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 14),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 15),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 16),
+       ((SELECT id FROM leagues WHERE name = 'Winter Pool League'), 17);

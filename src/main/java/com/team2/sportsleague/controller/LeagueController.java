@@ -4,7 +4,9 @@ import com.team2.sportsleague.entity.LeagueEntity;
 import com.team2.sportsleague.model.Match;
 import com.team2.sportsleague.model.Round;
 import com.team2.sportsleague.model.User;
+import com.team2.sportsleague.repository.LeagueRegistrationRepository;
 import com.team2.sportsleague.repository.MatchRepository;
+import com.team2.sportsleague.service.LeagueRegistrationService;
 import com.team2.sportsleague.service.LeagueService;
 import com.team2.sportsleague.service.LoginService;
 import com.team2.sportsleague.service.RankingService;
@@ -30,34 +32,31 @@ import java.util.List;
 
 @Controller
 public class LeagueController {
-
-
-    @Autowired
     private RankingService rankingService;
     private MatchRepository matchRepository;
+    private final LeagueRegistrationRepository leagueRegistrationRepository;
+    private final LeagueRegistrationService leagueRegistrationService;
     private final LeagueService leagueService;
-
-    @Autowired
     private final LoginService loginService;
     @Autowired
-    public LeagueController(LeagueService leagueService, MatchRepository matchRepository, LoginService loginService) {
+    public LeagueController(LeagueService leagueService, MatchRepository matchRepository, LoginService loginService, LeagueRegistrationRepository leagueRegistrationRepository, LeagueRegistrationService leagueRegistrationService) {
         this.leagueService = leagueService;
         this.matchRepository = matchRepository;
         this.loginService = loginService;
+        this.leagueRegistrationRepository = leagueRegistrationRepository;
+        this.leagueRegistrationService = leagueRegistrationService;
     }
 
 
     @GetMapping("/")
     public String getLeagues(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         String username = userDetails.getUsername();
-        Long userId = loginService.getUserIdByUsername(username);  // Ensure correct userId fetching
+        Long userId = loginService.getUserIdByUsername(username);
         model.addAttribute("userId", userId);
-        System.out.println("userId: "  + userId);
 
         List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
         List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
-        List<Long> joinedLeagues = leagueService.getUserJoinedLeagues(userId);
-        System.out.println("Joined leagues: " + joinedLeagues);
+        List<Long> joinedLeagues = leagueRegistrationRepository.getUserJoinedLeagues(userId);
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");
 
         model.addAttribute("upcomingLeagues", upcomingLeagues);
@@ -123,12 +122,12 @@ public class LeagueController {
             @RequestParam("userId") Long userId,
             @RequestParam("leagueId") Long leagueId) {
         try {
-            leagueService.registerUserToLeague(userId, leagueId);
+            leagueRegistrationService.registerUserToLeague(userId, leagueId);
             return ResponseEntity.ok("User successfully registered to league.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error: Unable to register user to league.");
+            return ResponseEntity.status(500).body("Unable to register user to league.");
         }
     }
 
