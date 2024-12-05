@@ -12,18 +12,16 @@
     <link rel="stylesheet" th:href="@{/css/match.css}">
 </head>
 <body>
+
 <nav th:replace="fragments/header :: header"></nav>
-
 <h1 style="text-align: center; color: #c0392b;" th:text="'League ' + ${leagueId}"></h1>
-
 <div class="bracket">
-
     <!-- Hidden input to store leagueId -->
     <input type="hidden" id="leagueId" th:value="${leagueId}">
     <div class="round" th:each="round : ${rounds}">
         <div class="match" th:each="match : ${round.matches}" th:attr="data-match-id=${match.matchId}">
             <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
-                <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
+                <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
                 <span th:text="${match.player1_name}">Player 1</span>
 
                 <div th:if="${isAdmin}">
@@ -40,7 +38,7 @@
             </div>
 
             <div class="player" th:classappend="${match.score_player2 > match.score_player1} ? 'winner' : ''">
-                <span><img th:src="@{/images/image.png}" alt="Player Image"></span>
+                <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
                 <span th:text="${match.player2_name}">Player 2</span>
 
                 <div th:if="${isAdmin}">
