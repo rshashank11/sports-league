@@ -72,20 +72,4 @@ INSERT INTO user_updates (user_id, updated_fields)
 VALUES
     ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 'Updated profile picture'),
     ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 'Updated password');
-     'Shashank Ramesha', 'Prateek Kesarwani', 32, 16,
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1),
-    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
-     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
-     'Ankit Srivastava', 'Taha Ali', 21, 42,
-     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1),
-    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'),
-     (SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'),
-     'John Doe', 'Jane Smith', 34, 23,
-     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), 1),
-    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
-     (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
-     'Alex Brown', 'Emily Davis', 14, 134,
-     (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 1);
+

@@ -50,14 +50,12 @@ public class LeagueController {
         return "rankings";
     }
 
-    @GetMapping("/gallery")
-    public ModelAndView showGallery() {
-        return new ModelAndView("gallery");
-    }
 
+    // Show rules page
     @GetMapping("/rules")
     public ModelAndView showRules() {
         return new ModelAndView("rules");
     }
 
 }
+
