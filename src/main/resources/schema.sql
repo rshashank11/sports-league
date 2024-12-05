@@ -1,10 +1,54 @@
--- Drop existing tables to avoid conflicts
+DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS users_roles;
 DROP TABLE IF EXISTS rankings;
 DROP TABLE IF EXISTS matches;
 DROP TABLE IF EXISTS leagues;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
+
+-- Create the games table
+CREATE TABLE IF NOT EXISTS games (
+                                     id INT AUTO_INCREMENT PRIMARY KEY,
+                                     name VARCHAR(255) NOT NULL,
+                                     slug VARCHAR(255) NOT NULL
+);
+
+-- Create the photos table
+CREATE TABLE IF NOT EXISTS photos (
+                                      id INT AUTO_INCREMENT PRIMARY KEY,
+                                      game_id INT NOT NULL,
+                                      src VARCHAR(255) NOT NULL,
+                                      metadata VARCHAR(255),
+                                      FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+);
+
+-- Insert sample data into the games table
+INSERT INTO games (name, slug) VALUES
+                                   ('Dart', 'dartleague'),
+                                   ('Table Tennis', 'table-tennisleague'),
+                                   ('Pool', 'poolleague');
+
+-- Insert sample data into the photos table
+INSERT INTO photos (game_id, src, metadata) VALUES
+                                                (1, '/images/dart/photos3.jpg', 'Background of Dart Game'),
+                                                (1, '/images/dart/photos2.jpg', 'Dart game action shot'),
+                                                (1, '/images/dart/photos5.jpg', 'Dart demonstration'),
+                                                (1, '/images/dart/photos1.jpg', 'Dart demonstration'),
+                                                (1, '/images/dart/photos4.jpg', 'Dart demonstration'),
+                                                (1, '/images/dart/photos6.jpg', 'Dart demonstration'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool');
+
 
 -- Create the users table
 CREATE TABLE users (
@@ -69,4 +113,3 @@ CREATE TABLE matches (
                          FOREIGN KEY (player1_id) REFERENCES users(user_id),
                          FOREIGN KEY (player2_id) REFERENCES users(user_id)
 ) ENGINE=InnoDB;
-
