@@ -50,17 +50,26 @@ public class LeagueController {
 
     }
 
+
+
     @GetMapping("/rankings")
     public String showRankingList(Model model) {
         model.addAttribute("rankings", rankingService.getAllRankings());
         return "rankings";
     }
 
-    // Show rules page
+
+    @GetMapping("/gallery")
+    public ModelAndView showGallery() {
+        return new ModelAndView("gallery"); // Thymeleaf template for gallery
+    }
+
+
     @GetMapping("/rules")
     public ModelAndView showRules() {
         return new ModelAndView("rules"); // Thymeleaf template for rules
     }
+
 
     @GetMapping("/profile")
     public String showUserProfile(Model model) {
