@@ -15,11 +15,17 @@
 
 <nav th:replace="fragments/header :: header"></nav>
 <h1 style="text-align: center; color: #c0392b;" th:text="'League ' + ${leagueId}"></h1>
+<div sec:authorize="hasRole('ROLE_ADMIN')" class="edit-section">
+    <button class="edit-button" onclick="toggleEditMode(this)">Edit League</button>
+</div>
 <div class="bracket">
     <!-- Hidden input to store leagueId -->
     <input type="hidden" id="leagueId" th:value="${leagueId}">
+
     <div class="round" th:each="round : ${rounds}">
         <div class="match" th:each="match : ${round.matches}" th:attr="data-match-id=${match.matchId}">
+
+
             <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
                 <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
                 <span th:text="${match.player1_name}">Player 1</span>
@@ -31,7 +37,8 @@
                                class="score-input player1"
                                th:value="${match.score_player1}"
                                min="0"
-                               max="1" />
+                               max="1"
+                        />
                     </div>
                 </div>
                 <span th:text="${match.score_player1}">0</span> <!-- Display Player 1 score -->
@@ -49,7 +56,8 @@
                                class="score-input player2"
                                th:value="${match.score_player2}"
                                min="0"
-                               max="1" />
+                               max="1"
+                        />
                     </div>
                 </div>
                 <span th:text="${match.score_player2}">0</span>
@@ -60,11 +68,31 @@
 </body>
 
 <script>
+    function toggleEditMode(button) {
+        const leagueId = document.getElementById('leagueId').value; // Get the league ID
+
+        if (window.location.pathname === "/match") {
+            // Redirect to the edit page
+            window.location.href = `/admin/update_match?leagueId=${leagueId}`;
+        } else if (window.location.pathname === "/admin/update_match") {
+            // Redirect back to the match page
+            window.location.href = `/match?leagueId=${leagueId}`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const button = document.querySelector(".edit-button");
+        if (window.location.pathname === "/match") {
+            button.textContent = "Edit League";
+        } else if (window.location.pathname === "/admin/update_match") {
+            button.textContent = "Return to League";
+        }
+    });
+
     document.querySelectorAll('.score-input').forEach(input => {
         input.addEventListener('change', function(event) {
             event.preventDefault(); // Prevent default browser behavior
 
-            // Get the nearest '.match' ancestor of the input field
             let matchElement = this.closest('.match');
 
             // Retrieve specific data from the DOM
@@ -94,7 +122,7 @@
                 }
             };
 
-            // Send the scores along with matchId and leagueId as URL-encoded form data
+            // Send the scores along with matchId and leagueId
             let params = `player1Score=${player1Score}&player2Score=${player2Score}&matchId=${matchId}&leagueId=${leagueId}`;
             xhttp.send(params);
         });
