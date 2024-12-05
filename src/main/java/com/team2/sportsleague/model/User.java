@@ -3,23 +3,29 @@ package com.team2.sportsleague.model;
 import java.util.List;
 
 public class User {
+    private int userId;
+    private String username;
     private String name;
     private String email;
-    private String employeeId;
     private String department;
     private String role;
-    private List<String> games;
 
-    public User(String name, String email, String employeeId, String department, String role, List<String> games) {
-        this.name = name;
-        this.email = email;
-        this.employeeId = employeeId;
-        this.department = department;
-        this.role = role;
-        this.games = games;
+    public int getUserId() {
+        return userId;
     }
 
-    // Getters and Setters
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getName() {
         return name;
     }
@@ -34,14 +40,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
     }
 
     public String getDepartment() {
@@ -59,12 +57,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public List<String> getGames() {
-        return games;
-    }
-
-    public void setGames(List<String> games) {
-        this.games = games;
-    }
 }
+
