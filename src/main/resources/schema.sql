@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users_roles;
 DROP TABLE IF EXISTS rankings;
 DROP TABLE IF EXISTS matches;
 DROP TABLE IF EXISTS leagues;
-DROP TABLE IF EXISTS users;
+/*DROP TABLE IF EXISTS users;*/
 DROP TABLE IF EXISTS roles;
 
 -- Create the users table
