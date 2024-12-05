@@ -22,13 +22,12 @@ public class LeagueController {
 
     private final RankingService rankingService;
     private final LeagueService leagueService;
-    private final MatchRepository matchRepository;
 
     @Autowired
-    public LeagueController(RankingService rankingService, LeagueService leagueService, MatchRepository matchRepository) {
+    public LeagueController(RankingService rankingService, LeagueService leagueService) {
         this.rankingService = rankingService;
         this.leagueService = leagueService;
-        this.matchRepository = matchRepository;
+
     }
 
     @GetMapping("/")
@@ -61,12 +60,4 @@ public class LeagueController {
         return new ModelAndView("rules");
     }
 
-
-//    @GetMapping("/match")
-//    public ModelAndView showMatch() {
-//        ModelAndView mvc = new ModelAndView("match");
-//        List<Round> rounds = matchRepository.getAllRounds();
-//        mvc.addObject("rounds", rounds);
-//        return mvc;
-//    }
 }

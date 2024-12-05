@@ -52,8 +52,8 @@ CREATE TABLE leagues (
                          schedule DATETIME NOT NULL,
                          last_registration_date DATETIME NOT NULL,
                          venue VARCHAR(255),
-                         sports VARCHAR(100),
-                         description TEXT
+                         sports VARCHAR(100)
+#                          description TEXT
 ) ENGINE=InnoDB;
 
 -- Create matches table
@@ -68,7 +68,7 @@ CREATE TABLE matches (
                          score_player2 INT,
                          winner_id INT,
                          round_number INT NOT NULL,
-                         match_time DATETIME NOT NULL,
+#                          match_time DATETIME NOT NULL,
                          FOREIGN KEY (league_id) REFERENCES leagues(id),
                          FOREIGN KEY (player1_id) REFERENCES users(user_id),
                          FOREIGN KEY (player2_id) REFERENCES users(user_id)

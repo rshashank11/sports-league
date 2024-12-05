@@ -45,27 +45,27 @@ VALUES
     ((SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 15, 0, 150);
 
 -- Insert leagues
-INSERT INTO leagues (name, schedule, last_registration_date, venue, sports, description)
+INSERT INTO leagues (name, schedule, last_registration_date, venue, sports)
 VALUES
-    ('Winter Pool League', '2024-12-15 10:00:00', '2024-12-10 23:59:59', 'Sports Club A', 'Pool', 'A fun winter league for pool enthusiasts.'),
-    ('Spring Darts League', '2024-03-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B', 'Darts', 'Sharpen your aim this spring.'),
-    ('Autumn Table Tennis League', '2024-10-01 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center', 'Table Tennis', 'Compete for the championship this autumn.'),
-    ('Summer Darts League', '2024-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena', 'Darts', 'Experience the thrill of summer darts.'),
-    ('National Pool Championship', '2024-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza', 'Pool', 'The ultimate pool championship.');
+    ('Winter Pool League', '2024-12-15 10:00:00', '2024-12-10 23:59:59', 'Sports Club A', 'Pool'),
+    ('Spring Darts League', '2024-03-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B', 'Darts'),
+    ('Autumn Table Tennis League', '2024-10-01 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center', 'Table Tennis'),
+    ('Summer Darts League', '2024-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena', 'Darts'),
+    ('National Pool Championship', '2024-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza', 'Pool');
 
 -- Insert matches
-INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number, match_time)
+INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
      'Shashank Ramesha', 'Prateek Kesarwani', 21, 18,
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1, '2024-12-15 10:30:00'),
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
      'Ankit Srivastava', 'Taha Ali', 15, 21,
-     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1, '2024-12-15 11:00:00');
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1);
 
 -- Insert user updates (example updates)
 INSERT INTO user_updates (user_id, updated_fields)
