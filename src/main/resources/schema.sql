@@ -34,8 +34,21 @@ INSERT INTO photos (game_id, src, metadata) VALUES
                                                 (1, '/images/dart/photos3.jpg', 'Background of Dart Game'),
                                                 (1, '/images/dart/photos2.jpg', 'Dart game action shot'),
                                                 (1, '/images/dart/photos5.jpg', 'Dart demonstration'),
+                                                (1, '/images/dart/photos1.jpg', 'Dart demonstration'),
+                                                (1, '/images/dart/photos4.jpg', 'Dart demonstration'),
+                                                (1, '/images/dart/photos6.jpg', 'Dart demonstration'),
                                                 (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (2, '/images/tabletennis/photos4.jpg', 'Kids playing table tennis'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
+                                                (3, '/images/pool/photos2.jpg', 'World Cup details for Pool'),
                                                 (3, '/images/pool/photos2.jpg', 'World Cup details for Pool');
+
 
 -- Create the users table
 CREATE TABLE users (
