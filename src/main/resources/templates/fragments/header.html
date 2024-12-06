@@ -7,25 +7,25 @@
     <th:block th:replace="fragments/styles :: style-links"></th:block>
 </head>
 <body>
-    <header th:fragment="header">
-        <nav>
-            <a href="/">
-                Leagues
-            </a>
-            <a href="/rankings">
-                Rankings
-            </a>
-            <a href="/gallery">
-                Gallery
-            </a>
-            <a href="/rules">
-                Rules
-            </a>
-            <a href="/profile" class="profile">
-                <img th:src="@{/images/defaultProfile.png}">
-            </a>
-        </nav>
-    </header>
+<header th:fragment="header">
+    <nav>
+        <div class="nav-center">
+            <div class="nav-links">
+                <a href="/">Leagues</a>
+                <a href="/rankings">Rankings</a>
+                <a href="/gallery">Gallery</a>
+                <a href="/rules">Rules</a>
+                <a href="/profile" class="profile">
+                    <img th:src="@{/images/defaultProfile.png}" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%;">
+                </a>
+            </div>
+        </div>
+        <div class="logout-section:logout}" method="post" style="margin: 0;">
+            <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </nav>
+</header>
 
 </body>
 </html>
