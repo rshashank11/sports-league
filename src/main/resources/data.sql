@@ -59,13 +59,23 @@ VALUES
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
-     'Shashank Ramesha', 'Prateek Kesarwani', 21, 18,
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 1),
+     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0,
+     null, 1),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
-     'Ankit Srivastava', 'Taha Ali', 15, 21,
-     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 1);
+     'Ankit Srivastava', 'Taha Ali', 0, 0,
+     null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'),
+     (SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'),
+     'John Doe', 'Jane Smith', 0, 0,
+     null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
+     (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'),
+     'Alex Brown', 'Emily Davis', 0, 0,
+     null, 1);
 
 -- Insert user updates (example updates)
 INSERT INTO user_updates (user_id, updated_fields)
