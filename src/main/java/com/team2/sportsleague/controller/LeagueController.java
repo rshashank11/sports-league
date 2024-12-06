@@ -33,7 +33,8 @@ public class LeagueController {
     private static final String UPLOAD_DIR = "src/main/resources/static/images/";
 
     @Autowired
-    public LeagueController(LeagueService leagueService, MatchRepository matchRepository, LoginService loginService, LeagueRegistrationRepository leagueRegistrationRepository, LeagueRegistrationService leagueRegistrationService) {
+    public LeagueController(RankingService rankingService, LeagueService leagueService, MatchRepository matchRepository, LoginService loginService, LeagueRegistrationRepository leagueRegistrationRepository, LeagueRegistrationService leagueRegistrationService) {
+        this.rankingService = rankingService;
         this.leagueService = leagueService;
         this.matchRepository = matchRepository;
         this.loginService = loginService;
