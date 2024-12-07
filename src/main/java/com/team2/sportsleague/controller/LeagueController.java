@@ -25,7 +25,6 @@ import java.util.List;
 @Controller
 public class LeagueController {
     private RankingService rankingService;
-    private MatchRepository matchRepository;
     private final LeagueRegistrationRepository leagueRegistrationRepository;
     private final LeagueRegistrationService leagueRegistrationService;
     private final LeagueService leagueService;
@@ -36,7 +35,6 @@ public class LeagueController {
     public LeagueController(RankingService rankingService, LeagueService leagueService, MatchRepository matchRepository, LoginService loginService, LeagueRegistrationRepository leagueRegistrationRepository, LeagueRegistrationService leagueRegistrationService) {
         this.rankingService = rankingService;
         this.leagueService = leagueService;
-        this.matchRepository = matchRepository;
         this.loginService = loginService;
         this.leagueRegistrationRepository = leagueRegistrationRepository;
         this.leagueRegistrationService = leagueRegistrationService;
