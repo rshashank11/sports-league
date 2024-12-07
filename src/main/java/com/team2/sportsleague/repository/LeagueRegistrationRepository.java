@@ -33,6 +33,27 @@ public class LeagueRegistrationRepository {
 
         String sql = "INSERT INTO league_registrations (league_id, user_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, leagueId, userId);
+        assignPlayerToMatch(userId, leagueId);
+    }
+
+    private void assignPlayerToMatch(Long userId, Long leagueId) {
+        String findMatchSql = "SELECT match_id FROM matches WHERE league_id = ? AND player1_id IS NOT NULL AND player2_id IS NULL LIMIT 1";
+        List<Long> matchIds = jdbcTemplate.query(findMatchSql, new Object[]{leagueId}, (rs, rowNum) -> rs.getLong("match_id"));
+
+        if (!matchIds.isEmpty()) {
+            Long matchId = matchIds.get(0);
+
+            String updateMatchSql = "UPDATE matches SET player2_id = ? WHERE match_id = ?";
+            jdbcTemplate.update(updateMatchSql, userId, matchId);
+
+            String updatePlayerNameSql = "UPDATE matches SET player2_name = (SELECT name FROM users WHERE user_id = ?) WHERE match_id = ?";
+            jdbcTemplate.update(updatePlayerNameSql, userId, matchId);
+
+        } else {
+            String createMatchSql = "INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, round_number) "
+                    + "VALUES (?, ?, NULL, (SELECT name FROM users WHERE user_id = ?), NULL, 0, 0, 1)";
+            jdbcTemplate.update(createMatchSql, leagueId, userId, userId);
+        }
     }
     public int getRegistrationCountForLeague(Long leagueId) {
         String sql = "SELECT COUNT(*) FROM league_registrations WHERE league_id = ?";
