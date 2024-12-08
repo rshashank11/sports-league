@@ -26,7 +26,7 @@ public class SecurityConfig {
 
     // Whitelisted endpoints
     public static final String[] ENDPOINTS_WHITELIST = {
-            "/login", "/signup", "/css/**", "/js/**", "/images/**", "/match/**"
+            "/login", "/signup", "/css/**", "/js/**", "/images/**",
     };
 
     @Autowired

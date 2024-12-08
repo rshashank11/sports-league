@@ -34,6 +34,8 @@ public class LeagueRepository {
         List<LeagueEntity> leagues = new ArrayList<>();
         String query = "SELECT * FROM leagues WHERE schedule > NOW() ORDER BY schedule ASC";
 
+
+
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
@@ -44,6 +46,8 @@ public class LeagueRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
 
         return leagues;
     }
@@ -91,6 +95,7 @@ public class LeagueRepository {
 
     private LeagueEntity mapResultSetToLeague(ResultSet resultSet) throws SQLException {
         return new LeagueEntity(
+                resultSet.getInt("id"),
                 resultSet.getString("name"),
                 resultSet.getTimestamp("schedule").toLocalDateTime(),
                 resultSet.getTimestamp("last_registration_date").toLocalDateTime(),

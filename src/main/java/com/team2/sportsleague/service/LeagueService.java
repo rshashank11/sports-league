@@ -2,16 +2,16 @@ package com.team2.sportsleague.service;
 import com.team2.sportsleague.entity.LeagueEntity;
 import com.team2.sportsleague.repository.LeagueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LeagueService {
     @Autowired
     private final LeagueRepository leagueRepository;
-
-
     public LeagueService(LeagueRepository leagueRepository) {
         this.leagueRepository = leagueRepository;
     }
@@ -21,11 +21,16 @@ public class LeagueService {
     }
 
     public List<LeagueEntity> getUpcomingLeagues() {
-        return leagueRepository.getUpcomingLeagues()
+        List<LeagueEntity> leagues = leagueRepository.getUpcomingLeagues();
+
+        // Remove duplicates by id
+        return leagues.stream()
+                .collect(Collectors.toMap(LeagueEntity::getId, league -> league, (existing, replacement) -> existing))
+                .values()
                 .stream()
-                .filter(league -> league.getSchedule() != null && league.getSchedule().isAfter(java.time.LocalDateTime.now()))
-                .toList();
+                .collect(Collectors.toList());
     }
+
 
     public List<LeagueEntity> getRecentLeagues() {
         return leagueRepository.getRecentLeagues()

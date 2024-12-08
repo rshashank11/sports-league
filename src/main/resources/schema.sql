@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS users_roles;
 DROP TABLE IF EXISTS rankings;
 DROP TABLE IF EXISTS matches;
+DROP TABLE IF EXISTS league_registrations;
 DROP TABLE IF EXISTS leagues;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
@@ -89,6 +90,7 @@ CREATE TABLE rankings (
                           FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB;
 
+
 /* Create leagues table */
 CREATE TABLE leagues (
                          id INT AUTO_INCREMENT PRIMARY KEY,
@@ -103,10 +105,10 @@ CREATE TABLE leagues (
 CREATE TABLE matches (
                          match_id INT AUTO_INCREMENT PRIMARY KEY,
                          league_id INT NOT NULL,
-                         player1_id INT NOT NULL,
-                         player2_id INT NOT NULL,
-                         player1_name VARCHAR(255) NOT NULL,
-                         player2_name VARCHAR(255) NOT NULL,
+                         player1_id INT,
+                         player2_id INT,
+                         player1_name VARCHAR(255),
+                         player2_name VARCHAR(255),
                          score_player1 INT NOT NULL,
                          score_player2 INT NOT NULL,
                          winner_id INT,
@@ -116,11 +118,13 @@ CREATE TABLE matches (
                          FOREIGN KEY (player2_id) REFERENCES users(user_id)
 ) ENGINE=InnoDB;
 
-/* Create user_updates table */
-CREATE TABLE user_updates (
-                              update_id INT AUTO_INCREMENT PRIMARY KEY,
-                              user_id INT NOT NULL,
-                              updated_fields TEXT NOT NULL,
-                              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                              FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE league_registrations (
+                                      registration_id INT AUTO_INCREMENT PRIMARY KEY,
+                                      league_id INT NOT NULL,
+                                      user_id INT NOT NULL,
+                                      registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                      FOREIGN KEY (league_id) REFERENCES leagues(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                      FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                      CONSTRAINT unique_registration UNIQUE (league_id, user_id)
 ) ENGINE=InnoDB;
+

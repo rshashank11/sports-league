@@ -1,8 +1,9 @@
--- Insert roles
+
 INSERT INTO roles (role_name)
 VALUES
     ('ROLE_USER'),
     ('ROLE_ADMIN');
+
 
 -- Insert users
 INSERT INTO users (username, name, password, email, department, role, profile_image, enabled)
@@ -35,35 +36,48 @@ VALUES
     ('prateekk2@creditsafe.it', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('ankits34@creditsafeuk.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN'));
--- Step 4: Insert rankings
-
 INSERT INTO rankings (user_id, wins, losses, points)
 VALUES
-    ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100),
-    ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 8, 4, 80),
-    ((SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'), 12, 1, 120),
-    ((SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 15, 0, 150);
+    ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100), -- Shashank Ramesha
+    ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 8, 4, 80),     -- Prateek Kesarwani
+    ((SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'), 12, 1, 120), -- Ankit Srivastava
+    ((SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'), 15, 0, 150),   -- Taha Ali
+    ((SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com'), 9, 3, 90),     -- John Doe
+    ((SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk'), 7, 5, 70), -- Jane Smith
+    ((SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'), 11, 2, 110),  -- Alex Brown
+    ((SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'), 12, 1, 120), -- Emily Davis
+    ((SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp'), 15, 0, 150), -- Hiroshi Tanaka
+    ((SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk'), 8, 4, 80),    -- Mads Olsen
+    ((SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi'), 10, 2, 100), -- Liisa Virtanen
+    ((SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr'), 13, 1, 130), -- Julien Martin
+    ((SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu'), 9, 3, 90),    -- Geza Kovacs
+    ((SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie'), 6, 6, 60),   -- Liam O'Connor
+    ((SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it'), 14, 1, 140),  -- Marco Rossi
+    ((SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu'), 7, 5, 70),   -- Anna Schmitz
+    ((SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl'), 11, 2, 110), -- Daan Janssen
+    ((SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'), 8, 4, 80),    -- Olav Hansen
+    ((SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'), 10, 2, 100), -- Eva Karlsson
+    ((SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'), 9, 3, 90); -- Thomas Schmidt
 
--- Insert leagues
 INSERT INTO leagues (name, schedule, last_registration_date, venue, sports)
 VALUES
     ('Winter Pool League', '2024-12-15 10:00:00', '2024-12-10 23:59:59', 'Sports Club A', 'Pool'),
-    ('Spring Darts League', '2024-03-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B', 'Darts'),
-    ('Autumn Table Tennis League', '2024-10-01 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center', 'Table Tennis'),
-    ('Summer Darts League', '2024-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena', 'Darts'),
-    ('National Pool Championship', '2024-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza', 'Pool');
+    ('Spring Darts League', '2024-12-20 14:00:00', '2024-03-15 23:59:59', 'Community Hall B','Darts' ),
+    ('Autumn Table Tennis League', '2024-12-11 09:00:00', '2024-09-25 23:59:59', 'Downtown Sports Center','Table Tennis'),
+    ('Summer Darts League', '2025-06-10 16:00:00', '2024-06-05 23:59:59', 'Olympic Arena','Darts'),
+    ('National Pool Championship', '2025-08-20 12:00:00', '2024-08-10 23:59:59', 'Grand Plaza','Pool');
 
--- Insert matches
 INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
-     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
-     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0,
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'),
+     'Eva Karlsson', 'Thomas Schmidt', 0, 0,
      null, 1),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
+
      'Ankit Srivastava', 'Taha Ali', 0, 0,
      null, 1),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
@@ -77,9 +91,233 @@ VALUES
      'Alex Brown', 'Emily Davis', 0, 0,
      null, 1);
 
--- Insert user updates (example updates)
-INSERT INTO user_updates (user_id, updated_fields)
+INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
-    ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 'Updated profile picture'),
-    ((SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'), 'Updated password');
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp'),
+     (SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk'),
+     'Hiroshi Tanaka', 'Mads Olsen', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi'),
+     (SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr'),
+     'Liisa Virtanen', 'Julien Martin', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu'),
+     (SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie'),
+     'Geza Kovacs', 'Liam O\'Connor', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it'),
+     (SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu'),
+     'Marco Rossi', 'Anna Schmitz', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl'),
+     (SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'),
+     'Daan Janssen', 'Olav Hansen', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'),
+     'Eva Karlsson', 'Thomas Schmidt', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
+     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
+     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
+     'Ankit Srivastava', 'Taha Ali', 0, 0, null, 1),
+
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp'),
+     (SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk'),
+     'Hiroshi Tanaka', 'Mads Olsen', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi'),
+     (SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr'),
+     'Liisa Virtanen', 'Julien Martin', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu'),
+     (SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie'),
+     'Geza Kovacs', 'Liam O\'Connor', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it'),
+     (SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu'),
+     'Marco Rossi', 'Anna Schmitz', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl'),
+     (SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'),
+     'Daan Janssen', 'Olav Hansen', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'),
+     'Eva Karlsson', 'Thomas Schmidt', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
+     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
+     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
+     'Ankit Srivastava', 'Taha Ali', 0, 0, null, 1),
+
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp'),
+     (SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk'),
+     'Hiroshi Tanaka', 'Mads Olsen', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi'),
+     (SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr'),
+     'Liisa Virtanen', 'Julien Martin', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu'),
+     (SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie'),
+     'Geza Kovacs', 'Liam O\'Connor', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it'),
+     (SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu'),
+     'Marco Rossi', 'Anna Schmitz', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl'),
+     (SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no'),
+     'Daan Janssen', 'Olav Hansen', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'),
+     'Eva Karlsson', 'Thomas Schmidt', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
+     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
+     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0, null, 1),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),
+     'Ankit Srivastava', 'Taha Ali', 0, 0, null, 1);
+
+
+-- Registrations for 'Winter Pool League'
+INSERT INTO league_registrations (league_id, user_id)
+VALUES
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'johndoe5@creditsafe.com')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'jane.smith@companycheck.co.uk')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be')),
+    ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
+     (SELECT user_id FROM users WHERE username = 'emily.davis@creditsafe.co.in'));
+
+-- Registrations for 'Spring Darts League'
+INSERT INTO league_registrations (league_id, user_id)
+VALUES
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com')),
+    ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'));
+
+-- Registrations for 'Autumn Table Tennis League'
+INSERT INTO league_registrations (league_id, user_id)
+VALUES
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com')),
+    ((SELECT id FROM leagues WHERE name = 'Autumn Table Tennis League'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'));
+
+-- Registrations for 'Summer Darts League'
+INSERT INTO league_registrations (league_id, user_id)
+VALUES
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'hiroshi.tanaka@creditsafe.co.jp')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'mads.olsen@creditsafe.dk')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'liisa.virtanen@creditsafe.fi')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'julien.martin@creditsafe.fr')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'geza.kovacs@creditsafe.hu')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'liam.oconnor@creditsafe.ie')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'marco.rossi@creditsafe.it')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'anna.schmitz@creditsafe.lu')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'daan.janssen@creditsafe.nl')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'olav.hansen@creditsafe.no')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com')),
+    ((SELECT id FROM leagues WHERE name = 'Summer Darts League'),
+     (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'));
 
