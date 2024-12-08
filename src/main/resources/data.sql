@@ -70,9 +70,9 @@ VALUES
 INSERT INTO matches (league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number)
 VALUES
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
-     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
-     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0,
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se'),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'),
+     'Eva Karlsson', 'Thomas Schmidt', 0, 0,
      null, 1),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
@@ -118,7 +118,7 @@ VALUES
      (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com'),
      'Eva Karlsson', 'Thomas Schmidt', 0, 0, null, 1),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
      'Shashank Ramesha', 'Prateek Kesarwani', 0, 0, null, 1),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
@@ -197,9 +197,9 @@ VALUES
 INSERT INTO league_registrations (league_id, user_id)
 VALUES
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com')),
+     (SELECT user_id FROM users WHERE username = 'eva.karlsson@creditsafe.se')),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
-     (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it')),
+     (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com')),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com')),
     ((SELECT id FROM leagues WHERE name = 'Winter Pool League'),
@@ -241,7 +241,7 @@ VALUES
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
      (SELECT user_id FROM users WHERE username = 'thomas.schmidt@creditsafede.com')),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
-     (SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com')),
+     (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be')),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it')),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),

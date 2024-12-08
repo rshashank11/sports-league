@@ -83,6 +83,17 @@ h2 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.button[disabled] {
+    background-color: rgba(231, 76, 60, 0.5); /* Semi-transparent lighter red */
+    color: rgba(255, 255, 255, 0.8); /* Slightly brighter text */
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    backdrop-filter: blur(1px); /* Reduced blur effect */
+    opacity: 0.9; /* More visible overall */
+}
+
+
 .button:hover {
     background-color: #c0392b;
     transform: scale(1.05);
