@@ -164,4 +164,10 @@ public class MatchRepositoryJDBC implements MatchRepository {
         return nextRoundMatches;
     }
 
+    public boolean isUserOwnerOfMatch(int matchId, Long userId) {
+        String sql = "SELECT COUNT(*) FROM matches WHERE match_id = ? AND (player1_id = ? OR player2_id = ?)";
+        Integer count = jdbc.queryForObject(sql, Integer.class, matchId, userId, userId);
+        return count != null && count > 0;
+    }
+
 }
