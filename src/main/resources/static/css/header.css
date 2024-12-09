@@ -30,7 +30,7 @@ nav {
 
 .nav-links {
     display: flex;
-    gap: 10px; /* Add spacing between navigation links */
+    gap: 10px;
 }
 
 a {
