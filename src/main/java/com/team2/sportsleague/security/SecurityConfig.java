@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -18,7 +17,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)  // Enable pre/post annotations
-
 public class SecurityConfig {
 
     private final DataSource dataSource;
@@ -50,7 +48,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/admin/**")  // Ignore CSRF for this endpoint otherwise giving error
+                        .ignoringRequestMatchers("/profile/update", "/admin/**")  // Ignore CSRF for profile update
                 )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
@@ -60,13 +58,17 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .permitAll())
-                .logout(logout -> logout //logout api call
+                .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login")) //redirecting to login page.
+                        .logoutSuccessUrl("/login")) // Redirecting to login page after logout
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendRedirect(request.getContextPath() + "/");
-                        }));
+                        }))
+                .sessionManagement(session -> session
+                        .sessionFixation().newSession()  // Start a new session after login
+                        .maximumSessions(1).expiredUrl("/login")  // Ensure a single session per user
+                );
 
         return http.build();
     }
@@ -76,5 +78,3 @@ public class SecurityConfig {
         return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
 }
-
-

@@ -32,12 +32,21 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.query(sql, userMapper, userId).stream().findFirst();
     }
 
-
-
     @Override
     public Optional<Integer> findUserIdByUsername(String username) {
         String sql = "SELECT user_id FROM users WHERE username = ?";
         return jdbcTemplate.queryForList(sql, Integer.class, username).stream().findFirst();
     }
-}
 
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        return jdbcTemplate.query(sql, userMapper, username).stream().findFirst();
+    }
+
+    @Override
+    public void save(User user) {
+        String sql = "UPDATE users SET name = ?, email = ?, department = ?, role = ?, profile_image = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getDepartment(), user.getRole(), user.getProfileImage(), user.getUserId());
+    }
+}

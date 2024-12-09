@@ -10,6 +10,31 @@
     <th:block th:replace="fragments/styles :: style-links"></th:block>
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/userProfile.css}">
+    <script>
+        // JavaScript to handle the edit action
+        function editField(field) {
+            const value = prompt(`Enter new ${field}:`);
+            if (value) {
+                fetch(`/profile/update`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ [field]: value })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert(`${field} updated successfully!`);
+                            // Optionally, update the field on the page without reload
+                            document.getElementById(`${field}-field`).textContent = value;
+                        } else {
+                            alert('Error updating profile!');
+                        }
+                    })
+                    .catch(error => {
+                        alert('Error updating profile!');
+                    });
+            }
+        }
+    </script>
 </head>
 <body style="font-family: 'New Amsterdam', sans-serif;">
 <header>
@@ -18,14 +43,15 @@
 
 <div class="profile-container">
     <div class="photo-box">
+        <!-- You can display the user's profile image here -->
     </div>
     <div class="details-box">
         <h2>Personal Details</h2>
-        <p><span>Name:</span> <span th:text="${user.name}">John Doe</span></p>
-        <p><span>Email:</span> <span th:text="${user.email}">john.doe@example.com</span></p>
+        <p><span>Name:</span> <span id="name-field" th:text="${user.name}">John Doe</span> <button onclick="editField('name')">Edit</button></p>
+        <p><span>Email:</span> <span id="email-field" th:text="${user.email}">john.doe@example.com</span> <button onclick="editField('email')">Edit</button></p>
         <p><span>EmployeeID:</span> <span th:text="${user.userId}">23456</span></p>
-        <p><span>Department:</span> <span th:text="${user.department}">IT</span></p>
-        <p><span>Role:</span> <span th:text="${user.role}">Software Engineer</span></p>
+        <p><span>Department:</span> <span id="department-field" th:text="${user.department}">IT</span> <button onclick="editField('department')">Edit</button></p>
+        <p><span>Role:</span> <span id="role-field" th:text="${user.role}">Software Engineer</span> <button onclick="editField('role')">Edit</button></p>
     </div>
 </div>
 </body>
