@@ -38,6 +38,7 @@ public class MatchController {
 
         mvc.addObject("rounds", rounds);
         mvc.addObject("leagueId", leagueId); // Include leagueId for frontend context
+        mvc.addObject("isAdmin",true);
 
         return mvc;
     }
@@ -73,10 +74,11 @@ public class MatchController {
         mvc.addObject("userId", userId);
         mvc.addObject("rounds", rounds);
         mvc.addObject("leagueId", leagueId);
+        mvc.addObject("isAdmin",false);
         return mvc;
     }
 
-    @PostMapping("/match/update-scores")
+    @PostMapping("/match")
     public ResponseEntity<String> updateUserScores(@RequestParam int player1Score,
                                                @RequestParam int player2Score,
                                                @RequestParam int matchId,
