@@ -120,7 +120,7 @@ VALUES
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
      (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
-     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0, null, 1),
+     'Alex Brown', 'Prateek Kesarwani', 0, 0, null, 1),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),

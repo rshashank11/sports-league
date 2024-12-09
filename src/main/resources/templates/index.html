@@ -3,77 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leagues</title>
+    <title>Admin Panel - Sports Leagues</title>
     <th:block th:replace="fragments/fonts :: font-links"></th:block>
     <th:block th:replace="fragments/styles :: style-links"></th:block>
-    <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <style>
+        /* Modal Styles */
+
+    </style>
 </head>
 <body>
 
-<header th:include="fragments/header :: header">
-</header>
+<header th:include="fragments/header :: header"></header>
 
-<div id="toast-container" class="toast-container"></div>
+<div style="margin: 20px auto; text-align: center;">
+    <h1>Admin Panel</h1>
 
-<div style="text-align: center">
-    <h1>Welcome to the Sports Leagues</h1>
-    <h2>Upcoming and Recent Leagues</h2>
-    <input type="text" id="search-bar" placeholder="Every league has a legend. Start your search!">
-<br>
-        <select id="sportFilter" class="filter">
-            <option value="">All</option>
-            <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
-      <!--  <option value="Table Tennis">Table Tennis</option>
-        <option value="Darts">Darts</option>
-        <option value="Pool">Pool</option>-->
-    </select>
-</div>
+    <!-- Search Input and Create Button -->
+    <div style="margin-bottom: 20px;">
+        <input type="text" placeholder="Search leagues..." style="width: 300px; padding: 10px;">
+        <button id="openModalBtn" class="button button-primary">Create a New League</button>
+    </div>
 
-<div class="container">
-    <section>
-        <h2>Upcoming Leagues</h2>
-        <ul class="league-list">
-            <li onclick th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}">
-                <h3 th:text="${league.name}"></h3>
-                <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
-                <p><strong>Start Date :</strong>
-                    <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
-                </p>
-                <p><strong>Last Registration Date :</strong>
-                    <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
-                </p>
-                <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-<!--                <p th:text="${league.id}"></p>-->
-<!--                <p th:text="${joinedLeagues}"></p>-->
-                <button class="join-league-btn button"
-                        th:data-joined-leagues="${joinedLeagues}"
-                        th:text="#{${joinedLeagues.contains(league.id) ? 'Joined' : 'Join the league'}}"
-                       th:data-league-id="${league.id}"
-                       type="button" ></button>
-            </li>
-
-        </ul>
-
-    </section>
-
-    <section>
-        <h2>Recent Leagues</h2>
-        <ul class="league-list">
-            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}">
-                <h3 th:text="${league.name}"></h3>
-                <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
-                <p><strong>Start Date :</strong>
-                    <span th:text="${#temporals.format(league.schedule, 'yyyy-MM-dd HH:mm')}"></span>
-                </p>
-                <p><strong>Last Registration Date :</strong>
-                    <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
-                </p>
-                <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-            </li>
-        </ul>
-    </section>
-
+    <!-- Modal for League Creation -->
+    <div id="createLeagueModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create a New League</h3>
+                <span class="close" id="closeModalBtn">&times;</span>
+            </div>
+            <form action="/leagues/create" method="post" id="modal-create-league-form" novalidate>
+                <input type="text" name="name" id="modal-name" placeholder="League Name" required>
+                <span id="modal-nameError" class="error-message"></span>
+                <br>
+                <textarea name="description" id="modal-description" placeholder="Description" required></textarea>
+                <span id="modal-descriptionError" class="error-message"></span>
+                <br>
+                <input type="datetime-local" name="startDate" id="modal-startDate" required>
+                <span id="modal-startDateError" class="error-message"></span>
+                <br>
+                <input type="datetime-local" name="lastRegistrationDate" id="modal-lastRegistrationDate" required>
+                <span id="modal-lastRegistrationDateError" class="error-message"></span>
+                <br>
+                <input type="text" name="venue" id="modal-venue" placeholder="Venue" required>
+                <span id="modal-venueError" class="error-message"></span>
+                <br>
+                <select name="sports" id="modal-sports" required>
+                    <option value="">Select Sport</option>
+                    <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
+                </select>
+                <span id="modal-sportsError" class="error-message"></span>
+                <br><br>
+                <div class="modal-footer">
+                    <button type="button" id="closeModalBtnFooter" class="button button-danger">Cancel</button>
+                    <button type="submit" class="button button-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <footer class="footer">
@@ -81,106 +68,56 @@
 </footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const userId = [[${userId}]]; // Ensure that 'userId' is passed properly from the backend
-        const searchBar = document.getElementById("search-bar");
-        const sportFilter = document.getElementById("sportFilter");
+    document.addEventListener("DOMContentLoaded", () => {
+        // Modal logic
+        const modal = document.getElementById("createLeagueModal");
+        const openModalBtn = document.getElementById("openModalBtn");
+        const closeModalBtns = [document.getElementById("closeModalBtn"), document.getElementById("closeModalBtnFooter")];
 
-        const filterLeagues = () => {
-            const searchFilter = searchBar.value.toLowerCase();
-            const selectedSport = sportFilter.value.toLowerCase();
+        // Open modal
+        openModalBtn.addEventListener("click", () => {
+            modal.style.display = "block";
+        });
 
-            document.querySelectorAll(".league-item").forEach((item) => {
-                const name = item.querySelector("h3").textContent.toLowerCase();
-                const sport = item.getAttribute("data-sport").toLowerCase();
-
-                const matchesSearch = name.includes(searchFilter);
-                const matchesSport = selectedSport === "" || sport.includes(selectedSport);
-
-                item.style.display = matchesSearch && matchesSport ? "block" : "none";
-            });
-        };
-
-        function showToast(message, type = "success") {
-            const toastContainer = document.getElementById("toast-container");
-
-            const toast = document.createElement("div");
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-
-            toastContainer.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.add("hidden");
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
-        }
-        document.querySelectorAll(".join-league-btn").forEach((button) => {
-            const joinedLeagues = button.getAttribute("data-joined-leagues");
-            const leagueId = button.getAttribute("data-league-id");
-
-            if (joinedLeagues.includes(leagueId)) {
-                button.innerHTML = "Joined";
-                button.disabled = true;
-            } else {
-                button.innerHTML = "Join the League";
-                button.disabled = false;
-            }
-
-            button.addEventListener("click", () => {
-                console.log("Button state: " + button.textContent);
-
-                fetch("/register?userId=" + userId + "&leagueId=" + leagueId, {
-                    method: "GET", // Need to learn on why post mapping didn't work
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                })
-                    .then(async response => {
-                        if (response.ok) {
-                            return await response.text();
-                        } else {
-                            const errorMessage = await response.text(); // Parse error message from the server
-                            throw new Error(errorMessage);
-                        }
-                    })
-                    .then(() => {
-                        button.innerHTML = "Joined";
-                        button.disabled = true;
-                        showToast("Successfully joined the league", "success")
-
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        showToast(error.message, "error")
-                    });
+        // Close modal
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                modal.style.display = "none";
             });
         });
-        document.querySelectorAll(".league-item").forEach((item) => {
-            const leagueId = item.querySelector(".join-league-btn").getAttribute("data-league-id");
 
-            // Add click event listener to each league item
-            item.addEventListener("click", (event) => {
-                // Ignore clicks on the "Join" button within the item
-                if (event.target.tagName.toLowerCase() !== "button") {
-                    // Navigate to the league page
-                    window.location.href = `/match?leagueId=${leagueId}`;
+        // Close modal when clicking outside content
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
 
+        // Client-side validation for the modal form
+        const modalForm = document.getElementById("modal-create-league-form");
+        const modalFields = ["modal-name", "modal-description", "modal-startDate", "modal-lastRegistrationDate", "modal-venue", "modal-sports"];
+
+        modalForm.addEventListener("submit", (event) => {
+            let valid = true;
+
+            modalFields.forEach((field) => {
+                const input = document.getElementById(field);
+                const error = document.getElementById(`${field}Error`);
+
+                if (!input.value.trim()) {
+                    error.textContent = `${field.replace(/modal-/, '').replace(/([A-Z])/g, ' $1')} is required.`;
+                    valid = false;
+                } else {
+                    error.textContent = "";
                 }
             });
+
+            if (!valid) {
+                event.preventDefault();
+            }
         });
-
-
-
-        searchBar.addEventListener("input", filterLeagues);
-        sportFilter.addEventListener("change", filterLeagues);
     });
-
 </script>
-
-
 
 </body>
 </html>

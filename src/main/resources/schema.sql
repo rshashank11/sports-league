@@ -128,3 +128,4 @@ CREATE TABLE league_registrations (
                                       CONSTRAINT unique_registration UNIQUE (league_id, user_id)
 ) ENGINE=InnoDB;
 
+
