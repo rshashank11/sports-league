@@ -20,8 +20,9 @@
                 </a>
             </div>
         </div>
-        <div class="logout-section:logout}" method="post" style="margin: 0;">
-            <button type="submit" class="logout-btn">Logout</button>
+        <div class="logout-section">
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="logout-btn">Logout</button>
             </form>
         </div>
     </nav>
