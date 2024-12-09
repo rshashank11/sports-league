@@ -126,7 +126,7 @@
             let currentPath = window.location.pathname;
             let endpoint = currentPath.includes('/admin') ? '/admin/update-scores' : '/match';
 
-            // console.log("Sending update for matchId:", matchId, "leagueId:", leagueId, "score:", score, "isPlayer1:", isPlayer1);
+            console.log("Sending update for matchId:", matchId, "leagueId:", leagueId, "score:", score, "isPlayer1:", isPlayer1);
 
             // Create an AJAX request
             let xhttp = new XMLHttpRequest();
@@ -154,7 +154,6 @@
             if (isPlayer1) {
                 params += `&player1Score=${score}`;
                 params += `&player2Score=${0}`;
-
             } else {
                 params += `&player1Score=${0}`;
                 params += `&player2Score=${score}`;
