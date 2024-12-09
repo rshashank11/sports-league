@@ -32,6 +32,8 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.query(sql, userMapper, userId).stream().findFirst();
     }
 
+
+
     @Override
     public Optional<Integer> findUserIdByUsername(String username) {
         String sql = "SELECT user_id FROM users WHERE username = ?";
