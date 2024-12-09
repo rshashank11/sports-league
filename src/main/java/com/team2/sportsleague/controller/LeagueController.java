@@ -15,10 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.SQLException;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -88,6 +91,28 @@ public class LeagueController {
             return ResponseEntity.status(500).body("Unable to register user to league.");
         }
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createLeague(
+            @RequestParam("name") String name,
+            @RequestParam("startDate") String schedule,
+            @RequestParam("lastRegistrationDate") String lastRegistrationDate,
+            @RequestParam("venue") String venue,
+            @RequestParam("sport") String sport) {
+        try {
+            leagueService.createLeague(name, schedule, lastRegistrationDate, venue, sport);
+            return ResponseEntity.ok("League '" + name + "' created successfully for " + sport + "!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.status(400).body("Invalid date format. Use 'yyyy-MM-dd'T'HH:mm:ss'.");
+        } catch (SQLException e) {
+            return ResponseEntity.status(500).body("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error occurred while creating the league.");
+        }
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleRegistrationException(IllegalArgumentException e) {

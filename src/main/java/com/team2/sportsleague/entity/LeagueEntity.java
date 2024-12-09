@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class LeagueEntity {
+    public LeagueEntity() {
+    }
 
     private Integer id;
     private String name;

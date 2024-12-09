@@ -115,4 +115,20 @@ public class LeagueRepository {
         }
         return sportsList;
     }
+
+    public void createLeague(LeagueEntity league) throws SQLException {
+        String query = "INSERT INTO leagues (name, schedule, last_registration_date, venue, sports) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, league.getName());
+            statement.setTimestamp(2, Timestamp.valueOf(league.getSchedule()));
+            statement.setTimestamp(3, Timestamp.valueOf(league.getLastRegistrationDate()));
+            statement.setString(4, league.getVenue());
+            statement.setString(5, league.getSports());
+            statement.executeUpdate();
+        }
+    }
+
+
 }
