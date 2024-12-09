@@ -37,7 +37,6 @@ public class MatchController {
         List<Round> rounds = matchService.getAllRounds(leagueId);
 
         mvc.addObject("rounds", rounds);
-        mvc.addObject("isAdmin", true);
         mvc.addObject("leagueId", leagueId); // Include leagueId for frontend context
 
         return mvc;
@@ -73,7 +72,6 @@ public class MatchController {
 
         mvc.addObject("userId", userId);
         mvc.addObject("rounds", rounds);
-        mvc.addObject("isAdmin", false);
         mvc.addObject("leagueId", leagueId);
         return mvc;
     }
