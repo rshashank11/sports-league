@@ -22,11 +22,15 @@ public class MatchService {
 
     public List<Round> getAllRounds(int leagueId) {
         List<Round> rounds = matchRepository.getAllRounds(leagueId);
+        if (rounds == null || rounds.isEmpty()) {
+            System.out.println("No rounds found for leagueId: " + leagueId);
+        } else {
+            System.out.println("Rounds found: " + rounds.size());
+        }
 
         return rounds;
     }
 
-    // Method to check if the user owns the match
     public boolean isUserOwnerOfMatch(int matchId, Long userId) {
         return matchRepository.isUserOwnerOfMatch(matchId, userId);
     }

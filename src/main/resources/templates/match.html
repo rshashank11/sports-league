@@ -25,41 +25,40 @@
     <div class="round" th:each="round : ${rounds}">
         <div class="match" th:each="match : ${round.matches}" th:attr="data-match-id=${match.matchId}">
 
-
-            <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
+            <!-- Player 1 Section -->
+            <div class="player" th:classappend="${match != null && match.getScore_player1() > match.getScore_player2()} ? 'winner' : ''">
                 <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
-                <span th:text="${match.player1_name}">Player 1</span>
+                <span th:text="${match.getPlayer1_name()}">Player 1</span>
 
-                    <!-- This is for admin only -->
-                      <!-- Check if the user is an admin or the player1 -->
-                    <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${userId == match.player1_id}">
-                        <!-- Admin or Player 1 can edit their score -->
-                        <input type="number"
-                               class="score-input player1"
-                               th:value="${match.score_player1}"
-                               min="0"
-                               max="1" />
-                    </div>
+                <!-- This is for admin only -->
+                <!-- Check if the user is an admin or the player1 -->
+                <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${userId == match.getPlayer1_id()}">
+                    <!-- Admin or Player 1 can edit their score -->
+                    <input type="number"
+                           class="score-input player1"
+                           th:value="${match.getScore_player1()}"
+                           min="0"
+                           max="1" />
                 </div>
-                <span th:text="${match.score_player1}">0</span> <!-- Display Player 1 score -->
             </div>
+            <span th:text="${match.getScore_player1()}">0</span> <!-- Display Player 1 score -->
 
-            <div class="player" th:classappend="${match.score_player2 > match.score_player1} ? 'winner' : ''">
+            <!-- Player 2 Section -->
+            <div class="player" th:classappend="${match.getScore_player2() > match.getScore_player1()} ? 'winner' : ''">
                 <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
-                <span th:text="${match.player2_name}">Player 2</span>
+                <span th:text="${match.getPlayer2_name()}">Player 2</span>
 
-                    <!-- This is for admin only -->
-                    <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${userId == match.player2_id}">
-                        <!-- Admin or Player 2 can edit their score -->
-                        <input type="number"
-                               class="score-input player2"
-                               th:value="${match.score_player2}"
-                               min="0"
-                               max="1" />
-                    </div>
+                <!-- This is for admin only -->
+                <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${userId == match.getPlayer2_id()}">
+                    <!-- Admin or Player 2 can edit their score -->
+                    <input type="number"
+                           class="score-input player2"
+                           th:value="${match.getScore_player2()}"
+                           min="0"
+                           max="1" />
                 </div>
-                <span th:text="${match.score_player2}">0</span>
             </div>
+            <span th:text="${match.getScore_player2()}">0</span> <!-- Display Player 2 score -->
         </div>
     </div>
 </div>
