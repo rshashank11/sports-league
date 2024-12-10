@@ -12,5 +12,8 @@ public class LeagueDTO {
     private String venue;
     private String sport;
 
+    public LeagueDTO() {
+
+    }
 }
 

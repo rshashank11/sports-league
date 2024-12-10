@@ -4,6 +4,7 @@ import com.team2.sportsleague.model.League;
 import com.team2.sportsleague.repository.LeagueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -13,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class LeagueService {
-    @Autowired
     private final LeagueRepository leagueRepository;
     public LeagueService(LeagueRepository leagueRepository) {
         this.leagueRepository = leagueRepository;
@@ -46,27 +46,28 @@ public class LeagueService {
         return leagueRepository.getLeaguesBySport(sport);
     }
 
-    public void createLeague(LeagueDTO leagueDTO) throws SQLException {
-        if (leagueDTO.getName() == null || leagueDTO.getName().trim().isEmpty()) {
+    public void createLeague(String name, String schedule, String lastRegistrationDate, String venue, String sport) throws SQLException {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("League name cannot be null or empty.");
         }
-        if (leagueDTO.getSport() == null || leagueDTO.getSport().trim().isEmpty()) {
+        if (sport == null || sport.trim().isEmpty()) {
             throw new IllegalArgumentException("League sport cannot be null or empty.");
         }
-        if (leagueDTO.getVenue() == null || leagueDTO.getVenue().trim().isEmpty()) {
+        if (venue == null || venue.trim().isEmpty()) {
             throw new IllegalArgumentException("Venue cannot be null or empty.");
         }
 
         try {
-            LocalDateTime parsedSchedule = LocalDateTime.parse(leagueDTO.getSchedule());
-            LocalDateTime parsedLastRegistrationDate = LocalDateTime.parse(leagueDTO.getLastRegistrationDate());
+            LocalDateTime parsedSchedule = LocalDateTime.parse(schedule);
+            LocalDateTime parsedLastRegistrationDate = LocalDateTime.parse(lastRegistrationDate);
 
+            // Create LeagueEntity object
             League league = new League();
-            league.setName(leagueDTO.getName());
+            league.setName(name);
             league.setSchedule(parsedSchedule);
             league.setLastRegistrationDate(parsedLastRegistrationDate);
-            league.setVenue(leagueDTO.getVenue());
-            league.setSports(leagueDTO.getSport());
+            league.setVenue(venue);
+            league.setSports(sport);
 
             leagueRepository.createLeague(league);
 
@@ -74,6 +75,7 @@ public class LeagueService {
             throw new IllegalArgumentException("Invalid date format. Use 'yyyy-MM-dd'T'HH:mm:ss'.", e);
         }
     }
+
 
 
 }

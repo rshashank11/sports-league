@@ -94,10 +94,14 @@ public class LeagueController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<String> createLeague(
-            @RequestBody LeagueDTO leagueDTO) {
+            @RequestParam("name") String name,
+            @RequestParam("startDate") String schedule,
+            @RequestParam("lastRegistrationDate") String lastRegistrationDate,
+            @RequestParam("venue") String venue,
+            @RequestParam("sport") String sport) {
         try {
-            leagueService.createLeague(leagueDTO);
-            return ResponseEntity.ok("League '" + leagueDTO.getName() + "' created successfully for " + leagueDTO.getSports() + "!");
+            leagueService.createLeague(name, schedule, lastRegistrationDate, venue, sport);
+            return ResponseEntity.ok("League '" + name + "' created successfully for " + sport + "!");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         } catch (DateTimeParseException e) {
@@ -108,6 +112,8 @@ public class LeagueController {
             return ResponseEntity.status(500).body("Error occurred while creating the league.");
         }
     }
+
+
 
 
     @ExceptionHandler(IllegalArgumentException.class)
