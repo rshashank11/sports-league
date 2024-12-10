@@ -36,6 +36,11 @@ public class MatchRepositoryJDBC implements MatchRepository {
         );
     }
 
+    // Expose the matchMapper for the tests
+    public RowMapper<Match> getMatchMapper() {
+        return matchMapper;
+    }
+
     @Override
     public List<Round> getAllRounds(int leagueId) { // Updated to filter by leagueId
         String sql = "SELECT * FROM matches WHERE league_id = ? ORDER BY round_number, match_id";
