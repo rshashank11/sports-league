@@ -47,7 +47,7 @@ public class SignupService {
             user.setName(signup.getName());
             user.setPassword(passwordEncoder.encode(signup.getPassword()));
             user.setEnabled(true);
-            user.setUserRole("User");
+            user.setUserRole(1);
             userRepository.save(user);
             return true;
         } catch (Exception e) {

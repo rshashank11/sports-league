@@ -12,7 +12,7 @@ public class User {
     private String name;
     private String username;
     private String department;
-    private String userRole;
+    private Integer userRole;
     private List<String> games;
     private String password;
     private boolean enabled;

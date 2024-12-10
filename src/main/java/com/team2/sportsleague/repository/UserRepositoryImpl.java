@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setUsername(rs.getString("username"));
             user.setName(rs.getString("name"));
             user.setDepartment(rs.getString("department"));
-            user.setUserRole(rs.getString("role"));
+            user.setUserRole(rs.getInt("role"));
             user.setPassword(rs.getString("password"));
             user.setEnabled(rs.getBoolean("enabled"));
             return user;
