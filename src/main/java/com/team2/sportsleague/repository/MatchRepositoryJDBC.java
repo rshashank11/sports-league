@@ -16,84 +16,152 @@ public class MatchRepositoryJDBC implements MatchRepository {
     private JdbcTemplate jdbc;
     private RowMapper<Match> matchMapper;
 
-    public MatchRepositoryJDBC(JdbcTemplate aJdbc){
+    public MatchRepositoryJDBC(JdbcTemplate aJdbc) {
         this.jdbc = aJdbc;
         setMatchMapper();
     }
-    private void setMatchMapper(){
-        matchMapper = (rs,i)-> new Match(
+
+    private void setMatchMapper() {
+        matchMapper = (rs, i) -> new Match(
+                rs.getInt("match_id"),
+                rs.getInt("league_id"),
                 rs.getInt("player1_id"),
                 rs.getInt("player2_id"),
                 rs.getString("player1_name"),
                 rs.getString("player2_name"),
-                rs.getInt("score_player1"),
-                rs.getInt("score_player2"),
-                rs.getInt("winner_id"),
+                rs.getObject("score_player1", Integer.class),
+                rs.getObject("score_player2", Integer.class),
+                rs.getObject("winner_id", Integer.class),
                 rs.getInt("round_number")
         );
     }
 
     @Override
-    public List<Round> getAllRounds(){
-        String sql = "SELECT * FROM matches ORDER BY round_number, match_id";
-        List<Match> matches = jdbc.query(sql, matchMapper);
+    public List<Round> getAllRounds(int leagueId) { // Updated to filter by leagueId
+        String sql = "SELECT * FROM matches WHERE league_id = ? ORDER BY round_number, match_id";
+        List<Match> matches = jdbc.query(sql, matchMapper, leagueId);
 
         // Group matches by round number
         Map<Integer, List<Match>> matchesByRound = matches.stream()
-                .collect(Collectors.groupingBy(Match::getRoundNumber));
+                .collect(Collectors.groupingBy(Match::getRound_number));
 
         List<Round> rounds = new ArrayList<>();
         for (Map.Entry<Integer, List<Match>> entry : matchesByRound.entrySet()) {
             rounds.add(new Round(entry.getValue()));  // Build the round objects
         }
 
-        // Add logic for semi-finals and finals dynamically
-        while (canGenerateNextRound(rounds)) {
-            List<Match> previousRoundMatches = rounds.get(rounds.size() - 1).getMatches();
-            List<Match> nextRoundMatches = generateNextRoundMatches(previousRoundMatches);
-            rounds.add(new Round(nextRoundMatches));
-        }
-
         return rounds;
     }
 
     private boolean canGenerateNextRound(List<Round> rounds) {
-        List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches();  //get the last round
-        return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null); // check if all matches have a winners
+        List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches(); // Get the last round
+        System.out.println(lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null));
+        return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null); // Check if all matches have winners
     }
 
-    private List<Match> generateNextRoundMatches(List<Match> previousRoundMatches) {
+    public void updateScores(int player1Score, int player2Score, int matchId, int leagueId) {
+        try {
+            // Update the scores for player1 and player2
+            String sql = "UPDATE matches SET score_player1 = ?, score_player2 = ? WHERE match_id = ? AND league_id = ?";
+            jdbc.update(sql, player1Score, player2Score, matchId, leagueId);
+            System.out.println("Updated scores for match ID: " + matchId + " in league ID: " + leagueId);
+
+            // Update the winner based on the scores
+            String updateWinnerSql = "UPDATE matches SET winner_id = CASE " +
+                    "WHEN score_player1 > score_player2 THEN player1_id " +
+                    "WHEN score_player2 > score_player1 THEN player2_id " +
+                    "ELSE NULL END " +
+                    "WHERE match_id = ? AND league_id = ?";
+            jdbc.update(updateWinnerSql, matchId, leagueId);
+            System.out.println("Winner updated for match ID: " + matchId + " in league ID: " + leagueId);
+        } catch (Exception e) {
+            System.err.println("Error updating scores: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public int getNextMatchId() {
+        String sql = "SELECT MAX(match_id) FROM matches";
+        Integer maxId = jdbc.queryForObject(sql, Integer.class);
+        return (maxId == null ? 1 : maxId + 1);
+    }
+
+    public void generateNextRoundIfNeeded(int leagueId) {
+        // Retrieve all rounds for the specific league
+        List<Round> rounds = getAllRounds(leagueId);
+
+        // Check if we can generate the next round
+        if (canGenerateNextRound(rounds)) {
+            // Get the last round's matches
+            List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches();
+
+            // Generate the next round matches
+            List<Match> nextRoundMatches = generateNextRoundMatches(lastRoundMatches, leagueId);
+
+            // SQL query to insert new matches for the next round into the database
+            String sql = "INSERT INTO matches (match_id, league_id, player1_id, player2_id, player1_name, player2_name, score_player1, score_player2, winner_id, round_number) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            // Loop through the generated matches and insert them into the database
+            for (Match match : nextRoundMatches) {
+                jdbc.update(sql,
+                        getNextMatchId(),            // Match ID
+                        match.getLeagueId(),           // League ID
+                        match.getPlayer1_id(),         // Player 1 ID
+                        match.getPlayer2_id(),         // Player 2 ID
+                        match.getPlayer1_name(),       // Player 1 Name
+                        match.getPlayer2_name(),       // Player 2 Name
+                        match.getScore_player1(),      // Player 1 Score
+                        match.getScore_player2(),      // Player 2 Score
+                        match.getWinner_id(),          // Winner ID
+                        match.getRound_number()
+                );
+            }
+
+            System.out.println("Next round generated successfully for league ID: " + leagueId);
+        }
+    }
+
+    private List<Match> generateNextRoundMatches(List<Match> previousRoundMatches, int leagueId) {
         List<Match> nextRoundMatches = new ArrayList<>();
 
-        for (int i = 0; i < previousRoundMatches.size(); i += 2) {      // doing two matches at the same time hence += 2
-            Match match1 = previousRoundMatches.get(i);
-            Match match2 = previousRoundMatches.get(i + 1);
+        // If we are in the final round and only have one match
+        if (previousRoundMatches.size() == 1) {
+           // No new match to generate
+        } else {
+            for (int i = 0; i < previousRoundMatches.size(); i += 2) {
+                // Ensure we don't go beyond the bounds of the list
+                if (i + 1 < previousRoundMatches.size()) {
+                    Match match1 = previousRoundMatches.get(i);
+                    Match match2 = previousRoundMatches.get(i + 1);
 
-            // Ensure both matches have winners before creating the next match
-            if (match1.getWinner_id() != null && match2.getWinner_id() != null) {
-                // Determine winner names
-                String winnerName1 = match1.getWinner_id().equals(match1.getPlayerId1())
-                        ? match1.getPlayerName1()
-                        : match1.getPlayerName2();
+                    if (match1.getWinner_id() != null && match2.getWinner_id() != null) {
+                        String winnerName1 = match1.getWinner_id().equals(match1.getPlayer1_id())
+                                ? match1.getPlayer1_name()
+                                : match1.getPlayer2_name();
 
-                String winnerName2 = match2.getWinner_id().equals(match2.getPlayerId1())
-                        ? match2.getPlayerName1()
-                        : match2.getPlayerName2();
+                        String winnerName2 = match2.getWinner_id().equals(match2.getPlayer1_id())
+                                ? match2.getPlayer1_name()
+                                : match2.getPlayer2_name();
 
-                Match nextMatch = new Match(
-                        match1.getWinner_id(),  // playerId1 from match1 winner
-                        match2.getWinner_id(),  // playerId2 from match2 winner
-                        winnerName1,            // Player 1 Name
-                        winnerName2,            // Player 2 Name
-                        15,                   // player1Score
-                        10,                   // player2Score
-                        null,                   // winner_id
-                        match1.getRoundNumber() // Increment round number
-                );
-
-                nextRoundMatches.add(nextMatch);
+                        Match nextMatch = new Match(
+                                getNextMatchId(),
+                                leagueId,
+                                match1.getWinner_id(),
+                                match2.getWinner_id(),
+                                winnerName1,
+                                winnerName2,
+                                0,
+                                0,
+                                null,
+                                match1.getRound_number() + 1
+                        );
+                        nextRoundMatches.add(nextMatch);
+                    }
+                }
             }
         }
         return nextRoundMatches;
     }
+
 }

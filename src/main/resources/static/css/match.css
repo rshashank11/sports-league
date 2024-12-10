@@ -110,3 +110,46 @@ h1{
     padding: 5px;
     font-weight: bold;
 }
+
+input{
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+
+}
+
+.edit-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.edit-button {
+    padding: 12px;
+    background-color: #c0392b;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-family: "New Amsterdam", sans-serif;
+    font-size: larger;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.edit-button:hover {
+    background-color: white;
+    color: #c0392b;
+    box-shadow: 0 0 10px rgba(192, 57, 43, 0.7);
+}
+
+
+.edit-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px rgba(192, 57, 43, 0.5);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}

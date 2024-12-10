@@ -5,15 +5,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)  // Enable pre/post annotations
+
 public class SecurityConfig {
 
     private final DataSource dataSource;
@@ -24,7 +29,7 @@ public class SecurityConfig {
     }
 
     public static final String[] ENDPOINTS_WHITELIST = {
-            "/login", "/signup", "/css/**", "/js/**", "/images/**"
+            "/login", "/signup", "/css/**", "/js/**", "/images/**",
     };
 
     @Autowired
@@ -41,18 +46,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(request -> request
-                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/admin/**")  // Ignore CSRF for this endpoint otherwise giving error
+                )
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
+                        .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .permitAll())
-                .logout(logout -> logout
+                .logout(logout -> logout //logout api call
                         .permitAll()
-                        .logoutSuccessUrl("/login"))
+                        .logoutSuccessUrl("/login")) //redirecting to login page.
                 .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403"));
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect(request.getContextPath() + "/");
+                        }));
 
         return http.build();
     }
@@ -62,8 +73,12 @@ public class SecurityConfig {
         return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
+
+
+

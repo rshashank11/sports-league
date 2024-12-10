@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import com.team2.sportsleague.model.Signup;
-import com.team2.sportsleague.entity.User;
+import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.repository.UserRepository;
 
 import java.util.Optional;
@@ -47,8 +47,7 @@ public class SignupService {
             user.setName(signup.getName());
             user.setPassword(passwordEncoder.encode(signup.getPassword()));
             user.setEnabled(true);
-            user.setUser_role(1);
-
+            user.setUserRole("User");
             userRepository.save(user);
             return true;
         } catch (Exception e) {

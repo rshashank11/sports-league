@@ -1,10 +1,13 @@
 package com.team2.sportsleague.controller;
 
 import com.team2.sportsleague.dtos.LoginDTO;
+import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.service.LoginService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,8 +38,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String postLogin(@ModelAttribute("loginDTO") @Valid LoginDTO loginDTO,
-                            BindingResult bindingResult,
-                            Model model) {
+                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "login";
         }

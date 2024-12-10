@@ -1,20 +1,30 @@
 package com.team2.sportsleague.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
+@Setter
+
 public class LeagueEntity {
+
+    private Integer id;
+    @Setter
     private String name;
+    @Setter
     private LocalDateTime schedule;
+    @Setter
     private LocalDateTime lastRegistrationDate;
+    @Setter
     private String venue;
-    private String sports; // Add sports field
+    @Setter
+    private String sports;
 
 
-    public LeagueEntity(String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, String sports) {
+    public LeagueEntity(Integer id, String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, String sports) {
+        this.id = id;
         this.name = name;
         this.schedule = schedule;
         this.lastRegistrationDate = lastRegistrationDate;
@@ -23,23 +33,4 @@ public class LeagueEntity {
     }
 
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSchedule(LocalDateTime schedule) {
-        this.schedule = schedule;
-    }
-
-    public void setLastRegistrationDate(LocalDateTime lastRegistrationDate) {
-        this.lastRegistrationDate = lastRegistrationDate;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-
-    public void setSports(String sports) {
-        this.sports = sports;
-    }
 }
