@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +32,7 @@
     </select>
 </div>
 
-<button id="create-league-btn" class="button">Create New League</button>
+<button sec:authorize="hasRole('ROLE_ADMIN')" id="create-league-btn" class="button">Create New League</button>
 
 <div id="create-league-modal" class="modal hidden">
     <div class="modal-content">
@@ -150,10 +152,10 @@
                     if (response.ok) {
                         createLeagueForm.reset();
                         showToast("Successfully created a new league.", "success");
+                        modal.classList.remove('show');
                         setTimeout(() => {
                             window.location.reload();
                         }, 1000)
-                        modal.classList.remove('show');
                     } else {
                         const errorMessage = await response.text();
                         console.log(errorMessage)

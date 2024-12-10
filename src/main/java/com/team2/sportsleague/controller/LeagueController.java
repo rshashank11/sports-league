@@ -9,6 +9,7 @@ import com.team2.sportsleague.service.LoginService;
 import com.team2.sportsleague.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -92,6 +93,7 @@ public class LeagueController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<String> createLeague(
             @RequestParam("name") String name,
