@@ -2,18 +2,24 @@ package com.team2.sportsleague.controller;
 
 import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.service.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/profile")
+@Validated
 public class UserProfileController {
 
     @Autowired
@@ -49,7 +55,7 @@ public class UserProfileController {
      * @return Success or error message
      */
     @PutMapping("/update")
-    public ResponseEntity<?> updateUserProfile(@RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUserProfile(@Valid @RequestBody User updatedUser) {
         // Fetch the logged-in username
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -73,5 +79,19 @@ public class UserProfileController {
         userService.saveUser(user);
 
         return ResponseEntity.ok("Profile updated successfully");
+    }
+
+    // Custom Validation Annotations
+    public static class UserValidation {
+        @NotEmpty(message = "Name cannot be empty")
+        private String name;
+
+        @Email(message = "Invalid email format")
+        private String email;
+
+        @Pattern(regexp = "^(user|admin)$", message = "Role can only be 'user' or 'admin'")
+        private String role;
+
+        // Getters and setters
     }
 }
