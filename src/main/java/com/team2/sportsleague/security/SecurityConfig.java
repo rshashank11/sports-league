@@ -60,9 +60,9 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .permitAll())
-                .logout(logout -> logout
+                .logout(logout -> logout //logout api call
                         .permitAll()
-                        .logoutSuccessUrl("/login"))
+                        .logoutSuccessUrl("/login")) //redirecting to login page.
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendRedirect(request.getContextPath() + "/");

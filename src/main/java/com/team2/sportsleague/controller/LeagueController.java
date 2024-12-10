@@ -1,6 +1,7 @@
 package com.team2.sportsleague.controller;
 
-import com.team2.sportsleague.entity.LeagueEntity;
+import com.team2.sportsleague.dtos.LeagueDTO;
+import com.team2.sportsleague.model.League;
 import com.team2.sportsleague.repository.LeagueRegistrationRepository;
 import com.team2.sportsleague.repository.MatchRepository;
 import com.team2.sportsleague.service.LeagueRegistrationService;
@@ -14,10 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,8 +49,8 @@ public class LeagueController {
         Long userId = loginService.getUserIdByUsername(username);
         model.addAttribute("userId", userId);
 
-        List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
-        List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
+        List<League> upcomingLeagues = leagueService.getUpcomingLeagues();
+        List<League> recentLeagues = leagueService.getRecentLeagues();
         List<Long> joinedLeagues = leagueRegistrationRepository.getUserJoinedLeagues(userId);
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");
 
@@ -96,14 +94,10 @@ public class LeagueController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<String> createLeague(
-            @RequestParam("name") String name,
-            @RequestParam("startDate") String schedule,
-            @RequestParam("lastRegistrationDate") String lastRegistrationDate,
-            @RequestParam("venue") String venue,
-            @RequestParam("sport") String sport) {
+            @RequestBody LeagueDTO leagueDTO) {
         try {
-            leagueService.createLeague(name, schedule, lastRegistrationDate, venue, sport);
-            return ResponseEntity.ok("League '" + name + "' created successfully for " + sport + "!");
+            leagueService.createLeague(leagueDTO);
+            return ResponseEntity.ok("League '" + leagueDTO.getName() + "' created successfully for " + leagueDTO.getSports() + "!");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         } catch (DateTimeParseException e) {

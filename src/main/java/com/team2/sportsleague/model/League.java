@@ -1,4 +1,4 @@
-package com.team2.sportsleague.entity;
+package com.team2.sportsleague.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class LeagueEntity {
-    public LeagueEntity() {
+public class League {
+    public League() {
     }
 
     private Integer id;
@@ -19,7 +19,7 @@ public class LeagueEntity {
     private String sports;
 
 
-    public LeagueEntity(Integer id, String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, String sports) {
+    public League(Integer id, String name, LocalDateTime schedule, LocalDateTime lastRegistrationDate, String venue, String sports) {
         this.id = id;
         this.name = name;
         this.schedule = schedule;

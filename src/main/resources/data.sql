@@ -32,10 +32,10 @@ VALUES
 -- Assign roles to users
 INSERT INTO users_roles (username, role_id)
 VALUES
-    ('shashankr1@creditsafe.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
+    ('shashankr1@creditsafe.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_USER')),
     ('prateekk2@creditsafe.it', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('ankits34@creditsafeuk.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
-    ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN'));
+    ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_USER'));
 INSERT INTO rankings (user_id, wins, losses, points)
 VALUES
     ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100), -- Shashank Ramesha
