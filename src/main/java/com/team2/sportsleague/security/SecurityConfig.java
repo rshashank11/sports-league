@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)  // Enable pre/post annotations
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final DataSource dataSource;
@@ -48,11 +48,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/profile/update", "/admin/**")  // Ignore CSRF for profile update
+                        .ignoringRequestMatchers("/profile/update", "/admin/**")
                 )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
-                        .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes
+                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -60,14 +60,14 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login")) // Redirecting to login page after logout
+                        .logoutSuccessUrl("/login"))
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendRedirect(request.getContextPath() + "/");
                         }))
                 .sessionManagement(session -> session
-                        .sessionFixation().newSession()  // Start a new session after login
-                        .maximumSessions(1).expiredUrl("/login")  // Ensure a single session per user
+                        .sessionFixation().newSession()
+                        .maximumSessions(1).expiredUrl("/login")
                 );
 
         return http.build();

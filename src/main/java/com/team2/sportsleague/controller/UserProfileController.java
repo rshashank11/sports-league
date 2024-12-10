@@ -33,19 +33,19 @@ public class UserProfileController {
      */
     @GetMapping
     public String getUserProfile(Model model) {
-        // Fetch the logged-in username
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        // Fetch the user details using the username
+
         Optional<User> userOptional = userService.getUserByUsername(username);
         if (userOptional.isEmpty()) {
-            return "error"; // Redirect to an error page if user not found
+            return "error";
         }
 
-        // Add user details to the model
+
         model.addAttribute("user", userOptional.get());
-        return "userProfile"; // Render the user profile page
+        return "userProfile";
     }
 
     /**
@@ -56,11 +56,11 @@ public class UserProfileController {
      */
     @PutMapping("/update")
     public ResponseEntity<?> updateUserProfile(@Valid @RequestBody User updatedUser) {
-        // Fetch the logged-in username
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        // Fetch the existing user
+
         Optional<User> userOptional = userService.getUserByUsername(username);
         if (userOptional.isEmpty()) {
             return ResponseEntity.status(404).body("User not found");
@@ -68,20 +68,19 @@ public class UserProfileController {
 
         User user = userOptional.get();
 
-        // Update only the fields that are provided
         if (updatedUser.getName() != null) user.setName(updatedUser.getName());
         if (updatedUser.getEmail() != null) user.setEmail(updatedUser.getEmail());
         if (updatedUser.getDepartment() != null) user.setDepartment(updatedUser.getDepartment());
         if (updatedUser.getRole() != null) user.setRole(updatedUser.getRole());
         if (updatedUser.getProfileImage() != null) user.setProfileImage(updatedUser.getProfileImage());
 
-        // Save the updated user to the database
+
         userService.saveUser(user);
 
         return ResponseEntity.ok("Profile updated successfully");
     }
 
-    // Custom Validation Annotations
+
     public static class UserValidation {
         @NotEmpty(message = "Name cannot be empty")
         private String name;
@@ -92,6 +91,5 @@ public class UserProfileController {
         @Pattern(regexp = "^(user|admin)$", message = "Role can only be 'user' or 'admin'")
         private String role;
 
-        // Getters and setters
     }
 }

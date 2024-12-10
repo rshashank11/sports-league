@@ -9,7 +9,7 @@ function editField(field) {
             .then(response => {
                 if (response.ok) {
                     alert(`${field} updated successfully!`);
-                    // Optionally, update the field on the page without reload
+
                     document.getElementById(`${field}-field`).textContent = value;
                 } else {
                     alert('Error updating profile!');
