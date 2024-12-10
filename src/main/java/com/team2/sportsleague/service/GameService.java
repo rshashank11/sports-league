@@ -57,5 +57,28 @@ public class GameService {
 
         return games;
     }
-}
 
+    /**
+     * Retrieves the gameId by slug.
+     *
+     * @param gameSlug The slug of the game.
+     * @return The gameId corresponding to the provided slug.
+     */
+    public Long getGameIdBySlug(String gameSlug) {
+        String query = "SELECT id FROM games WHERE slug = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, gameSlug);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if no game found with the given slug
+    }
+}

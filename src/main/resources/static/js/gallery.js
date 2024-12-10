@@ -6,7 +6,6 @@ async function fetchGalleryData() {
         }
 
         const games = await response.json(); // Parse the JSON response
-
         const galleryContainer = document.querySelector('.gallery');
         galleryContainer.innerHTML = ""; // Clear existing gallery content
 
@@ -24,8 +23,13 @@ async function fetchGalleryData() {
             nameDiv.classList.add('game-name');
             nameDiv.textContent = game.name;
 
+            const uploadLink = document.createElement('div');
+            uploadLink.classList.add('upload-links');
+            uploadLink.innerHTML = `<a href="#" onclick="openUploadModal('${game.slug}'); event.stopPropagation();">Upload Image</a>`;
+
             gameDiv.appendChild(img);
             gameDiv.appendChild(nameDiv);
+            gameDiv.appendChild(uploadLink);
             galleryContainer.appendChild(gameDiv);
         });
     } catch (error) {
@@ -95,10 +99,18 @@ function navigateImage(offset) {
 function closeModal() {
     const modal = document.getElementById("myModal");
     if (modal) {
-        console.log("Closing modal...");
         modal.style.display = "none";
     } else {
         console.error("Modal with ID 'myModal' not found.");
+    }
+}
+
+function closeEnlargedModal() {
+    const enlargedModal = document.getElementById("enlargedModal");
+    if (enlargedModal) {
+        enlargedModal.style.display = "none";
+    } else {
+        console.error("Modal with ID 'enlargedModal' not found.");
     }
 }
 
@@ -113,13 +125,41 @@ window.onclick = function (event) {
     }
 };
 
-function closeEnlargedModal() {
-    const enlargedModal = document.getElementById("enlargedModal");
-    if (enlargedModal) {
-        enlargedModal.style.display = "none";
-    } else {
-        console.error("Modal with ID 'enlargedModal' not found.");
-    }
+function openUploadModal(gameSlug) {
+    const uploadModal = document.getElementById("uploadModal");
+    const gameSlugInput = document.getElementById("gameSlug");
+
+    gameSlugInput.value = gameSlug; // Pass the game slug to the form
+    uploadModal.style.display = "flex";
 }
 
+function closeUploadModal() {
+    const uploadModal = document.getElementById("uploadModal");
+    uploadModal.style.display = "none";
+}
+
+document.getElementById("uploadForm").onsubmit = async function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('/gallery/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("Image uploaded successfully!");
+            closeUploadModal();
+            fetchGalleryData(); // Refresh the gallery
+        } else {
+            throw new Error("Upload failed");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while uploading.");
+    }
+};
+
+// Initial fetch to populate the gallery
 fetchGalleryData();

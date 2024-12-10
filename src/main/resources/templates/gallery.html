@@ -15,11 +15,31 @@
 <div class="gallery-container">
     <h1>Game Photos Gallery</h1>
     <div class="gallery">
-        <!-- Dynamically generated gallery items -->
+        <div class="gallery-item">
+            <img src="/images/dart.jpg" alt="Dart Game">
+            <div class="game-name">Dart</div>
+            <div class="upload-links">
+                <a href="#" onclick="openUploadModal('dartleague')">Upload Image</a>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img src="/images/tabletennis.jpg" alt="Table Tennis">
+            <div class="game-name">Table Tennis</div>
+            <div class="upload-links">
+                <a href="#" onclick="openUploadModal('table-tennisleague')">Upload Image</a>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img src="/images/pool.jpg" alt="Pool">
+            <div class="game-name">Pool</div>
+            <div class="upload-links">
+                <a href="#" onclick="openUploadModal('poolleague')">Upload Image</a>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal for Viewing Images -->
 <div id="myModal" class="modal">
     <span class="close" onclick="closeModal()">x</span>
     <div class="modal-content">
@@ -35,6 +55,26 @@
     <div id="enlargedMetadata" class="enlarged-metadata"></div>
     <button id="nextButton" class="enlarged-next" onclick="navigateImage(1)">&#8250;</button>
     <span class="enlarged-close" onclick="closeEnlargedModal()">x</span>
+</div>
+
+<!-- Modal for Upload -->
+<div id="uploadModal" class="modal">
+    <span class="close" onclick="closeUploadModal()">x</span>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+        <h2>Upload Image</h2>
+        <input type="hidden" id="gameSlug" name="gameSlug">
+        <label for="imageFile">Select Image:</label>
+        <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+        <label for="sportType">Sport Type:</label>
+        <input type="text" id="sportType" name="sportType" required>
+        <label for="matchDate">Match Date:</label>
+        <input type="date" id="matchDate" name="matchDate" required>
+        <label for="players">Players:</label>
+        <input type="text" id="players" name="players" required>
+        <label for="leagueName">League Name:</label>
+        <input type="text" id="leagueName" name="leagueName" required>
+        <button type="submit">Upload</button>
+    </form>
 </div>
 
 </body>

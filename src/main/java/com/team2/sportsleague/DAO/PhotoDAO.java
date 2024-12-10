@@ -8,14 +8,15 @@ import java.util.List;
 
 public class PhotoDAO {
 
-    private Connection connection;
+    private final Connection connection;
 
     public PhotoDAO(Connection connection) {
         this.connection = connection;
     }
 
+    // Save photo metadata to the database
     public void save(Photo photo) throws SQLException {
-        String sql = "INSERT INTO photos (src, metadata, game_id) VALUES (?, ?, ?)"; // Updated table name
+        String sql = "INSERT INTO photos (src, metadata, game_id) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, photo.getSrc());
             statement.setString(2, photo.getMetadata());
@@ -23,15 +24,16 @@ public class PhotoDAO {
             statement.executeUpdate();
             try (ResultSet keys = statement.getGeneratedKeys()) {
                 if (keys.next()) {
-                    photo.setId(keys.getLong(1));
+                    photo.setId(keys.getLong(1)); // Set the generated ID after insertion
                 }
             }
         }
     }
 
+    // Find all photos for a given gameId
     public List<Photo> findByGameId(long gameId) throws SQLException {
         List<Photo> photos = new ArrayList<>();
-        String sql = "SELECT * FROM photos WHERE game_id = ?"; // Updated table name
+        String sql = "SELECT * FROM photos WHERE game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
             try (ResultSet resultSet = statement.executeQuery()) {

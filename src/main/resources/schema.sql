@@ -17,13 +17,13 @@ CREATE TABLE IF NOT EXISTS games (
                                      slug VARCHAR(255) NOT NULL
 );
 
-/* Create the photos table */
+/* Create the photos table with the correct columns */
 CREATE TABLE IF NOT EXISTS photos (
                                       id INT AUTO_INCREMENT PRIMARY KEY,
-                                      game_id INT NOT NULL,
+                                      game_id INT NOT NULL,                -- Changed from game_slug to game_id
                                       src VARCHAR(255) NOT NULL,
-                                      metadata VARCHAR(255),
-                                      FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+                                      metadata VARCHAR(255),               -- Changed from sport_type, match_date, players, league_name to metadata
+                                      FOREIGN KEY (game_id) REFERENCES games(id) -- Added foreign key reference to the games table
 );
 
 /* Insert sample data into the games table */
@@ -32,7 +32,7 @@ INSERT INTO games (name, slug) VALUES
                                    ('Table Tennis', 'table-tennisleague'),
                                    ('Pool', 'poolleague');
 
-/* Insert sample data into the photos table */
+/* Insert sample data into the photos table (now referencing game_id) */
 INSERT INTO photos (game_id, src, metadata) VALUES
                                                 (1, '/images/dart/photos3.jpg', 'Background of Dart Game'),
                                                 (1, '/images/dart/photos2.jpg', 'Dart game action shot'),
@@ -90,7 +90,6 @@ CREATE TABLE rankings (
                           FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB;
 
-
 /* Create leagues table */
 CREATE TABLE leagues (
                          id INT AUTO_INCREMENT PRIMARY KEY,
@@ -127,4 +126,3 @@ CREATE TABLE league_registrations (
                                       FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
                                       CONSTRAINT unique_registration UNIQUE (league_id, user_id)
 ) ENGINE=InnoDB;
-
