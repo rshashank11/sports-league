@@ -60,7 +60,7 @@ CREATE TABLE users (
                        password VARCHAR(255) NOT NULL,
                        email VARCHAR(255) DEFAULT NULL, /* Made email nullable */
                        department VARCHAR(255),
-                       role VARCHAR(255),
+                       role INT DEFAULT 1,
                        profile_image VARCHAR(255) DEFAULT 'default.jpg',
                        enabled BOOLEAN DEFAULT TRUE,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
