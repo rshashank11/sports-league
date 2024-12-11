@@ -5,6 +5,7 @@ VALUES
     ('ROLE_ADMIN');
 
 
+
 -- Insert users
 INSERT INTO users (username, name, password, email, department, role, profile_image, enabled)
 VALUES
@@ -21,13 +22,14 @@ VALUES
     ('liisa.virtanen@creditsafe.fi', 'Liisa Virtanen', '$2a$10$1o7pRzg9Ic7Y3VoAqagK1.FMwZZxUb5cfFxj80QgpITfCq.yuOYxC', 'liisa.virtanen@creditsafe.fi', 'IT', 'Admin', 'profile1.jpg', true),
     ('julien.martin@creditsafe.fr', 'Julien Martin', '$2a$10$PTVtYWtC3Prc7TR2UO/7iAWrrw4Nd0zpRpqwn.yJWgsSlyN8goF9', 'julien.martin@creditsafe.fr', 'IT', 'Admin', 'profile1.jpg', true),
     ('geza.kovacs@creditsafe.hu', 'Geza Kovacs', '$2a$10$VbCbgfUquN5F39ZPObCSzV.aeT5iXeFYoHw6X.Vk4wHiFEA7aqV1G', 'geza.kovacs@creditsafe.hu', 'IT', 'Admin', 'profile1.jpg', true),
-    ('liam.oconnor@creditsafe.ie', 'Liam O\'Connor', '$2a$10$8FdtKNKQFhK1fi3gpRPnIKhd6ffw7MwVkb17l5Vhn3gVVkmVQ7FlW', 'liam.oconnor@creditsafe.ie', 'IT', 'Admin', 'profile1.jpg', true),
+    ('liam.oconnor@creditsafe.ie', 'Liam O Connor', '$2a$10$8FdtKNKQFhK1fi3gpRPnIKhd6ffw7MwVkb17l5Vhn3gVVkmVQ7FlW', 'liam.oconnor@creditsafe.ie', 'IT', 'Admin', 'profile1.jpg', true),
     ('marco.rossi@creditsafe.it', 'Marco Rossi', '$2a$10$3nldS.T9HkwJfaFFh9iS3XUK9fxLyknoUGzxDbOlzT2J62wPzE3N2', 'marco.rossi@creditsafe.it', 'IT', 'Admin', 'profile1.jpg', true),
     ('anna.schmitz@creditsafe.lu', 'Anna Schmitz', '$2a$10$2cIcplDQrxF3zqXYjJ8PMuAZc84byL5HajrkqtrzFX1mVFV5D8hA2', 'anna.schmitz@creditsafe.lu', 'IT', 'Admin', 'profile1.jpg', true),
     ('daan.janssen@creditsafe.nl', 'Daan Janssen', '$2a$10$u3cVAKEXrW7a.G4PZsnU8wOGJAlBlnl46n6g4U.Qe8FkzVUMyd7fG', 'daan.janssen@creditsafe.nl', 'IT', 'Admin', 'profile1.jpg', true),
     ('olav.hansen@creditsafe.no', 'Olav Hansen', '$2a$10$X0yNUvm0b5Un.2ljVGisOlrXDCUQdflgNc0Vuay9wUqRk91bS6k9u', 'olav.hansen@creditsafe.no', 'IT', 'Admin', 'profile1.jpg', true),
     ('eva.karlsson@creditsafe.se', 'Eva Karlsson', '$2a$10$zq.9XJ59a8tbxtYeBAlOnHzkhHgk1wr6oFJ4VeL9RYTnKM3Alu9zC', 'eva.karlsson@creditsafe.se', 'IT', 'Admin', 'profile1.jpg', true),
     ('thomas.schmidt@creditsafede.com', 'Thomas Schmidt', '$2a$10$wv7HZm4P4MjLO2V96tyhfnJzM5dG2r5cbB7g2e.sQ8Guv40r5uC2G', 'thomas.schmidt@creditsafede.com', 'IT', 'Admin', 'profile1.jpg', true);
+
 
 -- Assign roles to users
 INSERT INTO users_roles (username, role_id)

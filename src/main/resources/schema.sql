@@ -1,5 +1,4 @@
 /* Drop existing tables */
-DROP TABLE IF EXISTS user_updates;
 DROP TABLE IF EXISTS photos;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS users_roles;
@@ -127,4 +126,5 @@ CREATE TABLE league_registrations (
                                       FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
                                       CONSTRAINT unique_registration UNIQUE (league_id, user_id)
 ) ENGINE=InnoDB;
+
 
