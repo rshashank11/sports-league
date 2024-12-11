@@ -6,19 +6,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-header {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    position: fixed; /* Optional: Makes the header fixed at the top */
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
+
 body {
     font-family: 'New Amsterdam', sans-serif;
     background-color: #f4f4f4;
-    padding: 20px;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
 }
 
 h1 {

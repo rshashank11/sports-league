@@ -4,10 +4,11 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     font-size: large;
-    letter-spacing: 2px;
+
 }
 
 .container {
+    letter-spacing: 2px;
     max-width: 800px;
     margin: 50px auto;
     text-align: center;
