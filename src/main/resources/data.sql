@@ -35,7 +35,7 @@ VALUES
     ('shashankr1@creditsafe.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_USER')),
     ('prateekk2@creditsafe.it', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
     ('ankits34@creditsafeuk.com', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN')),
-    ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN'));
+    ('tahaa4@creditsafe.co.in', (SELECT role_id FROM roles WHERE role_name = 'ROLE_USER'));
 INSERT INTO rankings (user_id, wins, losses, points)
 VALUES
     ((SELECT user_id FROM users WHERE username = 'shashankr1@creditsafe.com'), 10, 2, 100), -- Shashank Ramesha
@@ -120,7 +120,7 @@ VALUES
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
      (SELECT user_id FROM users WHERE username = 'alex.brown@creditsafe.be'),
      (SELECT user_id FROM users WHERE username = 'prateekk2@creditsafe.it'),
-     'Shashank Ramesha', 'Prateek Kesarwani', 0, 0, null, 1),
+     'Alex Brown', 'Prateek Kesarwani', 0, 0, null, 1),
     ((SELECT id FROM leagues WHERE name = 'Spring Darts League'),
      (SELECT user_id FROM users WHERE username = 'ankits34@creditsafeuk.com'),
      (SELECT user_id FROM users WHERE username = 'tahaa4@creditsafe.co.in'),

@@ -1,6 +1,6 @@
 package com.team2.sportsleague.repository;
 
-import com.team2.sportsleague.entity.LeagueEntity;
+import com.team2.sportsleague.model.League;
 import com.team2.sportsleague.config.DatabaseConfig;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public class LeagueRepository {
 
-    public List<LeagueEntity> findAll() {
-        List<LeagueEntity> leagues = new ArrayList<>();
+    public List<League> findAll() {
+        List<League> leagues = new ArrayList<>();
         String query = "SELECT * FROM leagues ORDER BY schedule ASC";
 
         try (Connection connection = DatabaseConfig.getConnection();
@@ -30,8 +30,8 @@ public class LeagueRepository {
     }
 
 
-    public List<LeagueEntity> getUpcomingLeagues() {
-        List<LeagueEntity> leagues = new ArrayList<>();
+    public List<League> getUpcomingLeagues() {
+        List<League> leagues = new ArrayList<>();
         String query = "SELECT * FROM leagues WHERE schedule > NOW() ORDER BY schedule ASC";
 
 
@@ -53,8 +53,8 @@ public class LeagueRepository {
     }
 
 
-    public List<LeagueEntity> getRecentLeagues() {
-        List<LeagueEntity> leagues = new ArrayList<>();
+    public List<League> getRecentLeagues() {
+        List<League> leagues = new ArrayList<>();
         String query = "SELECT * FROM leagues WHERE schedule <= NOW() ORDER BY schedule DESC";
 
         try (Connection connection = DatabaseConfig.getConnection();
@@ -72,8 +72,8 @@ public class LeagueRepository {
     }
 
 
-    public List<LeagueEntity> getLeaguesBySport(String sport) {
-        List<LeagueEntity> leagues = new ArrayList<>();
+    public List<League> getLeaguesBySport(String sport) {
+        List<League> leagues = new ArrayList<>();
         String query = "SELECT * FROM leagues WHERE sports LIKE ? ORDER BY schedule ASC";
 
         try (Connection connection = DatabaseConfig.getConnection();
@@ -93,8 +93,8 @@ public class LeagueRepository {
     }
 
 
-    private LeagueEntity mapResultSetToLeague(ResultSet resultSet) throws SQLException {
-        return new LeagueEntity(
+    private League mapResultSetToLeague(ResultSet resultSet) throws SQLException {
+        return new League(
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
                 resultSet.getTimestamp("schedule").toLocalDateTime(),
@@ -114,5 +114,19 @@ public class LeagueRepository {
             }
         }
         return sportsList;
+    }
+
+    public void createLeague(League league) throws SQLException {
+        String query = "INSERT INTO leagues (name, schedule, last_registration_date, venue, sports) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, league.getName());
+            statement.setTimestamp(2, Timestamp.valueOf(league.getSchedule()));
+            statement.setTimestamp(3, Timestamp.valueOf(league.getLastRegistrationDate()));
+            statement.setString(4, league.getVenue());
+            statement.setString(5, league.getSports());
+            statement.executeUpdate();
+        }
     }
 }

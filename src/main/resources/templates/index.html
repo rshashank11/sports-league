@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,21 +22,51 @@
     <h1>Welcome to the Sports Leagues</h1>
     <h2>Upcoming and Recent Leagues</h2>
     <input type="text" id="search-bar" placeholder="Every league has a legend. Start your search!">
-<br>
-        <select id="sportFilter" class="filter">
-            <option value="">All</option>
-            <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
-      <!--  <option value="Table Tennis">Table Tennis</option>
-        <option value="Darts">Darts</option>
-        <option value="Pool">Pool</option>-->
+    <br>
+    <select id="sportFilter" class="filter">
+        <option value="">All</option>
+        <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
+        <!--  <option value="Table Tennis">Table Tennis</option>
+          <option value="Darts">Darts</option>
+          <option value="Pool">Pool</option>-->
     </select>
+</div>
+
+<button sec:authorize="hasRole('ROLE_ADMIN')" id="create-league-btn" class="button">Create New League</button>
+
+<div id="create-league-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Create a New League</h2>
+        <form th:action="@{/create}" th:method="post" id="create-league-form">
+            <label for="league-name">League Name:</label>
+            <input type="text" id="league-name" name="name" required>
+
+            <label for="league-start-date">Start Date:</label>
+            <input type="datetime-local" id="league-start-date" name="startDate" required>
+
+            <label for="league-registration-date">Last Registration Date:</label>
+            <input type="datetime-local" id="league-registration-date" name="lastRegistrationDate" required>
+
+            <label for="league-venue">Venue:</label>
+            <input type="text" id="league-venue" name="venue" required>
+
+            <label for="league-sport">Sport:</label>
+            <select id="league-sport" name="sport" required>
+                <option value="">Select a Sport</option>
+                <option th:each="sport : ${sports}" th:value="${sport}" th:text="${sport}"></option>
+            </select>
+
+            <button type="submit" class="button">Create League</button>
+        </form>
+    </div>
 </div>
 
 <div class="container">
     <section>
         <h2>Upcoming Leagues</h2>
         <ul class="league-list">
-            <li onclick th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}">
+            <li th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}" th:data-league-id="${league.id}">
                 <h3 th:text="${league.name}"></h3>
                 <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
                 <p><strong>Start Date :</strong>
@@ -44,13 +76,12 @@
                     <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
                 <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-<!--                <p th:text="${league.id}"></p>-->
-<!--                <p th:text="${joinedLeagues}"></p>-->
+
                 <button class="join-league-btn button"
                         th:data-joined-leagues="${joinedLeagues}"
                         th:text="#{${joinedLeagues.contains(league.id) ? 'Joined' : 'Join the league'}}"
-                       th:data-league-id="${league.id}"
-                       type="button" ></button>
+                        th:data-league-id="${league.id}"
+                        type="button" ></button>
             </li>
 
         </ul>
@@ -60,7 +91,7 @@
     <section>
         <h2>Recent Leagues</h2>
         <ul class="league-list">
-            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}">
+            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}" th:data-league-id="${league.id}">
                 <h3 th:text="${league.name}"></h3>
                 <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
                 <p><strong>Start Date :</strong>
@@ -85,7 +116,10 @@
         const userId = [[${userId}]]; // Ensure that 'userId' is passed properly from the backend
         const searchBar = document.getElementById("search-bar");
         const sportFilter = document.getElementById("sportFilter");
-
+        const modal = document.getElementById('create-league-modal');
+        const openModalButton = document.getElementById('create-league-btn');
+        const closeModalButton = document.querySelector('.close-button');
+        const createLeagueForm = document.getElementById('create-league-form');
         const filterLeagues = () => {
             const searchFilter = searchBar.value.toLowerCase();
             const selectedSport = sportFilter.value.toLowerCase();
@@ -100,6 +134,40 @@
                 item.style.display = matchesSearch && matchesSport ? "block" : "none";
             });
         };
+
+        createLeagueForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(createLeagueForm);
+
+            fetch('/create', {
+                method: 'POST',
+                body: new URLSearchParams(formData),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+                .then(async response => {
+                    if (response.ok) {
+                        createLeagueForm.reset();
+                        showToast("Successfully created a new league.", "success");
+                        modal.classList.remove('show');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000)
+                    } else {
+                        const errorMessage = await response.text();
+                        console.log(errorMessage)
+                    }
+                })
+
+                .catch(error => {
+                    showToast(error.message, "error")
+                });
+        });
+
+
+
 
         function showToast(message, type = "success") {
             const toastContainer = document.getElementById("toast-container");
@@ -130,7 +198,6 @@
             }
 
             button.addEventListener("click", () => {
-                console.log("Button state: " + button.textContent);
 
                 fetch("/register?userId=" + userId + "&leagueId=" + leagueId, {
                     method: "GET", // Need to learn on why post mapping didn't work
@@ -159,20 +226,33 @@
             });
         });
         document.querySelectorAll(".league-item").forEach((item) => {
-            const leagueId = item.querySelector(".join-league-btn").getAttribute("data-league-id");
+            const leagueId = item.getAttribute("data-league-id");
 
-            // Add click event listener to each league item
             item.addEventListener("click", (event) => {
-                // Ignore clicks on the "Join" button within the item
                 if (event.target.tagName.toLowerCase() !== "button") {
-                    // Navigate to the league page
                     window.location.href = `/match?leagueId=${leagueId}`;
 
                 }
             });
         });
 
+        if (openModalButton) {
+            openModalButton.addEventListener('click', () => {
+                modal.classList.add('show');
+            });
+        }
 
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+        }
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
 
         searchBar.addEventListener("input", filterLeagues);
         sportFilter.addEventListener("change", filterLeagues);
@@ -184,3 +264,4 @@
 
 </body>
 </html>
+
