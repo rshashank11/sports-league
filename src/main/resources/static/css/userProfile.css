@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -90,20 +91,26 @@ body {
     font-weight: bold;
 }
 
-.toggle-container {
-    margin-top: 20px;
+/* Style the Edit button */
+button {
+    padding: 10px 10px; /* Adjust padding for oval shape */
+    background-color: #e74c3c;
+    font-family: "New Amsterdam", sans-serif;
+    color: white; /* White text */
+    border: none;
+    border-radius: 30px; /* Oval shape */
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effect */
 }
 
-.toggle {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
+/* Add a hover effect */
+button:hover {
+    background-color: #e74c3c;
+    transform: scale(1.05);
 }
 
-.toggle input {
-    margin-right: 10px;
-}
-
-.toggle label {
-    font-size: 1.1em;
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

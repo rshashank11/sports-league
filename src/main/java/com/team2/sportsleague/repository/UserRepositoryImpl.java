@@ -56,6 +56,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void updateUser(User user) {
+        String sql = "UPDATE users SET name = ?, email = ?, department = ?";
+        jdbcTemplate.update(sql, user.getName(), user.getUsername(), user.getDepartment());
+    }
+
+
+    @Override
     public Optional<User> findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
         try {
