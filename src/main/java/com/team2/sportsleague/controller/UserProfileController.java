@@ -1,5 +1,6 @@
 package com.team2.sportsleague.controller;
 
+import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class UserProfileController {
 
         // Fetch the user ID using the username
         Optional<Integer> userIdOptional = userService.getUserIdByUsername(username);
+        User userModel = new User();
         System.out.println(userIdOptional);
 
         if (userIdOptional.isEmpty()) {

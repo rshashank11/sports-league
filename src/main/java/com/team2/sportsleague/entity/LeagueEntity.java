@@ -7,13 +7,19 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+
 public class LeagueEntity {
 
     private Integer id;
+    @Setter
     private String name;
+    @Setter
     private LocalDateTime schedule;
+    @Setter
     private LocalDateTime lastRegistrationDate;
+    @Setter
     private String venue;
+    @Setter
     private String sports;
 
 
@@ -25,4 +31,6 @@ public class LeagueEntity {
         this.venue = venue;
         this.sports = sports;
     }
+
+
 }
