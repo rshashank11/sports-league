@@ -7,10 +7,10 @@ VALUES
 -- Insert users
 INSERT INTO users (username, name, password, email, department, role, profile_image, enabled)
 VALUES
-    ('shashankr1@creditsafe.com', 'Shashank Ramesha', '$2a$10$kcPWazDCSLJOiC6y3ib/ZO5R9Q3srwF5dgkVZ7GCnbWwEM6oZ3s/C', 'shashank@example.com', 'IT', 2, 'profile1.jpg', true),
-    ('prateekk2@creditsafe.it', 'Prateek Kesarwani', '$2a$10$GOVHQ8FzG9qmbQGw7bUezemFCG4FfwQzbFne5YfYLhiVAQ4LcrqMS', 'prateek@example.com', 'IT', 1, 'profile2.jpg', true),
-    ('ankits34@creditsafeuk.com', 'Ankit Srivastava', '$2a$10$Nqk3UHGNuQj4oqXiCwhQ.umIgbGTuv8PBZlmN2HuFXx3IeG4YdOaC', 'ankit@example.com', 'Finance', 1, 'profile3.jpg', true),
-    ('tahaa4@creditsafe.co.in', 'Taha Ali', '$2a$10$tAN4gGkjiE69gq6D.wbr4ubznQoPOuwOLiUZfFGGqcOmBVFpT2jR.', 'taha@example.com', 'Marketing', 1, 'profile4.jpg', true),
+    ('shashankr1@creditsafe.com', 'Shashank Ramesha', '$2a$10$kcPWazDCSLJOiC6y3ib/ZO5R9Q3srwF5dgkVZ7GCnbWwEM6oZ3s/C', 'shashankr1@creditsafe.com', 'IT', 2, 'profile1.jpg', true),
+    ('prateekk2@creditsafe.it', 'Prateek Kesarwani', '$2a$10$GOVHQ8FzG9qmbQGw7bUezemFCG4FfwQzbFne5YfYLhiVAQ4LcrqMS', 'prateekk2@creditsafe.it', 'IT', 1, 'profile2.jpg', true),
+    ('ankits34@creditsafeuk.com', 'Ankit Srivastava', '$2a$10$Nqk3UHGNuQj4oqXiCwhQ.umIgbGTuv8PBZlmN2HuFXx3IeG4YdOaC', 'ankits34@creditsafeuk.com', 'Finance', 1, 'profile3.jpg', true),
+    ('tahaa4@creditsafe.co.in', 'Taha Ali', '$2a$10$tAN4gGkjiE69gq6D.wbr4ubznQoPOuwOLiUZfFGGqcOmBVFpT2jR.', 'tahaa4@creditsafe.co.in', 'Marketing', 1, 'profile4.jpg', true),
     ('johndoe5@creditsafe.com', 'John Doe', '$2a$10$5RIjywVx5G2uV0PSPHV9Iemw1NBTWiw0/gG2F7kzBE/yTSOk79Ku2', 'johndoe5@creditsafe.com', 'IT', 2, 'profile1.jpg', true),
     ('jane.smith@companycheck.co.uk', 'Jane Smith', '$2a$10$8vMoxJvzkTKREoHGG79r6Yyjc63L9r6XMfEx3iLF67L5MZSA4tdKe', 'jane.smith@companycheck.co.uk', 'IT', 2, 'profile1.jpg', true),
     ('alex.brown@creditsafe.be', 'Alex Brown', '$2a$10$XaywUs9ACRMb1QFkgzPb.Erl6h0.t3I1JxbO9v/r0Z41WAWO.bVKa', 'alex.brown@creditsafe.be', 'IT', 2, 'profile1.jpg', true),
