@@ -1,5 +1,4 @@
 /* Drop existing tables */
-DROP TABLE IF EXISTS user_updates;
 DROP TABLE IF EXISTS photos;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS users_roles;
