@@ -66,7 +66,7 @@
     <section>
         <h2>Upcoming Leagues</h2>
         <ul class="league-list">
-            <li onclick th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}">
+            <li th:each="league : ${upcomingLeagues}" class="league-item" th:data-sport="${league.sports}" th:data-league-id="${league.id}">
                 <h3 th:text="${league.name}"></h3>
                 <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
                 <p><strong>Start Date :</strong>
@@ -92,7 +92,7 @@
     <section>
         <h2>Recent Leagues</h2>
         <ul class="league-list">
-            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}">
+            <li th:each="league : ${recentLeagues}" class="league-item" th:data-sport="${league.sports}" th:data-league-id="${league.id}">
                 <h3 th:text="${league.name}"></h3>
                 <p><strong>Sport :</strong> <span th:text="${league.sports}"></span></p>
                 <p><strong>Start Date :</strong>
@@ -227,7 +227,7 @@
             });
         });
         document.querySelectorAll(".league-item").forEach((item) => {
-            const leagueId = item.querySelector(".join-league-btn").getAttribute("data-league-id");
+            const leagueId = item.getAttribute("data-league-id");
 
             item.addEventListener("click", (event) => {
                 if (event.target.tagName.toLowerCase() !== "button") {
