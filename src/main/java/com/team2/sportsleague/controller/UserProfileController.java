@@ -78,7 +78,6 @@ public class UserProfileController {
         return ResponseEntity.ok("Profile updated successfully");
     }
 
-
     public static class UserValidation {
         @NotEmpty(message = "Name cannot be empty")
         private String name;
