@@ -14,7 +14,7 @@
 </head>
 <body style="font-family: 'New Amsterdam', sans-serif;">
 <header>
-    <nav th:replace="~{fragments/header :: header(userId=${user.userId})}"></nav>
+    <nav th:replace="~{fragments/header :: header(userId=${user.getUserId()})}"></nav>
 </header>
 
 <div class="profile-container">
@@ -22,11 +22,11 @@
     </div>
     <div class="details-box">
         <h2>Personal Details</h2>
-        <p><span>Name:</span> <span id="name-field" th:text="${user.name}">John Doe</span> <button onclick="editField('name')">Edit</button></p>
-        <p><span>Email:</span> <span id="email-field" th:text="${user.email}">john.doe@example.com</span> <button onclick="editField('email')">Edit</button></p>
-        <p><span>EmployeeID:</span> <span th:text="${user.userId}">23456</span></p>
-        <p><span>Department:</span> <span id="department-field" th:text="${user.department}">IT</span> <button onclick="editField('department')">Edit</button></p>
-        <p><span>Role:</span> <span id="role-field" th:text="${user.role}">Software Engineer</span> <button onclick="editField('role')">Edit</button></p>
+        <p><span>Name:</span> <span id="name-field" th:text="${user.getName()}">John Doe</span> <button onclick="editField('name')">Edit</button></p>
+        <p><span>Email:</span> <span id="email-field" th:text="${user.getUsername()}">john.doe@example.com</span> <button onclick="editField('email')">Edit</button></p>
+        <p><span>EmployeeID:</span> <span th:text="${user.getUserId()}">23456</span></p>
+        <p><span>Department:</span> <span id="department-field" th:text="${user.getDepartment()}">IT</span> <button onclick="editField('department')">Edit</button></p>
+        <p><span>Role:</span> <span id="role-field" th:text="${user.getUserRole()}">Software Engineer</span>
     </div>
 </div>
 </body>

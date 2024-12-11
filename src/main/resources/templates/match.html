@@ -24,43 +24,59 @@
 
     <div class="round" th:each="round : ${rounds}">
         <div class="match" th:each="match : ${round.matches}" th:attr="data-match-id=${match.matchId}">
-
-
-            <div class="player" th:classappend="${match.score_player1 > match.score_player2} ? 'winner' : ''">
+            <!-- Player 1 Section -->
+            <div class="player" th:classappend="${match.getScore_player1() > match.getScore_player2()} ? 'winner' : ''">
                 <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
-                <span th:text="${match.player1_name}">Player 1</span>
+                <span th:text="${match.getPlayer1_name()}">Player 1</span>
 
+                <!-- Allow edit if admin or current user is Player 1 -->
                 <div th:if="${isAdmin}">
-                    <!-- This is for admin only -->
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
                         <input type="number"
                                class="score-input player1"
-                               th:value="${match.score_player1}"
+                               th:value="${match.getScore_player1()}"
                                min="0"
-                               max="1"
-                        />
+                               max="1" />
                     </div>
                 </div>
+
+                <div th:if="${userId} == ${match.getPlayer1_id()}">
+                    <input type="number"
+                           class="score-input player1"
+                           th:value="${match.getScore_player1()}"
+                           min="0"
+                           max="1" />
+                </div>
+
                 <span th:text="${match.score_player1}">0</span> <!-- Display Player 1 score -->
             </div>
 
-            <div class="player" th:classappend="${match.score_player2 > match.score_player1} ? 'winner' : ''">
+            <!-- Player 2 Section -->
+            <div class="player" th:classappend="${match.getScore_player2() > match.getScore_player1()} ? 'winner' : ''">
                 <span><img th:src="@{/images/defaultProfile.png}" alt="Player Image"></span>
-                <span th:text="${match.player2_name}">Player 2</span>
+                <span th:text="${match.getPlayer2_name()}">Player 2</span>
+
+                <!-- Allow edit if admin or current user is Player 2 -->
 
                 <div th:if="${isAdmin}">
-                    <!-- This is for admin only -->
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <!-- Input field for player 2 score -->
                         <input type="number"
                                class="score-input player2"
-                               th:value="${match.score_player2}"
+                               th:value="${match.getScore_player2()}"
                                min="0"
-                               max="1"
-                        />
+                               max="1" />
                     </div>
                 </div>
-                <span th:text="${match.score_player2}">0</span>
+
+                <div th:if="${userId} == ${match.getPlayer2_id()}">
+                    <input type="number"
+                           class="score-input player2"
+                           th:value="${match.getScore_player2()}"
+                           min="0"
+                           max="1" />
+                </div>
+
+                <span th:text="${match.score_player2}">0</span> <!-- Display Player 1 score -->
             </div>
         </div>
     </div>
@@ -91,28 +107,39 @@
 
     document.querySelectorAll('.score-input').forEach(input => {
         input.addEventListener('change', function(event) {
-            event.preventDefault(); // Prevent default browser behavior
+            event.preventDefault(); // Prevent default behavior
 
             let matchElement = this.closest('.match');
+            if (!matchElement) {
+                console.error("Match element not found!");
+                return;
+            }
 
-            // Retrieve specific data from the DOM
-            let player1Score = matchElement.querySelector('.player1').value;
-            let player2Score = matchElement.querySelector('.player2').value;
-            let matchId = matchElement.getAttribute('data-match-id'); // Match ID
-            let leagueId = document.getElementById('leagueId').value; // League ID from hidden input
+            let matchId = matchElement.getAttribute('data-match-id');
+            let leagueId = document.getElementById('leagueId').value;
+
+            // Detect which input was changed
+            let isPlayer1 = this.classList.contains('player1');
+            let score = this.value;
+
+            // Determine the endpoint dynamically
+            let currentPath = window.location.pathname;
+            let endpoint = currentPath.includes('/admin') ? '/admin/update-scores' : '/match';
+
+            console.log("Sending update for matchId:", matchId, "leagueId:", leagueId, "score:", score, "isPlayer1:", isPlayer1);
 
             // Create an AJAX request
             let xhttp = new XMLHttpRequest();
-            xhttp.open('POST', '/admin/update-scores', true); // POST request
-            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // URL-encoded form data
+            xhttp.open('POST', endpoint, true);
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             xhttp.onreadystatechange = function() {
-                if (xhttp.readyState === 4) { // Request is done
-                    if (xhttp.status === 200) { // Success
+                if (xhttp.readyState === 4) {
+                    if (xhttp.status === 200) {
                         let response = xhttp.responseText;
                         if (response === 'success') {
                             alert('Scores updated successfully!');
-                            location.reload(); // Reload page to reflect changes
+                            location.reload();
                         } else {
                             alert('Error updating scores!');
                         }
@@ -122,8 +149,16 @@
                 }
             };
 
-            // Send the scores along with matchId and leagueId
-            let params = `player1Score=${player1Score}&player2Score=${player2Score}&matchId=${matchId}&leagueId=${leagueId}`;
+            // Prepare parameters for the request
+            let params = `matchId=${matchId}&leagueId=${leagueId}`;
+            if (isPlayer1) {
+                params += `&player1Score=${score}`;
+                params += `&player2Score=${0}`;
+            } else {
+                params += `&player1Score=${0}`;
+                params += `&player2Score=${score}`;
+            }
+
             xhttp.send(params);
         });
     });

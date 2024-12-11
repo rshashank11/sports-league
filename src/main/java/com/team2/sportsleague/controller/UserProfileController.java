@@ -69,13 +69,11 @@ public class UserProfileController {
         User user = userOptional.get();
 
         if (updatedUser.getName() != null) user.setName(updatedUser.getName());
-        if (updatedUser.getEmail() != null) user.setEmail(updatedUser.getEmail());
+        if (updatedUser.getUsername() != null) user.setUsername(updatedUser.getUsername());
         if (updatedUser.getDepartment() != null) user.setDepartment(updatedUser.getDepartment());
-        if (updatedUser.getRole() != null) user.setRole(updatedUser.getRole());
-        if (updatedUser.getProfileImage() != null) user.setProfileImage(updatedUser.getProfileImage());
+        if (updatedUser.getUserRole() != null) user.setUserRole(updatedUser.getUserRole());
 
-
-        userService.saveUser(user);
+        userService.updateUser(user);
 
         return ResponseEntity.ok("Profile updated successfully");
     }

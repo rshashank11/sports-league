@@ -1,6 +1,6 @@
-*{
-    margin: 0%;
-    padding: 0%;
+* {
+    margin: 0px;
+    padding: 0px;
 }
 
 header {
@@ -16,10 +16,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    justify-items: center;
-    align-content: center;
     font-size: xx-large;
-
 }
 
 .nav-center {
@@ -31,6 +28,7 @@ nav {
 .nav-links {
     display: flex;
     gap: 10px;
+    margin-left: 16%;
 }
 
 a {
@@ -47,8 +45,9 @@ a {
 }
 
 .logout-section {
-    margin-left: auto;
     padding-right: 40px;
+    display: flex;
+    align-items: center;
 }
 
 .logout-btn {

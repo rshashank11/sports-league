@@ -1,6 +1,7 @@
 package com.team2.sportsleague.controller;
 
-import com.team2.sportsleague.entity.LeagueEntity;
+import com.team2.sportsleague.dtos.LeagueDTO;
+import com.team2.sportsleague.model.League;
 import com.team2.sportsleague.repository.LeagueRegistrationRepository;
 import com.team2.sportsleague.repository.MatchRepository;
 import com.team2.sportsleague.service.LeagueRegistrationService;
@@ -9,16 +10,17 @@ import com.team2.sportsleague.service.LoginService;
 import com.team2.sportsleague.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.SQLException;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,8 +49,8 @@ public class LeagueController {
         Long userId = loginService.getUserIdByUsername(username);
         model.addAttribute("userId", userId);
 
-        List<LeagueEntity> upcomingLeagues = leagueService.getUpcomingLeagues();
-        List<LeagueEntity> recentLeagues = leagueService.getRecentLeagues();
+        List<League> upcomingLeagues = leagueService.getUpcomingLeagues();
+        List<League> recentLeagues = leagueService.getRecentLeagues();
         List<Long> joinedLeagues = leagueRegistrationRepository.getUserJoinedLeagues(userId);
         List<String> sports = Arrays.asList("Table Tennis", "Darts", "Pool");
 
@@ -88,6 +90,31 @@ public class LeagueController {
             return ResponseEntity.status(500).body("Unable to register user to league.");
         }
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/create")
+    public ResponseEntity<String> createLeague(
+            @RequestParam("name") String name,
+            @RequestParam("startDate") String schedule,
+            @RequestParam("lastRegistrationDate") String lastRegistrationDate,
+            @RequestParam("venue") String venue,
+            @RequestParam("sport") String sport) {
+        try {
+            leagueService.createLeague(name, schedule, lastRegistrationDate, venue, sport);
+            return ResponseEntity.ok("League '" + name + "' created successfully for " + sport + "!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.status(400).body("Invalid date format. Use 'yyyy-MM-dd'T'HH:mm:ss'.");
+        } catch (SQLException e) {
+            return ResponseEntity.status(500).body("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error occurred while creating the league.");
+        }
+    }
+
+
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleRegistrationException(IllegalArgumentException e) {

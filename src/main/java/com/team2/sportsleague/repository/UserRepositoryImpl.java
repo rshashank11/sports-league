@@ -1,3 +1,4 @@
+
 package com.team2.sportsleague.repository;
 
 import com.team2.sportsleague.model.User;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
+
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<User> userMapper;
 
@@ -16,14 +18,15 @@ public class UserRepositoryImpl implements UserRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.userMapper = (rs, rowNum) -> {
             User user = new User();
-            user.setUserId(rs.getInt("user_id"));
             user.setUsername(rs.getString("username"));
             user.setName(rs.getString("name"));
-            user.setEmail(rs.getString("email"));
             user.setDepartment(rs.getString("department"));
-            user.setRole(rs.getString("role"));
+            user.setUserRole(rs.getInt("role"));
+            user.setPassword(rs.getString("password"));
+            user.setEnabled(rs.getBoolean("enabled"));
             return user;
-        };
+    };
+
     }
 
     @Override
@@ -35,18 +38,47 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<Integer> findUserIdByUsername(String username) {
         String sql = "SELECT user_id FROM users WHERE username = ?";
-        return jdbcTemplate.queryForList(sql, Integer.class, username).stream().findFirst();
-    }
-
-    @Override
-    public Optional<User> findUserByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
-        return jdbcTemplate.query(sql, userMapper, username).stream().findFirst();
+        try {
+            Integer userId = jdbcTemplate.queryForObject(sql, Integer.class, username);
+            return Optional.ofNullable(userId);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public void save(User user) {
-        String sql = "UPDATE users SET name = ?, email = ?, department = ?, role = ?, profile_image = ? WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getDepartment(), user.getRole(), user.getProfileImage(), user.getUserId());
+        String sqlInsertUser = "INSERT INTO users (username, name, email, password, enabled) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sqlInsertUser, user.getUsername(), user.getName(), user.getUsername(), user.getPassword(), user.isEnabled());
+
+        String sqlInsertRole = "INSERT INTO users_roles (username, role_id) VALUES (?, ?)";
+        jdbcTemplate.update(sqlInsertRole, user.getUsername(), user.getUserRole());
+    }
+
+    @Override
+    public void updateUser(User user) {
+        String sql = "UPDATE users SET name = ?, email = ?, department = ?";
+        jdbcTemplate.update(sql, user.getName(), user.getUsername(), user.getDepartment());
+    }
+
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userMapper, username));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userMapper, email));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }
