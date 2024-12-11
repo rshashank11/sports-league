@@ -48,10 +48,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/admin/**")  // Ignore CSRF for this endpoint otherwise giving error
+                        .ignoringRequestMatchers("/match/**")
                 )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(ENDPOINTS_WHITELIST).permitAll() // Whitelist specific endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")    // Protect admin routes
+                        .requestMatchers("/match/**").authenticated()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

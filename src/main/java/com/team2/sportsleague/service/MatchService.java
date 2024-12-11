@@ -14,12 +14,24 @@ public class MatchService {
         this.matchRepository = matchRepository;
     }
 
-    public void updateMatchScores(int player1Score, int player2Score, int matchId, int leagueId) {
+    public void updateMatchScores(int player1Score, int player2Score, int matchId, int leagueId, Long userId) {
+
         matchRepository.updateScores(player1Score, player2Score, matchId, leagueId);
         matchRepository.generateNextRoundIfNeeded(leagueId);
     }
 
     public List<Round> getAllRounds(int leagueId) {
-        return matchRepository.getAllRounds(leagueId); // Pass the leagueId to the repository
+        List<Round> rounds = matchRepository.getAllRounds(leagueId);
+        if (rounds == null || rounds.isEmpty()) {
+            System.out.println("No rounds found for leagueId: " + leagueId);
+        } else {
+            System.out.println("Rounds found: " + rounds.size());
+        }
+
+        return rounds;
+    }
+
+    public boolean isUserOwnerOfMatch(int matchId, Long userId) {
+        return matchRepository.isUserOwnerOfMatch(matchId, userId);
     }
 }
