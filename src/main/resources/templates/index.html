@@ -76,8 +76,7 @@
                     <span th:text="${#temporals.format(league.lastRegistrationDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </p>
                 <p><strong>Venue:</strong> <span th:text="${league.venue != null ? league.venue : 'TBD'}" class="venue"></span></p>
-                <!--                <p th:text="${league.id}"></p>-->
-                <!--                <p th:text="${joinedLeagues}"></p>-->
+
                 <button class="join-league-btn button"
                         th:data-joined-leagues="${joinedLeagues}"
                         th:text="#{${joinedLeagues.contains(league.id) ? 'Joined' : 'Join the league'}}"
