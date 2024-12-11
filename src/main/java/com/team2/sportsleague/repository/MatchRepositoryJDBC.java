@@ -36,6 +36,11 @@ public class MatchRepositoryJDBC implements MatchRepository {
         );
     }
 
+    // Expose the matchMapper for the tests
+    public RowMapper<Match> getMatchMapper() {
+        return matchMapper;
+    }
+
     @Override
     public List<Round> getAllRounds(int leagueId) { // Updated to filter by leagueId
         String sql = "SELECT * FROM matches WHERE league_id = ? ORDER BY round_number, match_id";
@@ -162,6 +167,12 @@ public class MatchRepositoryJDBC implements MatchRepository {
             }
         }
         return nextRoundMatches;
+    }
+
+    public boolean isUserOwnerOfMatch(int matchId, Long userId) {
+        String sql = "SELECT COUNT(*) FROM matches WHERE match_id = ? AND (player1_id = ? OR player2_id = ?)";
+        Integer count = jdbc.queryForObject(sql, Integer.class, matchId, userId, userId);
+        return count != null && count > 0;
     }
 
 }

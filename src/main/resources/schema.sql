@@ -59,7 +59,7 @@ CREATE TABLE users (
                        password VARCHAR(255) NOT NULL,
                        email VARCHAR(255) DEFAULT NULL, /* Made email nullable */
                        department VARCHAR(255),
-                       role VARCHAR(255),
+                       role INT DEFAULT 1,
                        profile_image VARCHAR(255) DEFAULT 'default.jpg',
                        enabled BOOLEAN DEFAULT TRUE,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -108,8 +108,8 @@ CREATE TABLE matches (
                          player2_id INT,
                          player1_name VARCHAR(255),
                          player2_name VARCHAR(255),
-                         score_player1 INT NOT NULL,
-                         score_player2 INT NOT NULL,
+                         score_player1 INT DEFAULT 0,
+                         score_player2 INT DEFAULT 0,
                          winner_id INT,
                          round_number INT NOT NULL,
                          FOREIGN KEY (league_id) REFERENCES leagues(id),

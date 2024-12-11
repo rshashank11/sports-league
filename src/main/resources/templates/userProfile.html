@@ -21,11 +21,11 @@
     </div>
     <div class="details-box">
         <h2>Personal Details</h2>
-        <p><span>Name:</span> <span th:text="${user.name}">John Doe</span></p>
-        <p><span>Email:</span> <span th:text="${user.email}">john.doe@example.com</span></p>
-        <p><span>EmployeeID:</span> <span th:text="${user.userId}">23456</span></p>
-        <p><span>Department:</span> <span th:text="${user.department}">IT</span></p>
-        <p><span>Role:</span> <span th:text="${user.role}">Software Engineer</span></p>
+        <p><span>Name:</span> <span th:text="${user.getName()}">John Doe</span></p>
+        <p><span>Email:</span> <span th:text="${user.getUsername()}">john.doe@example.com</span></p>
+        <p><span>EmployeeID:</span> <span th:text="${user.getUserId()}">23456</span></p>
+        <p><span>Department:</span> <span th:text="${user.getDepartment()}">IT</span></p>
+        <p><span>Role:</span> <span th:text="${user.getUserRole()}">Software Engineer</span></p>
     </div>
 </div>
 </body>

@@ -1,61 +1,23 @@
 package com.team2.sportsleague.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.List;
 
+@Data
+@AllArgsConstructor
 public class User {
-    private int userId;
-    private String username;
+    private Integer userId;
     private String name;
-    private String email;
+    private String username;
     private String department;
-    private String role;
+    private Integer userRole;
+    private List<String> games;
+    private String password;
+    private boolean enabled;
 
-    public int getUserId() {
-        return userId;
-    }
+    public User() {
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }
-
