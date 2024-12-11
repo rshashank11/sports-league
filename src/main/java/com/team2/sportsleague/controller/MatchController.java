@@ -1,10 +1,8 @@
 package com.team2.sportsleague.controller;
 
 import com.team2.sportsleague.model.Round;
-import com.team2.sportsleague.model.User;
 import com.team2.sportsleague.service.LoginService;
 import com.team2.sportsleague.service.MatchService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
