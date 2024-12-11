@@ -60,7 +60,6 @@ public class MatchRepositoryJDBC implements MatchRepository {
 
     private boolean canGenerateNextRound(List<Round> rounds) {
         List<Match> lastRoundMatches = rounds.get(rounds.size() - 1).getMatches(); // Get the last round
-        System.out.println(lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null));
         return lastRoundMatches.stream().allMatch(match -> match.getWinner_id() != null); // Check if all matches have winners
     }
 
@@ -69,7 +68,6 @@ public class MatchRepositoryJDBC implements MatchRepository {
             // Update the scores for player1 and player2
             String sql = "UPDATE matches SET score_player1 = ?, score_player2 = ? WHERE match_id = ? AND league_id = ?";
             jdbc.update(sql, player1Score, player2Score, matchId, leagueId);
-            System.out.println("Updated scores for match ID: " + matchId + " in league ID: " + leagueId);
 
             // Update the winner based on the scores
             String updateWinnerSql = "UPDATE matches SET winner_id = CASE " +
@@ -78,9 +76,7 @@ public class MatchRepositoryJDBC implements MatchRepository {
                     "ELSE NULL END " +
                     "WHERE match_id = ? AND league_id = ?";
             jdbc.update(updateWinnerSql, matchId, leagueId);
-            System.out.println("Winner updated for match ID: " + matchId + " in league ID: " + leagueId);
         } catch (Exception e) {
-            System.err.println("Error updating scores: " + e.getMessage());
             throw e;
         }
     }
@@ -122,8 +118,6 @@ public class MatchRepositoryJDBC implements MatchRepository {
                         match.getRound_number()
                 );
             }
-
-            System.out.println("Next round generated successfully for league ID: " + leagueId);
         }
     }
 
@@ -141,13 +135,8 @@ public class MatchRepositoryJDBC implements MatchRepository {
                     Match match2 = previousRoundMatches.get(i + 1);
 
                     if (match1.getWinner_id() != null && match2.getWinner_id() != null) {
-                        String winnerName1 = match1.getWinner_id().equals(match1.getPlayer1_id())
-                                ? match1.getPlayer1_name()
-                                : match1.getPlayer2_name();
-
-                        String winnerName2 = match2.getWinner_id().equals(match2.getPlayer1_id())
-                                ? match2.getPlayer1_name()
-                                : match2.getPlayer2_name();
+                        String winnerName1 = getWinnerName(match1);
+                        String winnerName2 = getWinnerName(match2);
 
                         Match nextMatch = new Match(
                                 getNextMatchId(),
@@ -167,6 +156,10 @@ public class MatchRepositoryJDBC implements MatchRepository {
             }
         }
         return nextRoundMatches;
+    }
+
+    private String getWinnerName(Match match) {
+        return match.getWinner_id().equals(match.getPlayer1_id()) ? match.getPlayer1_name() : match.getPlayer2_name();
     }
 
     public boolean isUserOwnerOfMatch(int matchId, Long userId) {
